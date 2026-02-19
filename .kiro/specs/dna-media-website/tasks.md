@@ -11,14 +11,14 @@
 ## Week 1: Project Setup & CMS Configuration (Days 1-7)
 
 ### Day 1-2: Initialize Project
-- [-] Create Next.js project with TypeScript and Tailwind
-- [ ] Install Payload CMS and dependencies
-- [ ] Install GSAP, React Hook Form, Zod
-- [ ] Install security dependencies (Upstash, DOMPurify)
-- [ ] Install monitoring tools (Sentry)
-- [ ] Install accessibility tools (focus-trap-react)
-- [ ] Set up project structure
-- [ ] Initialize Git repository
+- [x] Create Next.js project with TypeScript and Tailwind
+- [x] Install Payload CMS and dependencies
+- [x] Install GSAP, React Hook Form, Zod
+- [x] Install security dependencies (Upstash, DOMPurify)
+- [x] Install monitoring tools (Sentry)
+- [x] Install accessibility tools (focus-trap-react)
+- [x] Set up project structure
+- [-] Initialize Git repository
 - [ ] Create .env.local file
 
 ### Day 2-3: Configure Payload CMS

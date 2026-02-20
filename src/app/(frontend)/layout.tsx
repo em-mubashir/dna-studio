@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import './globals.css'
+import '../globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   description: 'Premium video production company',
 }
 
-export default function RootLayout({
+export default function FrontendLayout({
   children,
 }: {
   children: React.ReactNode

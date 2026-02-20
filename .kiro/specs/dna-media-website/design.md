@@ -482,6 +482,9 @@ Start with mobile design, enhance for larger screens.
 ```javascript
 // tailwind.config.ts
 {
+  content: [
+    './src/**/*.{js,ts,jsx,tsx,mdx}',
+  ],
   colors: {
     primary: {
       50: '#f0f9ff',
@@ -505,6 +508,9 @@ Start with mobile design, enhance for larger screens.
   },
 }
 ```
+
+> **Note**: Content paths must include `src/` prefix since all app code lives under `src/`.
+> The `(frontend)` and `(payload)` route groups are transparent to Tailwind — it scans all `.tsx` files under `src/`.
 
 ## Design Checklist
 
@@ -532,3 +538,4 @@ Before implementation:
 ---
 
 **Design Status**: ✅ Complete - Ready for Implementation
+**Note**: Project uses Next.js 16 with route groups — `(frontend)` for public pages, `(payload)` for CMS admin. Payload CMS v3 provides its own admin UI styling via `@payloadcms/next/css`.

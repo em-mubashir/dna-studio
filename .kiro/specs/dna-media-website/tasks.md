@@ -1,10 +1,11 @@
 # DNA Media Website - Task List
 
-## Project Status: Ready to Start
+## Project Status: In Progress (Week 1)
 
 **Timeline**: 7 weeks (49 days)  
 **Start Date**: TBD  
-**Target Launch**: TBD
+**Target Launch**: TBD  
+**Tech Stack**: Next.js 16.1.6 + Payload CMS 3.77.0 + MongoDB + React 19
 
 ---
 
@@ -12,23 +13,25 @@
 
 ### Day 1-2: Initialize Project
 - [x] Create Next.js project with TypeScript and Tailwind
-- [x] Install Payload CMS and dependencies
+- [x] Install Payload CMS v3 and dependencies
 - [x] Install GSAP, React Hook Form, Zod
 - [x] Install security dependencies (Upstash, DOMPurify)
 - [x] Install monitoring tools (Sentry)
 - [x] Install accessibility tools (focus-trap-react)
-- [x] Set up project structure
-- [-] Initialize Git repository
-- [ ] Create .env.local file
+- [x] Set up project structure with route groups ((frontend) and (payload))
+- [x] Initialize Git repository
+- [x] Create .env.local file
 
 ### Day 2-3: Configure Payload CMS
-- [ ] Create payload.config.ts
-- [ ] Configure MongoDB adapter
-- [ ] Configure webpack bundler
-- [ ] Configure Slate editor
-- [ ] Set up admin panel
-- [ ] Configure rate limiting
-- [ ] Test CMS access at /admin
+- [x] Create payload.config.ts with buildConfig
+- [x] Configure MongoDB adapter (mongooseAdapter)
+- [x] Configure withPayload wrapper in next.config.js
+- [x] Configure Lexical rich text editor
+- [x] Set up admin panel at /admin via (payload) route group
+- [x] Configure rate limiting middleware (dynamic import, skips when Redis not configured)
+- [x] Test CMS access at /admin
+- [x] Verify first-user creation flow works
+- [x] Create Users collection with admin/editor roles
 
 ### Day 3-4: Create Payload Collections
 - [ ] Create Pages collection (hero, sections, SEO)
@@ -39,17 +42,17 @@
 - [ ] Create Clients collection (for logo carousel)
 - [ ] Create Timeline collection (milestones/awards)
 - [ ] Create Media collection (with WebP conversion)
-- [ ] Create Users collection (admin/editor roles)
 - [ ] Create Settings global (contact info, social links)
+- [ ] Register all collections in payload.config.ts
 
 
 ### Day 4-5: Environment Setup & Testing
-- [ ] Set up local MongoDB
-- [ ] Configure environment variables
-- [ ] Update package.json scripts
+- [x] Set up local MongoDB
+- [x] Configure environment variables
+- [x] Update package.json scripts (dev uses --webpack flag for Payload compatibility)
 - [ ] Generate Payload types
 - [ ] Test CMS collections
-- [ ] Create first admin user
+- [x] Create first admin user
 - [ ] Add sample content to test collections
 
 ---
@@ -57,8 +60,9 @@
 ## Week 2: Frontend Foundation & Bilingual Setup (Days 8-14)
 
 ### Day 6-7: Next.js App Router Setup
-- [ ] Create [lang] dynamic route structure
-- [ ] Create root layout with fonts (Inter, Cairo)
+- [x] Create route group structure ((frontend) and (payload))
+- [ ] Create [lang] dynamic route under (frontend)
+- [ ] Create root layout with fonts (Inter, Cairo) in (frontend)/layout.tsx
 - [ ] Set up language routing (en, ar)
 - [ ] Create language utilities (getBilingualField)
 - [ ] Add Header component placeholder
@@ -66,7 +70,7 @@
 - [ ] Test language switching
 
 ### Day 7-8: Homepage Implementation
-- [ ] Create homepage (src/app/[lang]/page.tsx)
+- [ ] Create homepage (src/app/(frontend)/[lang]/page.tsx)
 - [ ] Fetch data from Pages collection
 - [ ] Create HeroSection component
 - [ ] Create PortfolioGrid component
@@ -85,9 +89,11 @@
 - [ ] Test bilingual blog content
 
 ### Day 9-10: Tailwind RTL Configuration
+- [ ] Fix Tailwind content paths to scan src/ directory
 - [ ] Configure Tailwind for RTL support
 - [ ] Add RTL utility classes
 - [ ] Create globals.css with RTL styles
+- [ ] Install @tailwindcss/typography plugin
 - [ ] Test RTL layout with Arabic content
 - [ ] Fix any RTL layout issues
 - [ ] Add font-family switching based on language
@@ -97,7 +103,7 @@
 ## Week 3: GSAP Animation Implementation (Days 15-21)
 
 ### Day 11-12: GSAP Setup & Core Animations
-- [ ] Install GSAP and plugins
+- [x] Install GSAP and plugins
 - [ ] Create GSAPProvider component
 - [ ] Register ScrollTrigger plugin
 - [ ] Register ScrollSmoother plugin
@@ -246,11 +252,11 @@
 ## Week 7: Security, SEO & Performance Enhancements (Days 43-49)
 
 ### Day 31-32: Security Implementation
-- [ ] Create rate limiting middleware
+- [x] Create rate limiting middleware (dynamic import, graceful fallback)
 - [ ] Add security headers to next.config.js
 - [ ] Create sanitization utilities
 - [ ] Update contact form with sanitization
-- [ ] Set up Upstash Redis
+- [ ] Set up Upstash Redis (production)
 - [ ] Test rate limiting
 - [ ] Verify security headers
 
@@ -319,7 +325,7 @@
 - [ ] Configure site settings (contact info, social links)
 
 ### CMS Setup
-- [ ] Create admin user account
+- [x] Create admin user account
 - [ ] Set up editor accounts for client
 - [ ] Configure user roles and permissions
 - [ ] Test content editing workflow
@@ -448,4 +454,6 @@
 **Estimated Hours**: 280-300 hours  
 **Timeline**: 7 weeks (49 days)  
 
-**Status**: ✅ Ready to Start - All tasks defined and organized by week
+**Status**: 🔄 In Progress — Week 1 (Project Setup & CMS Configuration) mostly complete  
+**Completed**: Project init, Payload CMS v3 setup, admin panel working, first user created, rate limiting middleware  
+**Next Up**: Create remaining Payload collections (Day 3-4), generate types, add sample content

@@ -527,10 +527,10 @@
 ## 📦 Technical Stack
 
 ### Core Technologies
-- **Framework**: Next.js 14 (App Router) with TypeScript
-- **CMS**: Payload CMS 2.x (self-hosted)
+- **Framework**: Next.js 16.x (App Router) with TypeScript
+- **CMS**: Payload CMS 3.x (installed directly into Next.js app)
 - **Database**: MongoDB (Railway)
-- **Styling**: Tailwind CSS + CSS Modules + @tailwindcss/typography
+- **Styling**: Tailwind CSS + @tailwindcss/typography
 - **Animations**: GSAP 3.x (ScrollTrigger, ScrollSmoother, ScrollToPlugin)
 - **Forms**: React Hook Form + Zod validation
 - **Email**: Resend API
@@ -542,7 +542,6 @@
 - **Sanitization**: isomorphic-dompurify
 - **Error Tracking**: @sentry/nextjs
 - **Analytics**: Google Analytics 4
-- **Performance**: @vercel/analytics, @vercel/speed-insights
 
 ### Accessibility
 - **Focus Management**: focus-trap-react
@@ -552,31 +551,49 @@
 
 ## 🗂️ Project Structure
 
+> **Note**: Payload CMS v3 lives inside the Next.js app using route groups.
+> The `(payload)` route group contains admin UI and API routes with Payload's own `RootLayout`.
+> The `(frontend)` route group contains the public-facing website with its own `<html>`/`<body>`.
+
 ```
 dna-media-website/
 ├── src/
 │   ├── app/
-│   │   ├── [lang]/              # Language routing
-│   │   │   ├── layout.tsx       # Root layout with fonts, providers
-│   │   │   ├── page.tsx         # Homepage
-│   │   │   ├── about/page.tsx   # About page
-│   │   │   ├── portfolio/
-│   │   │   │   ├── page.tsx     # Portfolio listing
-│   │   │   │   └── [slug]/page.tsx
-│   │   │   ├── blog/
-│   │   │   │   ├── page.tsx     # Blog listing
-│   │   │   │   └── [slug]/page.tsx
-│   │   │   ├── contact/page.tsx # Contact page
-│   │   │   ├── not-found.tsx    # 404 page
-│   │   │   └── error.tsx        # Error boundary
-│   │   ├── admin/               # Payload CMS
-│   │   ├── api/
-│   │   │   ├── contact/route.ts
-│   │   │   ├── blog/search/route.ts
-│   │   │   ├── health/route.ts
-│   │   │   └── [...payload]/route.ts
+│   │   ├── layout.tsx           # Minimal root layout (passes children only)
+│   │   ├── globals.css          # Global styles
 │   │   ├── robots.ts            # Dynamic robots.txt
-│   │   └── sitemap.ts           # Dynamic sitemap
+│   │   ├── sitemap.ts           # Dynamic sitemap
+│   │   ├── (frontend)/          # Public website route group
+│   │   │   ├── layout.tsx       # Frontend layout with <html>/<body>, fonts
+│   │   │   ├── page.tsx         # Homepage (root /)
+│   │   │   └── [lang]/          # Language routing
+│   │   │       ├── layout.tsx   # Language-specific layout
+│   │   │       ├── page.tsx     # Localized homepage
+│   │   │       ├── about/page.tsx
+│   │   │       ├── portfolio/
+│   │   │       │   ├── page.tsx
+│   │   │       │   └── [slug]/page.tsx
+│   │   │       ├── blog/
+│   │   │       │   ├── page.tsx
+│   │   │       │   └── [slug]/page.tsx
+│   │   │       ├── contact/page.tsx
+│   │   │       ├── not-found.tsx
+│   │   │       └── error.tsx
+│   │   ├── (payload)/           # Payload CMS route group (auto-generated)
+│   │   │   ├── layout.tsx       # Payload RootLayout with <html>/<body>
+│   │   │   ├── custom.scss      # Custom admin styles
+│   │   │   ├── admin/
+│   │   │   │   ├── layout.tsx   # Admin passthrough layout
+│   │   │   │   ├── importMap.js # Auto-generated import map
+│   │   │   │   └── [[...segments]]/page.tsx
+│   │   │   └── api/
+│   │   │       ├── [...slug]/route.ts    # Payload REST API
+│   │   │       ├── graphql/route.ts
+│   │   │       └── graphql-playground/route.ts
+│   │   └── api/                 # Custom API routes (outside route groups)
+│   │       ├── contact/route.ts
+│   │       ├── blog/search/route.ts
+│   │       └── health/route.ts
 │   ├── components/
 │   │   ├── animations/
 │   │   │   ├── PageTransition.tsx
@@ -622,6 +639,9 @@ dna-media-website/
 │   │   │   └── Users.ts
 │   │   ├── globals/
 │   │   │   └── Settings.ts
+│   │   ├── editor/
+│   │   │   └── lexical.config.ts
+│   │   ├── importMap.ts
 │   │   └── payload.config.ts
 │   ├── lib/
 │   │   ├── gsap/
@@ -636,13 +656,12 @@ dna-media-website/
 │   │   ├── payload.ts
 │   │   ├── analytics.ts
 │   │   └── sentry.ts
-│   └── middleware.ts            # Rate limiting
+│   └── middleware.ts            # Rate limiting (custom API routes only)
 ├── public/
-│   └── fonts/                   # Font files only
+│   └── fonts/
 ├── .env.local
-├── next.config.js               # With security headers
+├── next.config.js               # withPayload wrapper + security headers
 ├── tailwind.config.ts           # With RTL support
-├── performance-budget.json
 └── package.json
 ```
 
@@ -735,5 +754,6 @@ A feature is considered complete when:
 ---
 
 **Status**: ✅ Complete - Ready for Implementation  
-**Next Step**: Begin Week 1 - Project Setup & CMS Configuration  
+**Current Phase**: Week 1 — Project Setup & CMS Configuration (mostly complete)  
+**Tech Stack**: Next.js 16.1.6 + Payload CMS 3.77.0 + MongoDB + React 19  
 **All Items from Implementation Plan**: ✅ Verified and Included

@@ -34,16 +34,16 @@
 - [x] Create Users collection with admin/editor roles
 
 ### Day 3-4: Create Payload Collections
-- [ ] Create Pages collection (hero, sections, SEO)
-- [ ] Create Blog collection (bilingual content)
-- [ ] Create Portfolio collection (videos, thumbnails)
-- [ ] Create Services collection
-- [ ] Create Team collection
-- [ ] Create Clients collection (for logo carousel)
-- [ ] Create Timeline collection (milestones/awards)
-- [ ] Create Media collection (with WebP conversion)
-- [ ] Create Settings global (contact info, social links)
-- [ ] Register all collections in payload.config.ts
+- [x] Create Pages collection (hero, sections, SEO)
+- [x] Create Blog collection (bilingual content)
+- [x] Create Portfolio collection (videos, thumbnails)
+- [x] Create Services collection
+- [x] Create Team collection
+- [x] Create Clients collection (for logo carousel)
+- [x] Create Timeline collection (milestones/awards)
+- [x] Create Media collection (with WebP conversion)
+- [x] Create Settings global (contact info, social links)
+- [x] Register all collections in payload.config.ts
 
 
 ### Day 4-5: Environment Setup & Testing

@@ -61,13 +61,13 @@
 
 ### Day 6-7: Next.js App Router Setup
 - [x] Create route group structure ((frontend) and (payload))
-- [ ] Create [lang] dynamic route under (frontend)
-- [ ] Create root layout with fonts (Inter, Cairo) in (frontend)/layout.tsx
-- [ ] Set up language routing (en, ar)
-- [ ] Create language utilities (getBilingualField)
-- [ ] Add Header component placeholder
-- [ ] Add Footer component placeholder
-- [ ] Test language switching
+- [x] Create [lang] dynamic route under (frontend)
+- [x] Create root layout with fonts (Inter, Cairo) in (frontend)/layout.tsx
+- [x] Set up language routing (en, ar)
+- [x] Create language utilities (getBilingualField)
+- [x] Add Header component placeholder
+- [x] Add Footer component placeholder
+- [x] Test language switching
 
 ### Day 7-8: Homepage Implementation
 - [ ] Create homepage (src/app/(frontend)/[lang]/page.tsx)

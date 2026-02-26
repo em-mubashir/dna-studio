@@ -1,7 +1,36 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
+const languages = ['en', 'ar']
+const defaultLanguage = 'en'
+
 export async function middleware(request: NextRequest) {
+  const pathname = request.nextUrl.pathname
+
+  // Handle language routing for frontend pages
+  // Skip if it's an API route, admin route, or static file
+  if (
+    !pathname.startsWith('/api/') &&
+    !pathname.startsWith('/admin') &&
+    !pathname.startsWith('/_next') &&
+    !pathname.includes('.')
+  ) {
+    // Check if pathname starts with a language code
+    const pathnameHasLocale = languages.some(
+      (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
+    )
+
+    // If no language in pathname and it's the root, redirect to default language
+    if (!pathnameHasLocale && pathname === '/') {
+      return NextResponse.redirect(new URL(`/${defaultLanguage}`, request.url))
+    }
+
+    // If no language in pathname but it's not root, redirect to default language with path
+    if (!pathnameHasLocale && pathname !== '/') {
+      return NextResponse.redirect(new URL(`/${defaultLanguage}${pathname}`, request.url))
+    }
+  }
+
   // Only rate-limit custom API routes (not Payload's own API)
   if (!request.nextUrl.pathname.startsWith('/api/')) {
     return NextResponse.next()
@@ -28,7 +57,7 @@ export async function middleware(request: NextRequest) {
       prefix: 'dna-media-ratelimit',
     })
 
-    const ip = request.ip ?? request.headers.get('x-forwarded-for') ?? 'anonymous'
+    const ip = request.headers.get('x-forwarded-for') ?? request.headers.get('x-real-ip') ?? 'anonymous'
     const { success, limit, reset, remaining } = await ratelimit.limit(ip)
 
     const response = success
@@ -46,5 +75,12 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/api/contact/:path*', '/api/blog/:path*', '/api/health/:path*'],
+  matcher: [
+    // Match all pathnames except for:
+    // - API routes (handled separately)
+    // - _next/static (static files)
+    // - _next/image (image optimization files)
+    // - favicon.ico (favicon file)
+    '/((?!_next/static|_next/image|favicon.ico).*)',
+  ],
 }

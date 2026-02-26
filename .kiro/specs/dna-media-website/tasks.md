@@ -50,10 +50,10 @@
 - [x] Set up local MongoDB
 - [x] Configure environment variables
 - [x] Update package.json scripts (dev uses --webpack flag for Payload compatibility)
-- [ ] Generate Payload types
-- [ ] Test CMS collections
+- [x] Generate Payload types
+- [x] Test CMS collections
 - [x] Create first admin user
-- [ ] Add sample content to test collections
+- [x] Add sample content to test collections
 
 ---
 

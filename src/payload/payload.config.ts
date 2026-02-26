@@ -3,7 +3,6 @@ import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import { lexicalEditorConfig } from './editor/lexical.config'
 import { Users } from './collections/Users'
 import { Pages } from './collections/Pages'
 import { Media } from './collections/Media'
@@ -51,7 +50,11 @@ export default buildConfig({
     },
   }),
 
-  editor: lexicalEditor(lexicalEditorConfig),
+  editor: lexicalEditor({
+    features: ({ defaultFeatures }) => [
+      ...defaultFeatures,
+    ],
+  }),
 
   secret: process.env.PAYLOAD_SECRET || 'dna-media-dev-secret-change-in-production',
 

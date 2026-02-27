@@ -70,13 +70,13 @@
 - [x] Test language switching
 
 ### Day 7-8: Homepage Implementation
-- [ ] Create homepage (src/app/(frontend)/[lang]/page.tsx)
-- [ ] Fetch data from Pages collection
-- [ ] Create HeroSection component
-- [ ] Create PortfolioGrid component
-- [ ] Create ServicesSection component
-- [ ] Add metadata generation
-- [ ] Test with CMS data
+- [x] Create homepage (src/app/(frontend)/[lang]/page.tsx)
+- [x] Fetch data from Pages collection
+- [x] Create HeroSection component
+- [x] Create PortfolioGrid component
+- [x] Create ServicesSection component
+- [x] Add metadata generation
+- [x] Test with CMS data
 
 ### Day 8-9: Blog Pages
 - [ ] Create blog listing page

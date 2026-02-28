@@ -79,14 +79,14 @@
 - [x] Test with CMS data
 
 ### Day 8-9: Blog Pages
-- [ ] Create blog listing page
-- [ ] Add pagination logic
-- [ ] Add category filtering
-- [ ] Create blog post page ([slug])
-- [ ] Create BlogCard component
-- [ ] Create BlogContent component (rich text)
-- [ ] Generate static params for blog posts
-- [ ] Test bilingual blog content
+- [x] Create blog listing page
+- [x] Add pagination logic
+- [x] Add category filtering
+- [x] Create blog post page ([slug])
+- [x] Create BlogCard component
+- [x] Create BlogContent component (rich text)
+- [x] Generate static params for blog posts
+- [x] Test bilingual blog content
 
 ### Day 9-10: Tailwind RTL Configuration
 - [ ] Fix Tailwind content paths to scan src/ directory

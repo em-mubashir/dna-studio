@@ -91,3 +91,109 @@ export async function getServices() {
     return []
   }
 }
+
+/**
+ * Fetch blog posts with pagination and optional category filter
+ * @param page - Page number (1-indexed)
+ * @param limit - Number of posts per page (default: 12)
+ * @param category - Optional category filter
+ * @returns Object with blog posts and pagination info
+ */
+export async function getBlogPosts(page: number = 1, limit: number = 12, category?: string) {
+  try {
+    const payload = await getPayloadClient()
+    
+    const where: any = {
+      status: {
+        equals: 'published',
+      },
+    }
+
+    if (category) {
+      where.category = {
+        equals: category,
+      }
+    }
+
+    const result = await payload.find({
+      collection: 'blog',
+      where,
+      limit,
+      page,
+      sort: '-publishedDate',
+    })
+
+    return {
+      docs: result.docs,
+      totalDocs: result.totalDocs,
+      totalPages: result.totalPages,
+      page: result.page,
+      hasNextPage: result.hasNextPage,
+      hasPrevPage: result.hasPrevPage,
+    }
+  } catch (error) {
+    console.error('Error fetching blog posts:', error)
+    return {
+      docs: [],
+      totalDocs: 0,
+      totalPages: 0,
+      page: 1,
+      hasNextPage: false,
+      hasPrevPage: false,
+    }
+  }
+}
+
+/**
+ * Fetch a single blog post by slug
+ * @param slug - Blog post slug
+ * @returns Blog post data or null if not found
+ */
+export async function getBlogPostBySlug(slug: string) {
+  try {
+    const payload = await getPayloadClient()
+    
+    const result = await payload.find({
+      collection: 'blog',
+      where: {
+        slug: {
+          equals: slug,
+        },
+        status: {
+          equals: 'published',
+        },
+      },
+      limit: 1,
+    })
+
+    return result.docs[0] || null
+  } catch (error) {
+    console.error(`Error fetching blog post with slug "${slug}":`, error)
+    return null
+  }
+}
+
+/**
+ * Fetch all published blog post slugs for static generation
+ * @returns Array of blog post slugs
+ */
+export async function getAllBlogSlugs() {
+  try {
+    const payload = await getPayloadClient()
+    
+    const result = await payload.find({
+      collection: 'blog',
+      where: {
+        status: {
+          equals: 'published',
+        },
+      },
+      limit: 1000,
+    })
+
+    return result.docs.map((post: any) => post.slug)
+  } catch (error) {
+    console.error('Error fetching blog slugs:', error)
+    return []
+  }
+}

@@ -4,6 +4,29 @@ const { withPayload } = require('@payloadcms/next/withPayload')
 const nextConfig = {
   reactStrictMode: true,
   
+  // Image configuration for Next.js Image component
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '3000',
+        pathname: '/api/media/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'player.vimeo.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'i.vimeocdn.com',
+        pathname: '/**',
+      },
+    ],
+    formats: ['image/avif', 'image/webp'],
+  },
+  
   // Webpack configuration for Payload CMS
   webpack: (config) => {
     // Payload CMS requires these configurations

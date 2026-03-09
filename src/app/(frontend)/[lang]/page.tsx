@@ -1,10 +1,15 @@
 import { type Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { type Language, getBilingualField } from '@/src/lib/utils/language'
-import { getPageBySlug, getFeaturedPortfolio, getServices } from '@/src/lib/payload'
+import { getPageBySlug, getFeaturedPortfolio } from '@/src/lib/payload'
+import { getPayload } from 'payload'
+import config from '@/src/payload/payload.config'
 import HeroSection from '@/src/components/sections/HeroSection'
-import ServicesSection from '@/src/components/sections/ServicesSection'
+import TaglineSection from '@/src/components/sections/TaglineSection'
+import FeaturedWorkSection from '@/src/components/sections/FeaturedWorkSection'
+import AboutSection from '@/src/components/sections/AboutSection'
 import PortfolioGrid from '@/src/components/sections/PortfolioGrid'
+import CTASection from '@/src/components/sections/CTASection'
 
 interface HomePageProps {
   params: Promise<{ lang: string }>;
@@ -83,11 +88,56 @@ export default async function HomePage({ params }: HomePageProps) {
     notFound()
   }
 
-  // Fetch featured portfolio items and services
-  const [portfolioItems, services] = await Promise.all([
-    getFeaturedPortfolio(6),
-    getServices(),
-  ])
+  // Fetch settings for tagline
+  const payload = await getPayload({ config })
+  const settings = await payload.findGlobal({
+    slug: 'settings',
+  })
+
+  // Fetch featured portfolio items
+  const portfolioItems = await getFeaturedPortfolio(6)
+
+  // Get tagline content
+  const taglineText = lang === 'ar' 
+    ? settings?.tagline?.text_ar 
+    : settings?.tagline?.text_en
+  const taglineButtonText = lang === 'ar'
+    ? settings?.tagline?.button_text_ar
+    : settings?.tagline?.button_text_en
+  const taglineButtonLink = settings?.tagline?.button_link
+
+  // Get featured work content
+  const featuredWork = settings?.featuredWork
+  const featuredWorkServiceType = lang === 'ar'
+    ? featuredWork?.serviceType_ar
+    : featuredWork?.serviceType_en
+  const featuredWorkProjectTitle = lang === 'ar'
+    ? featuredWork?.projectTitle_ar
+    : featuredWork?.projectTitle_en
+  const featuredWorkSoundOn = lang === 'ar'
+    ? featuredWork?.soundOn_ar
+    : featuredWork?.soundOn_en
+  const featuredWorkSoundOff = lang === 'ar'
+    ? featuredWork?.soundOff_ar
+    : featuredWork?.soundOff_en
+
+  // Get about section content
+  const about = settings?.about
+  const aboutLabel = lang === 'ar'
+    ? about?.label_ar
+    : about?.label_en
+  const aboutHeading = lang === 'ar'
+    ? about?.heading_ar
+    : about?.heading_en
+  const aboutDescription = lang === 'ar'
+    ? about?.description_ar
+    : about?.description_en
+
+  // Get CTA section content
+  const cta = settings?.cta
+  const ctaHeading = lang === 'ar'
+    ? cta?.heading_ar
+    : cta?.heading_en
 
   return (
     <main>
@@ -95,22 +145,41 @@ export default async function HomePage({ params }: HomePageProps) {
       {page.hero && (
         <HeroSection
           heading={getBilingualField<string>(page.hero, 'heading', lang as Language)}
-          subheading={getBilingualField<string>(page.hero, 'subheading', lang as Language)}
-          ctaText={getBilingualField<string>(page.hero, 'cta_text', lang as Language)}
-          ctaLink={page.hero.cta_link}
           backgroundVideo={page.hero.background_video}
           backgroundImage={page.hero.background_image}
           lang={lang as Language}
         />
       )}
 
-      {/* Services Section */}
-      {services.length > 0 && (
-        <ServicesSection
-          services={services}
-          lang={lang as Language}
-        />
-      )}
+      {/* Tagline Section */}
+      <TaglineSection 
+        lang={lang as Language} 
+        taglineText={taglineText}
+        buttonText={taglineButtonText}
+        buttonLink={taglineButtonLink}
+      />
+
+      {/* Featured Work Section */}
+      <FeaturedWorkSection 
+        lang={lang as Language}
+        projectNumber={featuredWork?.projectNumber}
+        serviceType={featuredWorkServiceType}
+        projectTitle={featuredWorkProjectTitle}
+        backgroundImage={featuredWork?.backgroundImage}
+        backgroundVideo={featuredWork?.backgroundVideo}
+        projectLink={featuredWork?.projectLink}
+        soundOnText={featuredWorkSoundOn}
+        soundOffText={featuredWorkSoundOff}
+      />
+
+      {/* About Section */}
+      <AboutSection 
+        lang={lang as Language}
+        label={aboutLabel}
+        heading={aboutHeading}
+        image={about?.image}
+        description={aboutDescription}
+      />
 
       {/* Featured Portfolio */}
       {portfolioItems.length > 0 && (
@@ -120,6 +189,15 @@ export default async function HomePage({ params }: HomePageProps) {
           featured
         />
       )}
+
+      {/* CTA Section */}
+      <CTASection 
+        lang={lang as Language}
+        heading={ctaHeading}
+        buttonLink={cta?.buttonLink}
+        backgroundImage={cta?.backgroundImage}
+        circleImage={cta?.circleImage}
+      />
     </main>
   )
 }

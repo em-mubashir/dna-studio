@@ -71,7 +71,6 @@ export interface Config {
     pages: Page;
     blog: Blog;
     portfolio: Portfolio;
-    services: Service;
     team: Team;
     clients: Client;
     timeline: Timeline;
@@ -87,7 +86,6 @@ export interface Config {
     pages: PagesSelect<false> | PagesSelect<true>;
     blog: BlogSelect<false> | BlogSelect<true>;
     portfolio: PortfolioSelect<false> | PortfolioSelect<true>;
-    services: ServicesSelect<false> | ServicesSelect<true>;
     team: TeamSelect<false> | TeamSelect<true>;
     clients: ClientsSelect<false> | ClientsSelect<true>;
     timeline: TimelineSelect<false> | TimelineSelect<true>;
@@ -551,81 +549,6 @@ export interface Portfolio {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "services".
- */
-export interface Service {
-  id: string;
-  title_en: string;
-  title_ar: string;
-  /**
-   * URL-friendly identifier (e.g., "video-production")
-   */
-  slug: string;
-  /**
-   * Short description of the service (150-200 characters)
-   */
-  description_en: string;
-  /**
-   * Short description of the service (150-200 characters)
-   */
-  description_ar: string;
-  /**
-   * Detailed service information (optional)
-   */
-  content_en?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  /**
-   * Detailed service information (optional)
-   */
-  content_ar?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  /**
-   * Icon or image representing this service (recommended: 200×200px)
-   */
-  icon?: (string | null) | Media;
-  /**
-   * Categorize this service for filtering
-   */
-  category?: ('video-production' | 'post-production' | 'animation' | 'photography' | 'consulting' | 'other') | null;
-  /**
-   * Display this service prominently on the homepage
-   */
-  featured?: boolean | null;
-  /**
-   * Lower numbers appear first (0 = highest priority)
-   */
-  order?: number | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "team".
  */
 export interface Team {
@@ -770,10 +693,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'portfolio';
         value: string | Portfolio;
-      } | null)
-    | ({
-        relationTo: 'services';
-        value: string | Service;
       } | null)
     | ({
         relationTo: 'team';
@@ -980,25 +899,6 @@ export interface PortfolioSelect<T extends boolean = true> {
         meta_description_ar?: T;
         og_image?: T;
       };
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "services_select".
- */
-export interface ServicesSelect<T extends boolean = true> {
-  title_en?: T;
-  title_ar?: T;
-  slug?: T;
-  description_en?: T;
-  description_ar?: T;
-  content_en?: T;
-  content_ar?: T;
-  icon?: T;
-  category?: T;
-  featured?: T;
-  order?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1250,6 +1150,192 @@ export interface Setting {
      */
     hours_ar?: string | null;
   };
+  navigation?: {
+    /**
+     * Navigation menu items that appear in the header
+     */
+    menuItems?:
+      | {
+          /**
+           * Menu item label in English (e.g., "Home")
+           */
+          label_en: string;
+          /**
+           * Menu item label in Arabic (e.g., "المنزل")
+           */
+          label_ar: string;
+          /**
+           * Short description in English (e.g., "Main page")
+           */
+          description_en?: string | null;
+          /**
+           * Short description in Arabic (e.g., "الصفحة الرئيسية")
+           */
+          description_ar?: string | null;
+          /**
+           * Relative URL without language prefix (e.g., "/" for home, "/about" for about)
+           */
+          url: string;
+          /**
+           * Display order (lower numbers appear first)
+           */
+          order: number;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  tagline: {
+    /**
+     * Main tagline text displayed on homepage
+     */
+    text_en: string;
+    /**
+     * Main tagline text in Arabic
+     */
+    text_ar: string;
+    button_text_en?: string | null;
+    button_text_ar?: string | null;
+    /**
+     * Relative URL without language prefix (e.g., "/portfolio")
+     */
+    button_link?: string | null;
+  };
+  featuredWork: {
+    /**
+     * Project number displayed in top-left (e.g., "01", "02")
+     */
+    projectNumber?: string | null;
+    /**
+     * Service type displayed in top-right
+     */
+    serviceType_en?: string | null;
+    /**
+     * Service type in Arabic
+     */
+    serviceType_ar?: string | null;
+    /**
+     * Project title displayed in bottom-left
+     */
+    projectTitle_en?: string | null;
+    /**
+     * Project title in Arabic
+     */
+    projectTitle_ar?: string | null;
+    /**
+     * Background image for featured work section (1824×920px recommended)
+     */
+    backgroundImage: string | Media;
+    /**
+     * Optional Vimeo video ID (e.g., "123456789"). Video will overlay the image.
+     */
+    backgroundVideo?: string | null;
+    /**
+     * Link to project detail page (e.g., "/portfolio/project-slug")
+     */
+    projectLink?: string | null;
+    soundOn_en?: string | null;
+    soundOn_ar?: string | null;
+    soundOff_en?: string | null;
+    soundOff_ar?: string | null;
+  };
+  about: {
+    /**
+     * Label text displayed on the left side
+     */
+    label_en?: string | null;
+    /**
+     * Label text in Arabic
+     */
+    label_ar?: string | null;
+    /**
+     * Main heading text (will be displayed in uppercase)
+     */
+    heading_en: string;
+    /**
+     * Main heading text in Arabic
+     */
+    heading_ar: string;
+    /**
+     * Main image for about section (1368×618px recommended)
+     */
+    image: string | Media;
+    /**
+     * Body text (will be displayed in uppercase)
+     */
+    description_en: string;
+    /**
+     * Body text in Arabic
+     */
+    description_ar: string;
+  };
+  cta: {
+    /**
+     * Main CTA heading (will be displayed in uppercase)
+     */
+    heading_en: string;
+    /**
+     * Main CTA heading in Arabic
+     */
+    heading_ar: string;
+    /**
+     * Link for the CTA button (e.g., "/contact")
+     */
+    buttonLink?: string | null;
+    /**
+     * Background image for CTA section (1824×1080px recommended)
+     */
+    backgroundImage: string | Media;
+    /**
+     * Circular masked image (500×500px recommended)
+     */
+    circleImage?: (string | null) | Media;
+  };
+  footer?: {
+    office_heading_en?: string | null;
+    office_heading_ar?: string | null;
+    mail_heading_en?: string | null;
+    mail_heading_ar?: string | null;
+    follow_heading_en?: string | null;
+    follow_heading_ar?: string | null;
+    /**
+     * Email addresses to display in footer
+     */
+    emails?:
+      | {
+          /**
+           * Optional label (e.g., "General Inquiries")
+           */
+          label?: string | null;
+          email: string;
+          id?: string | null;
+        }[]
+      | null;
+    /**
+     * Social media links to display in footer
+     */
+    socialLinks?:
+      | {
+          /**
+           * e.g., "Instagram", "LinkedIn", "Facebook"
+           */
+          platform: string;
+          url: string;
+          id?: string | null;
+        }[]
+      | null;
+    copyright_en?: string | null;
+    copyright_ar?: string | null;
+    terms_en?: string | null;
+    terms_ar?: string | null;
+    /**
+     * URL for terms page (e.g., "/terms")
+     */
+    terms_link?: string | null;
+    /**
+     * Background image for footer (1908×213px recommended)
+     */
+    background_image?: (string | null) | Media;
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1300,6 +1386,96 @@ export interface SettingsSelect<T extends boolean = true> {
     | {
         hours_en?: T;
         hours_ar?: T;
+      };
+  navigation?:
+    | T
+    | {
+        menuItems?:
+          | T
+          | {
+              label_en?: T;
+              label_ar?: T;
+              description_en?: T;
+              description_ar?: T;
+              url?: T;
+              order?: T;
+              id?: T;
+            };
+      };
+  tagline?:
+    | T
+    | {
+        text_en?: T;
+        text_ar?: T;
+        button_text_en?: T;
+        button_text_ar?: T;
+        button_link?: T;
+      };
+  featuredWork?:
+    | T
+    | {
+        projectNumber?: T;
+        serviceType_en?: T;
+        serviceType_ar?: T;
+        projectTitle_en?: T;
+        projectTitle_ar?: T;
+        backgroundImage?: T;
+        backgroundVideo?: T;
+        projectLink?: T;
+        soundOn_en?: T;
+        soundOn_ar?: T;
+        soundOff_en?: T;
+        soundOff_ar?: T;
+      };
+  about?:
+    | T
+    | {
+        label_en?: T;
+        label_ar?: T;
+        heading_en?: T;
+        heading_ar?: T;
+        image?: T;
+        description_en?: T;
+        description_ar?: T;
+      };
+  cta?:
+    | T
+    | {
+        heading_en?: T;
+        heading_ar?: T;
+        buttonLink?: T;
+        backgroundImage?: T;
+        circleImage?: T;
+      };
+  footer?:
+    | T
+    | {
+        office_heading_en?: T;
+        office_heading_ar?: T;
+        mail_heading_en?: T;
+        mail_heading_ar?: T;
+        follow_heading_en?: T;
+        follow_heading_ar?: T;
+        emails?:
+          | T
+          | {
+              label?: T;
+              email?: T;
+              id?: T;
+            };
+        socialLinks?:
+          | T
+          | {
+              platform?: T;
+              url?: T;
+              id?: T;
+            };
+        copyright_en?: T;
+        copyright_ar?: T;
+        terms_en?: T;
+        terms_ar?: T;
+        terms_link?: T;
+        background_image?: T;
       };
   updatedAt?: T;
   createdAt?: T;

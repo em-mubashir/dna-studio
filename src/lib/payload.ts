@@ -35,6 +35,7 @@ export async function getPageBySlug(slug: string) {
           equals: 'published',
         },
       },
+      depth: 2, // Populate media relationships
       limit: 1,
     })
 
@@ -68,26 +69,6 @@ export async function getFeaturedPortfolio(limit: number = 6) {
     return result.docs
   } catch (error) {
     console.error('Error fetching featured portfolio:', error)
-    return []
-  }
-}
-
-/**
- * Fetch all services
- * @returns Array of services
- */
-export async function getServices() {
-  try {
-    const payload = await getPayloadClient()
-    
-    const result = await payload.find({
-      collection: 'services',
-      sort: 'order',
-    })
-
-    return result.docs
-  } catch (error) {
-    console.error('Error fetching services:', error)
     return []
   }
 }

@@ -1,87 +1,158 @@
+'use client';
+
+import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 import type { Language } from '@/src/lib/utils/language';
+
+interface MenuItem {
+  label_en: string;
+  label_ar: string;
+  description_en?: string;
+  description_ar?: string;
+  url: string;
+  order: number;
+}
 
 interface HeaderProps {
   lang: Language;
+  menuItems?: MenuItem[];
+  logo?: any;
+  logoAlt?: string;
 }
 
 /**
- * Header component placeholder
+ * Header component - Figma Design Implementation
  * 
- * Design specs:
- * - Desktop: Height 80px, transparent background (white with shadow on scroll)
- * - Mobile: Height 64px
- * - Logo: Left aligned
- * - Nav Items: Center (desktop)
- * - Language Switcher: Right
- * - Sticky positioning
- * 
- * TODO (Week 4, Day 16-17):
- * - Add logo from CMS Settings
- * - Create Navigation component integration
- * - Add language switcher
- * - Add mobile menu (hamburger)
- * - Add scroll-based header background
- * - Add header entrance animation
+ * Desktop: 1920px × 120px
+ * Mobile: 393px × 72px
+ * Background: #000000
+ * Border-bottom: 1px solid rgba(255, 255, 255, 0.5)
+ * Padding: 0 48px (desktop), 0 16px (mobile)
  */
-export default function Header({ lang }: HeaderProps) {
+export default function Header({ lang, menuItems = [], logo, logoAlt }: HeaderProps) {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const isArabic = lang === 'ar';
+
+  // Sort menu items by order
+  const sortedMenuItems = [...menuItems].sort((a, b) => a.order - b.order);
+
+  // Get logo URL from CMS or use default
+  const logoUrl = logo && typeof logo === 'object' && 'url' in logo
+    ? logo.url
+    : '/dna-logo-white.svg';
+
+  const logoAltText = logoAlt || 'DNA Studio';
+
   return (
-    <header className="sticky top-0 z-50 h-20 md:h-20 bg-white shadow-sm">
-      <div className="container mx-auto px-4 h-full flex items-center justify-between">
-        {/* Logo - Left aligned */}
-        <div className="flex-shrink-0">
-          <Link href={`/${lang}`} className="text-xl font-bold text-primary-500">
-            DNA Media
+    <>
+      <header className="fixed top-0 left-0 w-full h-[72px] md:h-[120px] bg-black border-b border-white/50 z-50">
+        <div className="h-full flex items-center justify-between px-4 md:px-12">
+          {/* Logo */}
+          <Link href={`/${lang}`} className="relative w-[84.35px] h-5 md:w-[97px] md:h-[23px]">
+            <Image
+              src={logoUrl}
+              alt={logoAltText}
+              fill
+              className="object-contain"
+              priority
+            />
           </Link>
-        </div>
 
-        {/* Navigation - Center (desktop) */}
-        <nav className="hidden md:flex items-center gap-8">
-          <Link href={`/${lang}`} className="text-gray-700 hover:text-primary-500 transition-colors">
-            {lang === 'en' ? 'Home' : 'الرئيسية'}
-          </Link>
-          <Link href={`/${lang}/about`} className="text-gray-700 hover:text-primary-500 transition-colors">
-            {lang === 'en' ? 'About' : 'من نحن'}
-          </Link>
-          <Link href={`/${lang}/portfolio`} className="text-gray-700 hover:text-primary-500 transition-colors">
-            {lang === 'en' ? 'Portfolio' : 'أعمالنا'}
-          </Link>
-          <Link href={`/${lang}/blog`} className="text-gray-700 hover:text-primary-500 transition-colors">
-            {lang === 'en' ? 'Blog' : 'المدونة'}
-          </Link>
-          <Link href={`/${lang}/contact`} className="text-gray-700 hover:text-primary-500 transition-colors">
-            {lang === 'en' ? 'Contact' : 'اتصل بنا'}
-          </Link>
-        </nav>
+          {/* Navigation - Right Side */}
+          <div className="flex items-center gap-8">
+            {/* Language Switcher */}
+            <div className="flex items-center gap-[11px]">
+              <Link
+                href={pathname.replace(`/${lang}`, '/en')}
+                className={`font-bold text-[24px] uppercase transition-colors ${
+                  lang === 'en' ? 'text-white' : 'text-white/50'
+                }`}
+                style={{ fontFamily: 'Degular, sans-serif' }}
+              >
+                ENGLISH
+              </Link>
+              <div className="w-px h-[23px] bg-white/50" />
+              <Link
+                href={pathname.replace(`/${lang}`, '/ar')}
+                className={`font-bold text-[24px] uppercase transition-colors ${
+                  lang === 'ar' ? 'text-white' : 'text-white/50'
+                }`}
+                style={{ fontFamily: 'Degular, sans-serif' }}
+              >
+                ARABIC
+              </Link>
+            </div>
 
-        {/* Language Switcher - Right */}
-        <div className="flex items-center gap-4">
-          <Link
-            href={`/${lang === 'en' ? 'ar' : 'en'}`}
-            className="text-sm font-medium text-gray-700 hover:text-primary-500 transition-colors"
-          >
-            {lang === 'en' ? 'العربية' : 'English'}
-          </Link>
-          
-          {/* Mobile menu button placeholder */}
-          <button
-            className="md:hidden p-2 text-gray-700 hover:text-primary-500"
-            aria-label={lang === 'en' ? 'Open menu' : 'فتح القائمة'}
-          >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+            {/* Menu Button */}
+            <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="w-10 h-6 flex flex-col justify-between"
+              aria-label="Toggle menu"
             >
-              <path d="M4 6h16M4 12h16M4 18h16"></path>
-            </svg>
-          </button>
+              <span className="w-full h-0.5 bg-white transition-transform" />
+              <span className="w-full h-0.5 bg-white transition-transform" />
+              <span className="w-full h-0.5 bg-white transition-transform" />
+            </button>
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
+
+      {/* Menu Overlay */}
+      {menuOpen && (
+        <div 
+          className="fixed inset-0 top-[72px] md:top-[120px] bg-black/95 z-40"
+          onClick={() => setMenuOpen(false)}
+        >
+          <nav className="px-4 md:px-12 py-20 md:py-[120px] flex flex-col items-center gap-0">
+            {sortedMenuItems.map((item, index) => (
+              <MenuItem 
+                key={index}
+                href={`/${lang}${item.url === '/' ? '' : item.url}`} 
+                label={isArabic ? item.label_ar : item.label_en} 
+                description={isArabic ? (item.description_ar || '') : (item.description_en || '')} 
+              />
+            ))}
+          </nav>
+        </div>
+      )}
+    </>
+  );
+}
+
+function MenuItem({ href, label, description }: { href: string; label: string; description: string }) {
+  return (
+    <Link
+      href={href}
+      className="flex justify-between items-center border-b border-white/50 group"
+      style={{
+        width: '100%',
+        maxWidth: '1824px',
+        height: '80px',
+        opacity: 1,
+      }}
+    >
+      <span 
+        className="uppercase text-white group-hover:text-white/80 transition-colors"
+        style={{ 
+          fontFamily: 'Degular, sans-serif',
+          fontWeight: 700,
+          fontSize: '80px',
+          lineHeight: '100%',
+          letterSpacing: '0%',
+          textAlign: 'center',
+        }}
+      >
+        {label}
+      </span>
+      <span 
+        className="text-white/50 group-hover:text-white transition-colors"
+        style={{ fontFamily: 'IBM Plex Sans, sans-serif', fontSize: '24px' }}
+      >
+        {description}
+      </span>
+    </Link>
   );
 }

@@ -2,24 +2,26 @@
 
 import { useEffect, useRef } from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
 import { type Language } from '@/src/lib/utils/language'
 
 interface HeroSectionProps {
   heading: string
-  subheading: string
-  ctaText?: string
-  ctaLink?: string
   backgroundVideo?: string
   backgroundImage?: any
   lang: Language
 }
 
+/**
+ * Hero Section - Figma Design Implementation
+ * 
+ * Total viewport height: 1080px (including header)
+ * Header height: 120px (desktop), 72px (mobile)
+ * Hero section height: 1080px - header height
+ * Text Layout: 788px × 80px at position (48px, 920px from top of viewport)
+ * Typography: Degular Bold 80px, line-height 100%, uppercase
+ */
 export default function HeroSection({
   heading,
-  subheading,
-  ctaText,
-  ctaLink,
   backgroundVideo,
   backgroundImage,
   lang,
@@ -28,8 +30,7 @@ export default function HeroSection({
   const sectionRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
-    // GSAP animations will be added in Week 3
-    // For now, we'll use CSS transitions
+    // GSAP animations will be added later
   }, [])
 
   // Get background image URL
@@ -37,13 +38,37 @@ export default function HeroSection({
     ? backgroundImage.url
     : null
 
+  console.log('Hero Section Debug:', {
+    backgroundVideo,
+    backgroundImage,
+    bgImageUrl,
+    hasVideo: !!backgroundVideo,
+    hasImage: !!bgImageUrl
+  });
+
   return (
     <section
       ref={sectionRef}
-      className="relative h-screen w-full overflow-hidden"
+      className="relative w-full overflow-hidden"
+      style={{
+        height: 'calc(1080px - 120px)', // 960px on desktop
+        marginTop: '120px', // Account for fixed header
+      }}
       aria-label={lang === 'en' ? 'Hero section' : 'قسم البطل'}
     >
-      {/* Background Video (Vimeo) */}
+      {/* Background Image - Always show if available */}
+      {bgImageUrl && (
+        <div className="absolute inset-0 z-0">
+          <img
+            src={bgImageUrl}
+            alt=""
+            className="w-full h-full object-cover"
+            style={{ objectFit: 'cover' }}
+          />
+        </div>
+      )}
+
+      {/* Background Video (Vimeo) - Overlay on top of image */}
       {backgroundVideo && (
         <div className="absolute inset-0 z-0">
           <iframe
@@ -58,55 +83,37 @@ export default function HeroSection({
         </div>
       )}
 
-      {/* Background Image (Fallback) */}
-      {!backgroundVideo && bgImageUrl && (
-        <div className="absolute inset-0 z-0">
-          <Image
-            src={bgImageUrl}
-            alt=""
-            fill
-            priority
-            className="object-cover"
-            sizes="100vw"
-          />
-        </div>
-      )}
+      {/* Overlay - Lighter for better image visibility */}
+      <div className="absolute inset-0 z-10 bg-black/20" aria-hidden="true" />
 
-      {/* Overlay */}
-      <div className="absolute inset-0 z-10 bg-black/40" aria-hidden="true" />
-
-      {/* Content */}
-      <div className="relative z-20 flex h-full items-center justify-center px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl text-center">
-          {/* Heading */}
-          <h1 className="text-4xl font-bold text-white sm:text-5xl md:text-6xl lg:text-7xl mb-6 animate-fade-in">
-            {heading}
-          </h1>
-
-          {/* Subheading */}
-          <p className="text-lg text-white/90 sm:text-xl md:text-2xl mb-8 max-w-2xl mx-auto animate-fade-in-delay">
-            {subheading}
-          </p>
-
-          {/* CTA Button */}
-          {ctaText && ctaLink && (
-            <div className="animate-fade-in-delay-2">
-              <Link
-                href={ctaLink}
-                className="inline-block bg-primary-500 hover:bg-primary-600 text-white font-semibold px-8 py-4 rounded-lg transition-colors duration-200 text-lg"
-              >
-                {ctaText}
-              </Link>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 animate-bounce">
-        <div className="w-6 h-10 border-2 border-white/50 rounded-full flex items-start justify-center p-2">
-          <div className="w-1 h-3 bg-white/50 rounded-full" />
-        </div>
+      {/* Text Content - Positioned as per Figma specs */}
+      <div 
+        className="absolute z-20 text-white uppercase"
+        style={{
+          width: 'auto',
+          maxWidth: '1824px',
+          height: '80px',
+          bottom: '80px', // 920px from viewport top = 80px from section bottom (1080 - 120 - 80 = 880)
+          left: '48px',
+          opacity: 1,
+          whiteSpace: 'nowrap',
+        }}
+      >
+        <h1 
+          style={{
+            fontFamily: 'Degular, sans-serif',
+            fontWeight: 700,
+            fontSize: '80px',
+            lineHeight: '100%',
+            letterSpacing: '0%',
+            textAlign: 'left',
+            textTransform: 'uppercase',
+            margin: 0,
+            whiteSpace: 'nowrap',
+          }}
+        >
+          {heading}
+        </h1>
       </div>
     </section>
   )

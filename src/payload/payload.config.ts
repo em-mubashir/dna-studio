@@ -8,10 +8,10 @@ import { Pages } from './collections/Pages'
 import { Media } from './collections/Media'
 import { Blog } from './collections/Blog'
 import { Portfolio } from './collections/Portfolio'
-import { Services } from './collections/Services'
 import { Team } from './collections/Team'
 import { Clients } from './collections/Clients'
 import { Timeline } from './collections/Timeline'
+import { CTA } from './collections/CTA'
 import { Settings } from './globals/Settings'
 
 const filename = fileURLToPath(import.meta.url)
@@ -32,7 +32,7 @@ export default buildConfig({
     },
   },
 
-  collections: [Users, Pages, Blog, Portfolio, Services, Team, Clients, Timeline, Media],
+  collections: [Users, Pages, Blog, Portfolio, Team, Clients, Timeline, Media],
 
   globals: [Settings],
 

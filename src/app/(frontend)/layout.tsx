@@ -41,8 +41,8 @@ export default function FrontendLayout({
   children: React.ReactNode
 }) {
   return (
-    <html suppressHydrationWarning>
-      <body className={`${inter.variable} ${cairo.variable}`} suppressHydrationWarning>
+    <html suppressHydrationWarning style={{ overflowX: 'hidden' }}>
+      <body className={`${inter.variable} ${cairo.variable}`} suppressHydrationWarning style={{ overflowX: 'hidden' }}>
         {children}
       </body>
     </html>

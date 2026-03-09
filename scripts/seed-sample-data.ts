@@ -49,6 +49,105 @@ async function seed() {
           hours_en: 'Sunday - Thursday: 9:00 AM - 6:00 PM\nFriday - Saturday: Closed',
           hours_ar: 'الأحد - الخميس: 9:00 صباحًا - 6:00 مساءً\nالجمعة - السبت: مغلق',
         },
+        navigation: {
+          menuItems: [
+            {
+              label_en: 'Home',
+              label_ar: 'المنزل',
+              description_en: 'Main page',
+              description_ar: 'الصفحة الرئيسية',
+              url: '/',
+              order: 1,
+            },
+            {
+              label_en: 'Team',
+              label_ar: 'فريق',
+              description_en: 'Who we are',
+              description_ar: 'من نحن',
+              url: '/about',
+              order: 2,
+            },
+            {
+              label_en: 'Works',
+              label_ar: 'أعمال',
+              description_en: 'What we do',
+              description_ar: 'ما نقوم به',
+              url: '/portfolio',
+              order: 3,
+            },
+            {
+              label_en: 'Blog',
+              label_ar: 'مدونة',
+              description_en: 'Useful articles',
+              description_ar: 'مقالات مفيدة',
+              url: '/blog',
+              order: 4,
+            },
+            {
+              label_en: "Let's work",
+              label_ar: 'لنبدأ العمل',
+              description_en: 'Contact us',
+              description_ar: 'اتصل بنا',
+              url: '/contact',
+              order: 5,
+            },
+          ],
+        },
+        tagline: {
+          text_en: 'ONE FRAME AT A TIME. YOUR FULL-FLEDGED CREATIVE AND PRODUCTION PARTNER.',
+          text_ar: 'إطار واحد في كل مرة. شريكك الإبداعي والإنتاجي المتكامل.',
+          button_text_en: 'VIEW ALL WORKS',
+          button_text_ar: 'عرض جميع الأعمال',
+          button_link: '/portfolio',
+        },
+        featuredWork: {
+          projectNumber: '01',
+          serviceType_en: 'COMMERCIAL',
+          serviceType_ar: 'إعلان تجاري',
+          projectTitle_en: 'LUXURY BRAND CAMPAIGN',
+          projectTitle_ar: 'حملة علامة تجارية فاخرة',
+          projectLink: '/portfolio',
+          soundOn_en: 'SOUND ON',
+          soundOn_ar: 'الصوت مفعل',
+          soundOff_en: 'SOUND OFF',
+          soundOff_ar: 'الصوت مغلق',
+        },
+        about: {
+          label_en: 'DNA STUDIO',
+          label_ar: 'دي إن إيه ستوديو',
+          heading_en: 'BREAKING NORMS, SETTING STANDARDS: WHERE CREATIVITY MEETS EXCELLENCE',
+          heading_ar: 'كسر القواعد، وضع المعايير: حيث يلتقي الإبداع بالتميز',
+          description_en: 'AT DNA STUDIO, WE EMBODY THE ESSENCE OF THE ART GENE. FROM SCRIPT WRITING TO WRAP MOMENT, WE THRIVE ON LIMITLESS CREATIVITY.',
+          description_ar: 'في دي إن إيه ستوديو، نحن نجسد جوهر جين الفن. من كتابة السيناريو إلى لحظة الانتهاء، نحن نزدهر بالإبداع اللامحدود.',
+        },
+        cta: {
+          heading_en: "LET'S CREATE TOGETHER",
+          heading_ar: 'لنبدع معاً',
+          buttonLink: '/contact',
+        },
+        footer: {
+          office_heading_en: 'OFFICE',
+          office_heading_ar: 'المكتب',
+          mail_heading_en: 'MAIL US',
+          mail_heading_ar: 'راسلنا',
+          follow_heading_en: 'FOLLOW US',
+          follow_heading_ar: 'تابعنا',
+          emails: [
+            { email: 'info@dnamedia.sa' },
+            { email: 'career@dnamedia.sa' },
+          ],
+          socialLinks: [
+            { platform: 'Instagram', url: 'https://instagram.com/dnamedia' },
+            { platform: 'LinkedIn', url: 'https://linkedin.com/company/dnamedia' },
+            { platform: 'Facebook', url: 'https://facebook.com/dnamedia' },
+            { platform: 'YouTube', url: 'https://youtube.com/@dnamedia' },
+          ],
+          copyright_en: '© DNA - ALL RIGHTS RESERVED',
+          copyright_ar: '© DNA - جميع الحقوق محفوظة',
+          terms_en: 'GENERAL TERMS',
+          terms_ar: 'الشروط العامة',
+          terms_link: '/terms',
+        },
       },
     })
     console.log('✅ Settings seeded\n')
@@ -339,6 +438,11 @@ async function seed() {
       }
     }
     console.log(`✅ ${pagesCreated} pages seeded (${pages.length - pagesCreated} already existed)\n`)
+
+    // 9. Seed CTA Section
+    console.log('📝 Seeding CTA Section...')
+    console.log('⚠️  Skipping CTA - background image is required. Add via CMS at /admin/collections/cta')
+    console.log('   Note: Upload a 1824×1080px background image for best results\n')
 
     console.log('🎉 Seed process completed successfully!\n')
     console.log('📊 Summary:')

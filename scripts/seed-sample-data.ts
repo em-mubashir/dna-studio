@@ -152,100 +152,7 @@ async function seed() {
     })
     console.log('✅ Settings seeded\n')
 
-    // 2. Seed Services
-    console.log('📝 Seeding Services...')
-    const services = [
-      {
-        title_en: 'Commercial Production',
-        title_ar: 'الإنتاج التجاري',
-        slug: 'commercial-production',
-        description_en: 'High-impact commercials that drive results and engage audiences across all platforms.',
-        description_ar: 'إعلانات تجارية عالية التأثير تحقق النتائج وتجذب الجماهير عبر جميع المنصات.',
-        category: 'video-production',
-        featured: true,
-        order: 1,
-      },
-      {
-        title_en: 'Corporate Videos',
-        title_ar: 'فيديوهات الشركات',
-        slug: 'corporate-videos',
-        description_en: 'Professional corporate videos that tell your brand story and connect with stakeholders.',
-        description_ar: 'فيديوهات شركات احترافية تروي قصة علامتك التجارية وتتواصل مع أصحاب المصلحة.',
-        category: 'video-production',
-        featured: true,
-        order: 2,
-      },
-      {
-        title_en: 'Documentary Films',
-        title_ar: 'الأفلام الوثائقية',
-        slug: 'documentary-films',
-        description_en: 'Compelling documentaries that capture real stories with cinematic excellence.',
-        description_ar: 'أفلام وثائقية مقنعة تلتقط القصص الحقيقية بتميز سينمائي.',
-        category: 'video-production',
-        featured: true,
-        order: 3,
-      },
-      {
-        title_en: 'Animation & Motion Graphics',
-        title_ar: 'الرسوم المتحركة والموشن جرافيك',
-        slug: 'animation-motion-graphics',
-        description_en: 'Creative animations and motion graphics that bring ideas to life.',
-        description_ar: 'رسوم متحركة وموشن جرافيك إبداعية تحيي الأفكار.',
-        category: 'animation',
-        featured: true,
-        order: 4,
-      },
-      {
-        title_en: 'Event Coverage',
-        title_ar: 'تغطية الفعاليات',
-        slug: 'event-coverage',
-        description_en: 'Professional event coverage that captures every important moment.',
-        description_ar: 'تغطية احترافية للفعاليات تلتقط كل لحظة مهمة.',
-        category: 'video-production',
-        featured: false,
-        order: 5,
-      },
-      {
-        title_en: 'Social Media Content',
-        title_ar: 'محتوى وسائل التواصل الاجتماعي',
-        slug: 'social-media-content',
-        description_en: 'Engaging social media content optimized for maximum reach and engagement.',
-        description_ar: 'محتوى جذاب لوسائل التواصل الاجتماعي محسّن لأقصى وصول وتفاعل.',
-        category: 'video-production',
-        featured: false,
-        order: 6,
-      },
-    ]
-
-    let servicesCreated = 0
-    for (const service of services) {
-      try {
-        // Check if service already exists
-        const existing = await payload.find({
-          collection: 'services',
-          where: {
-            slug: {
-              equals: service.slug,
-            },
-          },
-        })
-
-        if (existing.docs.length === 0) {
-          await payload.create({
-            collection: 'services',
-            data: service,
-          })
-          servicesCreated++
-        } else {
-          console.log(`   ⏭️  Service "${service.slug}" already exists, skipping...`)
-        }
-      } catch (error) {
-        console.log(`   ⚠️  Error creating service "${service.slug}":`, error.message)
-      }
-    }
-    console.log(`✅ ${servicesCreated} services seeded (${services.length - servicesCreated} already existed)\n`)
-
-    // 3. Seed Team Members (without photos for now - can be added via CMS)
+    // 2. Seed Team Members (without photos for now - can be added via CMS)
     console.log('📝 Seeding Team Members...')
     console.log('⚠️  Skipping team members - photos are required. Add via CMS at /admin')
     // Team members require photo uploads which we can't seed programmatically
@@ -266,7 +173,7 @@ async function seed() {
         title_ar: 'تأسيس دي إن إيه ميديا',
         description_en: 'Started with a vision to revolutionize video production in Saudi Arabia.',
         description_ar: 'بدأنا برؤية لإحداث ثورة في إنتاج الفيديو في المملكة العربية السعودية.',
-        type: 'milestone',
+        type: 'milestone' as const,
       },
       {
         year: 2017,
@@ -274,7 +181,7 @@ async function seed() {
         title_ar: 'أول جائزة كبرى',
         description_en: 'Won Best Commercial at the Middle East Video Awards.',
         description_ar: 'فزنا بجائزة أفضل إعلان تجاري في جوائز الفيديو في الشرق الأوسط.',
-        type: 'award',
+        type: 'award' as const,
       },
       {
         year: 2019,
@@ -282,7 +189,7 @@ async function seed() {
         title_ar: 'التوسع إلى دبي',
         description_en: 'Opened our second office in Dubai to serve the wider GCC market.',
         description_ar: 'افتتحنا مكتبنا الثاني في دبي لخدمة سوق دول مجلس التعاون الخليجي الأوسع.',
-        type: 'milestone',
+        type: 'milestone' as const,
       },
       {
         year: 2021,
@@ -290,7 +197,7 @@ async function seed() {
         title_ar: 'التميز في الأفلام الوثائقية',
         description_en: 'Received recognition for our documentary work at the Dubai International Film Festival.',
         description_ar: 'حصلنا على تقدير لعملنا الوثائقي في مهرجان دبي السينمائي الدولي.',
-        type: 'award',
+        type: 'award' as const,
       },
       {
         year: 2023,
@@ -298,7 +205,7 @@ async function seed() {
         title_ar: 'إنجاز أكثر من 100 مشروع',
         description_en: 'Celebrated completing over 100 successful projects for leading brands.',
         description_ar: 'احتفلنا بإنجاز أكثر من 100 مشروع ناجح للعلامات التجارية الرائدة.',
-        type: 'milestone',
+        type: 'milestone' as const,
       },
     ]
 
@@ -327,8 +234,8 @@ async function seed() {
         } else {
           console.log(`   ⏭️  Timeline "${item.year} - ${item.title_en}" already exists, skipping...`)
         }
-      } catch (error) {
-        console.log(`   ⚠️  Error creating timeline item:`, error.message)
+      } catch (error: unknown) {
+        console.log(`   ⚠️  Error creating timeline item:`, (error as Error).message)
       }
     }
     console.log(`✅ ${timelineCreated} timeline items seeded (${timeline.length - timelineCreated} already existed)\n`)
@@ -352,7 +259,7 @@ async function seed() {
         title_en: 'Home',
         title_ar: 'الرئيسية',
         slug: 'home',
-        status: 'published',
+        status: 'published' as const,
         hero: {
           heading_en: 'Crafting Visual Stories That Inspire',
           heading_ar: 'صياغة قصص بصرية تلهم',
@@ -375,7 +282,7 @@ async function seed() {
         title_en: 'About Us',
         title_ar: 'من نحن',
         slug: 'about',
-        status: 'published',
+        status: 'published' as const,
         hero: {
           heading_en: 'We Are DNA Media',
           heading_ar: 'نحن دي إن إيه ميديا',
@@ -394,7 +301,7 @@ async function seed() {
         title_en: 'Contact Us',
         title_ar: 'اتصل بنا',
         slug: 'contact',
-        status: 'published',
+        status: 'published' as const,
         hero: {
           heading_en: 'Let\'s Create Something Amazing',
           heading_ar: 'لنصنع شيئًا مذهلاً',
@@ -433,8 +340,8 @@ async function seed() {
         } else {
           console.log(`   ⏭️  Page "${page.slug}" already exists, skipping...`)
         }
-      } catch (error) {
-        console.log(`   ⚠️  Error creating page "${page.slug}":`, error.message)
+      } catch (error: unknown) {
+        console.log(`   ⚠️  Error creating page "${page.slug}":`, (error as Error).message)
       }
     }
     console.log(`✅ ${pagesCreated} pages seeded (${pages.length - pagesCreated} already existed)\n`)
@@ -447,7 +354,7 @@ async function seed() {
     console.log('🎉 Seed process completed successfully!\n')
     console.log('📊 Summary:')
     console.log(`   - Settings: 1 global updated`)
-    console.log(`   - Services: ${servicesCreated} created`)
+    console.log(`   - Services: managed via CMS`)
     console.log(`   - Timeline: ${timelineCreated} created`)
     console.log(`   - Pages: ${pagesCreated} created`)
     console.log('\n⚠️  Note: The following collections require file uploads and should be added via CMS:')

@@ -11,7 +11,6 @@ import { Portfolio } from './collections/Portfolio'
 import { Team } from './collections/Team'
 import { Clients } from './collections/Clients'
 import { Timeline } from './collections/Timeline'
-import { CTA } from './collections/CTA'
 import { Settings } from './globals/Settings'
 
 const filename = fileURLToPath(import.meta.url)

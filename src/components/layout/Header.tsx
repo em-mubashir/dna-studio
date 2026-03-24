@@ -9,8 +9,8 @@ import type { Language } from '@/src/lib/utils/language';
 interface MenuItem {
   label_en: string;
   label_ar: string;
-  description_en?: string;
-  description_ar?: string;
+  description_en?: string | null;
+  description_ar?: string | null;
   url: string;
   order: number;
 }

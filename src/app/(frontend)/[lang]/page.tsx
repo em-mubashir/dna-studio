@@ -154,31 +154,31 @@ export default async function HomePage({ params }: HomePageProps) {
       {/* Tagline Section */}
       <TaglineSection 
         lang={lang as Language} 
-        taglineText={taglineText}
-        buttonText={taglineButtonText}
-        buttonLink={taglineButtonLink}
+        taglineText={taglineText ?? undefined}
+        buttonText={taglineButtonText ?? undefined}
+        buttonLink={taglineButtonLink ?? undefined}
       />
 
       {/* Featured Work Section */}
       <FeaturedWorkSection 
         lang={lang as Language}
-        projectNumber={featuredWork?.projectNumber}
-        serviceType={featuredWorkServiceType}
-        projectTitle={featuredWorkProjectTitle}
+        projectNumber={featuredWork?.projectNumber ?? undefined}
+        serviceType={featuredWorkServiceType ?? undefined}
+        projectTitle={featuredWorkProjectTitle ?? undefined}
         backgroundImage={featuredWork?.backgroundImage}
-        backgroundVideo={featuredWork?.backgroundVideo}
-        projectLink={featuredWork?.projectLink}
-        soundOnText={featuredWorkSoundOn}
-        soundOffText={featuredWorkSoundOff}
+        backgroundVideo={featuredWork?.backgroundVideo ?? undefined}
+        projectLink={featuredWork?.projectLink ?? undefined}
+        soundOnText={featuredWorkSoundOn ?? undefined}
+        soundOffText={featuredWorkSoundOff ?? undefined}
       />
 
       {/* About Section */}
       <AboutSection 
         lang={lang as Language}
-        label={aboutLabel}
-        heading={aboutHeading}
+        label={aboutLabel ?? undefined}
+        heading={aboutHeading ?? undefined}
         image={about?.image}
-        description={aboutDescription}
+        description={aboutDescription ?? undefined}
       />
 
       {/* Featured Portfolio */}
@@ -193,8 +193,8 @@ export default async function HomePage({ params }: HomePageProps) {
       {/* CTA Section */}
       <CTASection 
         lang={lang as Language}
-        heading={ctaHeading}
-        buttonLink={cta?.buttonLink}
+        heading={ctaHeading ?? undefined}
+        buttonLink={cta?.buttonLink ?? undefined}
         backgroundImage={cta?.backgroundImage}
         circleImage={cta?.circleImage}
       />

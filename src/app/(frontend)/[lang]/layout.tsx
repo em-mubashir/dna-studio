@@ -65,7 +65,7 @@ export default async function LanguageLayout({
 
   return (
     <div lang={lang} dir={direction} className={fontClass}>
-      <Header lang={lang as Language} menuItems={menuItems} logo={logo} logoAlt={logoAlt} />
+      <Header lang={lang as Language} menuItems={menuItems} logo={logo} logoAlt={logoAlt ?? undefined} />
       {children}
       <Footer lang={lang as Language} footerData={footerData} />
     </div>

@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { type Language, getBilingualField } from '@/src/lib/utils/language'
 import { getBlogPosts } from '@/src/lib/payload'
 import BlogCard from '@/src/components/blog/BlogCard'
+import type { Blog } from '@/src/payload-types'
 
 interface BlogPageProps {
   params: Promise<{ lang: string }>
@@ -132,7 +133,7 @@ export default async function BlogPage({ params, searchParams }: BlogPageProps) 
             <>
               {/* Posts Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-                {posts.map((post) => (
+                {posts.map((post: Blog) => (
                   <BlogCard key={post.id} post={post} lang={lang as Language} />
                 ))}
               </div>

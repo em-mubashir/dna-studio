@@ -106,7 +106,7 @@ export default function Header({ lang, menuItems = [], logo, logoAlt }: HeaderPr
           className="fixed inset-0 top-[72px] md:top-[120px] bg-black/95 z-40"
           onClick={() => setMenuOpen(false)}
         >
-          <nav className="px-4 md:px-12 py-20 md:py-[120px] flex flex-col items-center gap-0">
+          <nav className="px-4 md:px-12 py-4 md:py-4 flex flex-col items-center gap-0">
             {sortedMenuItems.map((item, index) => (
               <MenuItem 
                 key={index}
@@ -130,7 +130,7 @@ function MenuItem({ href, label, description }: { href: string; label: string; d
       style={{
         width: '100%',
         maxWidth: '1824px',
-        height: '80px',
+        height: '120px',
         opacity: 1,
       }}
     >

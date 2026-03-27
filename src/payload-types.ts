@@ -186,9 +186,73 @@ export interface Page {
     cta_text_en?: string | null;
     cta_text_ar?: string | null;
     /**
-     * URL or path (e.g., "/contact" or "https://example.com")
+     * URL or path (e.g., "/contact")
      */
     cta_link?: string | null;
+  };
+  /**
+   * Tagline displayed below the hero on the homepage
+   */
+  tagline?: {
+    text_en?: string | null;
+    text_ar?: string | null;
+    button_text_en?: string | null;
+    button_text_ar?: string | null;
+    button_link?: string | null;
+  };
+  /**
+   * Showcase a featured project on the homepage
+   */
+  featuredWork?: {
+    projectNumber?: string | null;
+    serviceType_en?: string | null;
+    serviceType_ar?: string | null;
+    projectTitle_en?: string | null;
+    projectTitle_ar?: string | null;
+    /**
+     * 1824×920px recommended
+     */
+    backgroundImage?: (string | null) | Media;
+    /**
+     * Optional Vimeo video ID. Video will overlay the image.
+     */
+    backgroundVideo?: string | null;
+    projectLink?: string | null;
+    soundOn_en?: string | null;
+    soundOn_ar?: string | null;
+    soundOff_en?: string | null;
+    soundOff_ar?: string | null;
+  };
+  /**
+   * About DNA Studio section on the homepage
+   */
+  aboutSection?: {
+    label_en?: string | null;
+    label_ar?: string | null;
+    heading_en?: string | null;
+    heading_ar?: string | null;
+    /**
+     * 1368×618px recommended
+     */
+    image?: (string | null) | Media;
+    description_en?: string | null;
+    description_ar?: string | null;
+  };
+  /**
+   * Call-to-action section on the homepage
+   */
+  ctaSection?: {
+    heading_en?: string | null;
+    heading_ar?: string | null;
+    buttonLink?: string | null;
+    /**
+     * 1824×1080px recommended
+     */
+    backgroundImage?: (string | null) | Media;
+    /**
+     * 500×500px recommended
+     */
+    circleImage?: (string | null) | Media;
   };
   /**
    * Add flexible content sections to build your page
@@ -251,43 +315,43 @@ export interface Page {
     | null;
   seo?: {
     /**
-     * Recommended: 50-60 characters
+     * 50-60 characters recommended
      */
     meta_title_en?: string | null;
     /**
-     * Recommended: 50-60 characters
+     * 50-60 characters recommended
      */
     meta_title_ar?: string | null;
     /**
-     * Recommended: 150-160 characters
+     * 150-160 characters recommended
      */
     meta_description_en?: string | null;
     /**
-     * Recommended: 150-160 characters
+     * 150-160 characters recommended
      */
     meta_description_ar?: string | null;
     /**
-     * Recommended size: 1200×630px for social media sharing
+     * 1200×630px recommended
      */
     og_image?: (string | null) | Media;
     /**
-     * Comma-separated keywords for SEO
+     * Comma-separated keywords
      */
     keywords_en?: string | null;
     /**
-     * Comma-separated keywords for SEO
+     * Comma-separated keywords
      */
     keywords_ar?: string | null;
     /**
-     * Optional: Specify the canonical URL if different from the page URL
+     * Optional: if different from the page URL
      */
     canonical_url?: string | null;
     /**
-     * Prevent search engines from indexing this page
+     * Prevent search engines from indexing
      */
     noindex?: boolean | null;
     /**
-     * Prevent search engines from following links on this page
+     * Prevent search engines from following links
      */
     nofollow?: boolean | null;
   };
@@ -798,6 +862,51 @@ export interface PagesSelect<T extends boolean = true> {
         cta_text_ar?: T;
         cta_link?: T;
       };
+  tagline?:
+    | T
+    | {
+        text_en?: T;
+        text_ar?: T;
+        button_text_en?: T;
+        button_text_ar?: T;
+        button_link?: T;
+      };
+  featuredWork?:
+    | T
+    | {
+        projectNumber?: T;
+        serviceType_en?: T;
+        serviceType_ar?: T;
+        projectTitle_en?: T;
+        projectTitle_ar?: T;
+        backgroundImage?: T;
+        backgroundVideo?: T;
+        projectLink?: T;
+        soundOn_en?: T;
+        soundOn_ar?: T;
+        soundOff_en?: T;
+        soundOff_ar?: T;
+      };
+  aboutSection?:
+    | T
+    | {
+        label_en?: T;
+        label_ar?: T;
+        heading_en?: T;
+        heading_ar?: T;
+        image?: T;
+        description_en?: T;
+        description_ar?: T;
+      };
+  ctaSection?:
+    | T
+    | {
+        heading_en?: T;
+        heading_ar?: T;
+        buttonLink?: T;
+        backgroundImage?: T;
+        circleImage?: T;
+      };
   sections?:
     | T
     | {
@@ -1041,7 +1150,7 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   createdAt?: T;
 }
 /**
- * Global site settings including contact information and social media links
+ * Global site settings — contact, social, branding, navigation, footer
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "settings".
@@ -1050,245 +1159,76 @@ export interface Setting {
   id: string;
   contact: {
     /**
-     * Primary contact email for the company
+     * Primary contact email
      */
     email: string;
     /**
-     * Primary contact phone number (e.g., "+966 12 345 6789")
+     * e.g., "+966 12 345 6789"
      */
     phone: string;
-    /**
-     * Full company address in English
-     */
     address_en: string;
-    /**
-     * Full company address in Arabic
-     */
     address_ar: string;
-    /**
-     * Google Maps embed URL for the contact page
-     */
     mapUrl?: string | null;
   };
   social?: {
-    /**
-     * Full URL to Facebook page (e.g., "https://facebook.com/dnamedia")
-     */
     facebook?: string | null;
-    /**
-     * Full URL to Instagram profile (e.g., "https://instagram.com/dnamedia")
-     */
     instagram?: string | null;
-    /**
-     * Full URL to Twitter/X profile (e.g., "https://twitter.com/dnamedia")
-     */
     twitter?: string | null;
-    /**
-     * Full URL to LinkedIn company page (e.g., "https://linkedin.com/company/dnamedia")
-     */
     linkedin?: string | null;
-    /**
-     * Full URL to YouTube channel (e.g., "https://youtube.com/@dnamedia")
-     */
     youtube?: string | null;
-    /**
-     * Full URL to TikTok profile (e.g., "https://tiktok.com/@dnamedia")
-     */
     tiktok?: string | null;
-    /**
-     * Full URL to Vimeo profile (e.g., "https://vimeo.com/dnamedia")
-     */
     vimeo?: string | null;
   };
   branding?: {
     /**
-     * Company logo for header and footer (SVG or PNG recommended)
+     * SVG or PNG recommended
      */
     logo?: (string | null) | Media;
-    /**
-     * Alternative text for the logo (for accessibility)
-     */
     logoAlt_en?: string | null;
-    /**
-     * Alternative text for the logo in Arabic
-     */
     logoAlt_ar?: string | null;
     /**
-     * Site favicon (32×32px or 64×64px PNG/ICO)
+     * 32×32px or 64×64px PNG/ICO
      */
     favicon?: (string | null) | Media;
   };
   seo?: {
-    /**
-     * Default site name for SEO (e.g., "DNA Media")
-     */
     site_name_en?: string | null;
-    /**
-     * Default site name in Arabic
-     */
     site_name_ar?: string | null;
     /**
-     * Default meta description for pages without custom descriptions
+     * Fallback meta description
      */
     site_description_en?: string | null;
-    /**
-     * Default meta description in Arabic
-     */
     site_description_ar?: string | null;
     /**
-     * Default image for social media sharing (1200×630px recommended)
+     * 1200×630px recommended
      */
     og_image?: (string | null) | Media;
   };
   businessHours?: {
     /**
-     * Operating hours in English (e.g., "Sunday - Thursday: 9:00 AM - 6:00 PM")
+     * e.g., "Sunday - Thursday: 9:00 AM - 6:00 PM"
      */
     hours_en?: string | null;
-    /**
-     * Operating hours in Arabic
-     */
     hours_ar?: string | null;
   };
   navigation?: {
-    /**
-     * Navigation menu items that appear in the header
-     */
     menuItems?:
       | {
-          /**
-           * Menu item label in English (e.g., "Home")
-           */
           label_en: string;
-          /**
-           * Menu item label in Arabic (e.g., "المنزل")
-           */
           label_ar: string;
-          /**
-           * Short description in English (e.g., "Main page")
-           */
           description_en?: string | null;
-          /**
-           * Short description in Arabic (e.g., "الصفحة الرئيسية")
-           */
           description_ar?: string | null;
           /**
-           * Relative URL without language prefix (e.g., "/" for home, "/about" for about)
+           * Relative URL without language prefix (e.g., "/about")
            */
           url: string;
           /**
-           * Display order (lower numbers appear first)
+           * Lower numbers appear first
            */
           order: number;
           id?: string | null;
         }[]
       | null;
-  };
-  tagline: {
-    /**
-     * Main tagline text displayed on homepage
-     */
-    text_en: string;
-    /**
-     * Main tagline text in Arabic
-     */
-    text_ar: string;
-    button_text_en?: string | null;
-    button_text_ar?: string | null;
-    /**
-     * Relative URL without language prefix (e.g., "/portfolio")
-     */
-    button_link?: string | null;
-  };
-  featuredWork: {
-    /**
-     * Project number displayed in top-left (e.g., "01", "02")
-     */
-    projectNumber?: string | null;
-    /**
-     * Service type displayed in top-right
-     */
-    serviceType_en?: string | null;
-    /**
-     * Service type in Arabic
-     */
-    serviceType_ar?: string | null;
-    /**
-     * Project title displayed in bottom-left
-     */
-    projectTitle_en?: string | null;
-    /**
-     * Project title in Arabic
-     */
-    projectTitle_ar?: string | null;
-    /**
-     * Background image for featured work section (1824×920px recommended)
-     */
-    backgroundImage: string | Media;
-    /**
-     * Optional Vimeo video ID (e.g., "123456789"). Video will overlay the image.
-     */
-    backgroundVideo?: string | null;
-    /**
-     * Link to project detail page (e.g., "/portfolio/project-slug")
-     */
-    projectLink?: string | null;
-    soundOn_en?: string | null;
-    soundOn_ar?: string | null;
-    soundOff_en?: string | null;
-    soundOff_ar?: string | null;
-  };
-  about: {
-    /**
-     * Label text displayed on the left side
-     */
-    label_en?: string | null;
-    /**
-     * Label text in Arabic
-     */
-    label_ar?: string | null;
-    /**
-     * Main heading text (will be displayed in uppercase)
-     */
-    heading_en: string;
-    /**
-     * Main heading text in Arabic
-     */
-    heading_ar: string;
-    /**
-     * Main image for about section (1368×618px recommended)
-     */
-    image: string | Media;
-    /**
-     * Body text (will be displayed in uppercase)
-     */
-    description_en: string;
-    /**
-     * Body text in Arabic
-     */
-    description_ar: string;
-  };
-  cta: {
-    /**
-     * Main CTA heading (will be displayed in uppercase)
-     */
-    heading_en: string;
-    /**
-     * Main CTA heading in Arabic
-     */
-    heading_ar: string;
-    /**
-     * Link for the CTA button (e.g., "/contact")
-     */
-    buttonLink?: string | null;
-    /**
-     * Background image for CTA section (1824×1080px recommended)
-     */
-    backgroundImage: string | Media;
-    /**
-     * Circular masked image (500×500px recommended)
-     */
-    circleImage?: (string | null) | Media;
   };
   footer?: {
     office_heading_en?: string | null;
@@ -1297,27 +1237,18 @@ export interface Setting {
     mail_heading_ar?: string | null;
     follow_heading_en?: string | null;
     follow_heading_ar?: string | null;
-    /**
-     * Email addresses to display in footer
-     */
     emails?:
       | {
           /**
-           * Optional label (e.g., "General Inquiries")
+           * e.g., "General Inquiries"
            */
           label?: string | null;
           email: string;
           id?: string | null;
         }[]
       | null;
-    /**
-     * Social media links to display in footer
-     */
     socialLinks?:
       | {
-          /**
-           * e.g., "Instagram", "LinkedIn", "Facebook"
-           */
           platform: string;
           url: string;
           id?: string | null;
@@ -1327,12 +1258,9 @@ export interface Setting {
     copyright_ar?: string | null;
     terms_en?: string | null;
     terms_ar?: string | null;
-    /**
-     * URL for terms page (e.g., "/terms")
-     */
     terms_link?: string | null;
     /**
-     * Background image for footer (1908×213px recommended)
+     * 1908×213px recommended
      */
     background_image?: (string | null) | Media;
   };
@@ -1401,51 +1329,6 @@ export interface SettingsSelect<T extends boolean = true> {
               order?: T;
               id?: T;
             };
-      };
-  tagline?:
-    | T
-    | {
-        text_en?: T;
-        text_ar?: T;
-        button_text_en?: T;
-        button_text_ar?: T;
-        button_link?: T;
-      };
-  featuredWork?:
-    | T
-    | {
-        projectNumber?: T;
-        serviceType_en?: T;
-        serviceType_ar?: T;
-        projectTitle_en?: T;
-        projectTitle_ar?: T;
-        backgroundImage?: T;
-        backgroundVideo?: T;
-        projectLink?: T;
-        soundOn_en?: T;
-        soundOn_ar?: T;
-        soundOff_en?: T;
-        soundOff_ar?: T;
-      };
-  about?:
-    | T
-    | {
-        label_en?: T;
-        label_ar?: T;
-        heading_en?: T;
-        heading_ar?: T;
-        image?: T;
-        description_en?: T;
-        description_ar?: T;
-      };
-  cta?:
-    | T
-    | {
-        heading_en?: T;
-        heading_ar?: T;
-        buttonLink?: T;
-        backgroundImage?: T;
-        circleImage?: T;
       };
   footer?:
     | T

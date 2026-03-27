@@ -2,8 +2,6 @@ import { type Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { type Language, getBilingualField } from '@/src/lib/utils/language'
 import { getPageBySlug, getFeaturedPortfolio } from '@/src/lib/payload'
-import { getPayload } from 'payload'
-import config from '@/src/payload/payload.config'
 import HeroSection from '@/src/components/sections/HeroSection'
 import TaglineSection from '@/src/components/sections/TaglineSection'
 import FeaturedWorkSection from '@/src/components/sections/FeaturedWorkSection'
@@ -88,26 +86,20 @@ export default async function HomePage({ params }: HomePageProps) {
     notFound()
   }
 
-  // Fetch settings for tagline
-  const payload = await getPayload({ config })
-  const settings = await payload.findGlobal({
-    slug: 'settings',
-  })
-
   // Fetch featured portfolio items
   const portfolioItems = await getFeaturedPortfolio(6)
 
-  // Get tagline content
+  // Get tagline content from page
   const taglineText = lang === 'ar' 
-    ? settings?.tagline?.text_ar 
-    : settings?.tagline?.text_en
+    ? page?.tagline?.text_ar 
+    : page?.tagline?.text_en
   const taglineButtonText = lang === 'ar'
-    ? settings?.tagline?.button_text_ar
-    : settings?.tagline?.button_text_en
-  const taglineButtonLink = settings?.tagline?.button_link
+    ? page?.tagline?.button_text_ar
+    : page?.tagline?.button_text_en
+  const taglineButtonLink = page?.tagline?.button_link
 
-  // Get featured work content
-  const featuredWork = settings?.featuredWork
+  // Get featured work content from page
+  const featuredWork = page?.featuredWork
   const featuredWorkServiceType = lang === 'ar'
     ? featuredWork?.serviceType_ar
     : featuredWork?.serviceType_en
@@ -121,8 +113,8 @@ export default async function HomePage({ params }: HomePageProps) {
     ? featuredWork?.soundOff_ar
     : featuredWork?.soundOff_en
 
-  // Get about section content
-  const about = settings?.about
+  // Get about section content from page
+  const about = page?.aboutSection
   const aboutLabel = lang === 'ar'
     ? about?.label_ar
     : about?.label_en
@@ -133,8 +125,8 @@ export default async function HomePage({ params }: HomePageProps) {
     ? about?.description_ar
     : about?.description_en
 
-  // Get CTA section content
-  const cta = settings?.cta
+  // Get CTA section content from page
+  const cta = page?.ctaSection
   const ctaHeading = lang === 'ar'
     ? cta?.heading_ar
     : cta?.heading_en

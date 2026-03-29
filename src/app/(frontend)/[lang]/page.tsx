@@ -9,6 +9,8 @@ import AboutSection from '@/src/components/sections/AboutSection'
 import PortfolioGrid from '@/src/components/sections/PortfolioGrid'
 import CTASection from '@/src/components/sections/CTASection'
 
+export const dynamic = 'force-dynamic'
+
 interface HomePageProps {
   params: Promise<{ lang: string }>;
 }
@@ -32,7 +34,6 @@ export async function generateMetadata({ params }: HomePageProps): Promise<Metad
   // Get the base URL from environment or default
   const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'https://dnamedia.com'
   const currentUrl = `${baseUrl}/${lang}`
-  const alternateUrl = `${baseUrl}/${lang === 'en' ? 'ar' : 'en'}`
 
   return {
     title: metaTitle || getBilingualField<string>(page, 'title', lang as Language),

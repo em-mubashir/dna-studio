@@ -5,6 +5,8 @@ import { getBlogPosts } from '@/src/lib/payload'
 import BlogCard from '@/src/components/blog/BlogCard'
 import type { Blog } from '@/src/payload-types'
 
+export const dynamic = 'force-dynamic'
+
 interface BlogPageProps {
   params: Promise<{ lang: string }>
   searchParams: Promise<{ page?: string; category?: string }>

@@ -5,6 +5,8 @@ import Footer from '@/src/components/layout/Footer';
 import { getPayload } from 'payload';
 import config from '@/src/payload/payload.config';
 
+export const dynamic = 'force-dynamic';
+
 export async function generateStaticParams() {
   return [
     { lang: 'en' },
@@ -32,10 +34,13 @@ export default async function LanguageLayout({
   const fontClass = lang === 'ar' ? 'font-arabic' : 'font-sans';
 
   // Fetch navigation data from CMS
-  const payload = await getPayload({ config });
-  const settings = await payload.findGlobal({
-    slug: 'settings',
-  });
+  let settings: any = null;
+  try {
+    const payload = await getPayload({ config });
+    settings = await payload.findGlobal({ slug: 'settings' });
+  } catch {
+    // DB unavailable (e.g. during build) — use empty defaults
+  }
 
   const menuItems = settings?.navigation?.menuItems || [];
   const logo = settings?.branding?.logo;

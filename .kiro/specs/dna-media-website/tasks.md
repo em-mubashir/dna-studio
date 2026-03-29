@@ -34,26 +34,26 @@
 - [x] Create Users collection with admin/editor roles
 
 ### Day 3-4: Create Payload Collections
-- [ ] Create Pages collection (hero, sections, SEO)
-- [ ] Create Blog collection (bilingual content)
-- [ ] Create Portfolio collection (videos, thumbnails)
-- [ ] Create Services collection
-- [ ] Create Team collection
-- [ ] Create Clients collection (for logo carousel)
-- [ ] Create Timeline collection (milestones/awards)
-- [ ] Create Media collection (with WebP conversion)
-- [ ] Create Settings global (contact info, social links)
-- [ ] Register all collections in payload.config.ts
+- [x] Create Pages collection (hero, sections, SEO)
+- [x] Create Blog collection (bilingual content)
+- [x] Create Portfolio collection (videos, thumbnails)
+- [x] Create Services collection
+- [x] Create Team collection
+- [x] Create Clients collection (for logo carousel)
+- [x] Create Timeline collection (milestones/awards)
+- [x] Create Media collection (with WebP conversion)
+- [x] Create Settings global (contact info, social links)
+- [x] Register all collections in payload.config.ts
 
 
 ### Day 4-5: Environment Setup & Testing
 - [x] Set up local MongoDB
 - [x] Configure environment variables
 - [x] Update package.json scripts (dev uses --webpack flag for Payload compatibility)
-- [ ] Generate Payload types
-- [ ] Test CMS collections
+- [x] Generate Payload types
+- [x] Test CMS collections
 - [x] Create first admin user
-- [ ] Add sample content to test collections
+- [x] Add sample content to test collections
 
 ---
 
@@ -61,32 +61,32 @@
 
 ### Day 6-7: Next.js App Router Setup
 - [x] Create route group structure ((frontend) and (payload))
-- [ ] Create [lang] dynamic route under (frontend)
-- [ ] Create root layout with fonts (Inter, Cairo) in (frontend)/layout.tsx
-- [ ] Set up language routing (en, ar)
-- [ ] Create language utilities (getBilingualField)
-- [ ] Add Header component placeholder
-- [ ] Add Footer component placeholder
-- [ ] Test language switching
+- [x] Create [lang] dynamic route under (frontend)
+- [x] Create root layout with fonts (Inter, Cairo) in (frontend)/layout.tsx
+- [x] Set up language routing (en, ar)
+- [x] Create language utilities (getBilingualField)
+- [x] Add Header component placeholder
+- [x] Add Footer component placeholder
+- [x] Test language switching
 
 ### Day 7-8: Homepage Implementation
-- [ ] Create homepage (src/app/(frontend)/[lang]/page.tsx)
-- [ ] Fetch data from Pages collection
-- [ ] Create HeroSection component
-- [ ] Create PortfolioGrid component
-- [ ] Create ServicesSection component
-- [ ] Add metadata generation
-- [ ] Test with CMS data
+- [x] Create homepage (src/app/(frontend)/[lang]/page.tsx)
+- [x] Fetch data from Pages collection
+- [x] Create HeroSection component
+- [x] Create PortfolioGrid component
+- [x] Create ServicesSection component
+- [x] Add metadata generation
+- [x] Test with CMS data
 
 ### Day 8-9: Blog Pages
-- [ ] Create blog listing page
-- [ ] Add pagination logic
-- [ ] Add category filtering
-- [ ] Create blog post page ([slug])
-- [ ] Create BlogCard component
-- [ ] Create BlogContent component (rich text)
-- [ ] Generate static params for blog posts
-- [ ] Test bilingual blog content
+- [x] Create blog listing page
+- [x] Add pagination logic
+- [x] Add category filtering
+- [x] Create blog post page ([slug])
+- [x] Create BlogCard component
+- [x] Create BlogContent component (rich text)
+- [x] Generate static params for blog posts
+- [x] Test bilingual blog content
 
 ### Day 9-10: Tailwind RTL Configuration
 - [ ] Fix Tailwind content paths to scan src/ directory

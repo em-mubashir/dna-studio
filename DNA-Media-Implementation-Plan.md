@@ -132,7 +132,7 @@ npx create-next-app@latest dna-media-website --typescript --tailwind --app --no-
 cd dna-media-website
 
 # Install Payload CMS and dependencies
-npm install payload @payloadcms/db-mongodb @payloadcms/richtext-slate
+npm install payload @payloadcms/db-mongodb @payloadcms/richtext-lexical
 npm install @payloadcms/bundler-webpack
 
 # Install additional dependencies
@@ -168,7 +168,7 @@ Create `src/payload/payload.config.ts`:
 import { buildConfig } from 'payload/config';
 import { mongooseAdapter } from '@payloadcms/db-mongodb';
 import { webpackBundler } from '@payloadcms/bundler-webpack';
-import { slateEditor } from '@payloadcms/richtext-slate';
+import { lexicalEditor } from '@payloadcms/richtext-lexical';
 import path from 'path';
 
 export default buildConfig({
@@ -177,7 +177,7 @@ export default buildConfig({
     bundler: webpackBundler(),
     user: 'users',
   },
-  editor: slateEditor({}),
+  editor: lexicalEditor({}),
   collections: [
     // We'll add collections here
   ],
@@ -3754,7 +3754,7 @@ backupDatabase();
     "react-dom": "^18.2.0",
     "payload": "^2.0.0",
     "@payloadcms/db-mongodb": "^2.0.0",
-    "@payloadcms/richtext-slate": "^2.0.0",
+    "@payloadcms/richtext-lexical": "^2.0.0",
     "@payloadcms/bundler-webpack": "^2.0.0",
     "gsap": "^3.12.0",
     "react-hook-form": "^7.48.0",

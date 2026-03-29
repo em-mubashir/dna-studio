@@ -3,8 +3,15 @@ import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import { lexicalEditorConfig } from './editor/lexical.config'
 import { Users } from './collections/Users'
+import { Pages } from './collections/Pages'
+import { Media } from './collections/Media'
+import { Blog } from './collections/Blog'
+import { Portfolio } from './collections/Portfolio'
+import { Team } from './collections/Team'
+import { Clients } from './collections/Clients'
+import { Timeline } from './collections/Timeline'
+import { Settings } from './globals/Settings'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -24,9 +31,9 @@ export default buildConfig({
     },
   },
 
-  collections: [Users],
+  collections: [Users, Pages, Blog, Portfolio, Team, Clients, Timeline, Media],
 
-  globals: [],
+  globals: [Settings],
 
   db: mongooseAdapter({
     url: process.env.DATABASE_URI || 'mongodb://localhost:27017/dna-media',
@@ -42,7 +49,11 @@ export default buildConfig({
     },
   }),
 
-  editor: lexicalEditor(lexicalEditorConfig),
+  editor: lexicalEditor({
+    features: ({ defaultFeatures }) => [
+      ...defaultFeatures,
+    ],
+  }),
 
   secret: process.env.PAYLOAD_SECRET || 'dna-media-dev-secret-change-in-production',
 

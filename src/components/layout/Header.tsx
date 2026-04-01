@@ -108,8 +108,15 @@ export default function Header({ lang, menuItems = [], logo, logoAlt }: HeaderPr
         >
           <nav className="px-4 md:px-12 py-4 md:py-4 flex flex-col items-center gap-0">
             {sortedMenuItems.map((item, index) => {
-              // Normalize: strip leading slash, treat "home" or "/" as homepage
-              const cleanUrl = item.url.replace(/^\//, '')
+              // Normalize: handle full URLs, relative paths, strip lang prefix
+              let cleanUrl = (item.url || '').trim()
+              
+              // Strip full URL origin if present (e.g. http://localhost:3000/en/works -> /en/works)
+              cleanUrl = cleanUrl.replace(/^https?:\/\/[^/]+/, '')
+              
+              // Strip leading slash and language prefix
+              cleanUrl = cleanUrl.replace(/^\//, '').replace(/^(en|ar)(\/|$)/, '')
+              
               const isHome = cleanUrl === '' || cleanUrl === 'home'
               const href = isHome ? `/${lang}` : `/${lang}/${cleanUrl}`
               return (

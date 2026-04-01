@@ -29,7 +29,7 @@ export default function TaglineSection({
     : 'ONE FRAME AT A TIME. YOUR FULL-FLEDGED CREATIVE AND PRODUCTION PARTNER.');
 
   const btnText = buttonText || (isArabic ? 'عرض جميع الأعمال' : 'VIEW ALL WORKS');
-  const btnLink = buttonLink || '/portfolio';
+  const btnLink = buttonLink || '/works';
 
   return (
     <section className="w-full bg-black py-20 md:py-32">

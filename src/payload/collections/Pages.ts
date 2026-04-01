@@ -54,12 +54,15 @@ export const Pages: CollectionConfig = {
     },
 
     // ──────────────────────────────────────────
-    // Hero Section (all pages)
+    // Hero Section (home, team, about, contact — NOT works)
     // ──────────────────────────────────────────
     {
       name: 'hero',
       type: 'group',
       label: 'Hero Section',
+      admin: {
+        condition: (data) => data?.slug !== 'works',
+      },
       fields: [
         { name: 'heading_en', type: 'textarea', label: 'Heading (English)' },
         { name: 'heading_ar', type: 'textarea', label: 'Heading (Arabic)' },
@@ -148,7 +151,7 @@ export const Pages: CollectionConfig = {
         },
         { name: 'button_text_en', type: 'text', label: 'Button Text (English)', defaultValue: 'VIEW ALL WORKS' },
         { name: 'button_text_ar', type: 'text', label: 'Button Text (Arabic)', defaultValue: 'عرض جميع الأعمال' },
-        { name: 'button_link', type: 'text', label: 'Button Link', defaultValue: '/portfolio' },
+        { name: 'button_link', type: 'text', label: 'Button Link', defaultValue: '/works' },
       ],
     },
 
@@ -240,8 +243,7 @@ export const Pages: CollectionConfig = {
       type: 'group',
       label: 'CTA Section',
       admin: {
-        condition: (data) => data?.slug === 'home' || data?.slug === 'about',
-        description: 'Call-to-action section (available on homepage and about page)',
+        condition: (data) => data?.slug === 'home' || data?.slug === 'about' || data?.slug === 'works',
       },
       fields: [
         { name: 'heading_en', type: 'text', label: 'Heading (English)', defaultValue: "LET'S CREATE TOGETHER" },
@@ -288,6 +290,58 @@ export const Pages: CollectionConfig = {
             { name: 'text_ar', type: 'text', required: true, label: 'Text (Arabic)' },
           ],
         },
+      ],
+    },
+
+    // ──────────────────────────────────────────
+    // Works Page Sections
+    // ──────────────────────────────────────────
+    {
+      name: 'worksHeading',
+      type: 'group',
+      label: 'Works Page Heading',
+      admin: {
+        condition: (data) => data?.slug === 'works',
+        description: 'Heading text shown at the top of the works page',
+      },
+      fields: [
+        {
+          name: 'heading_en',
+          type: 'text',
+          label: 'Heading (English)',
+          defaultValue: 'AT DNA, WE EMBODY THE ESSENCE OF THE ART GENE',
+        },
+        {
+          name: 'heading_ar',
+          type: 'text',
+          label: 'Heading (Arabic)',
+          defaultValue: 'في DNA، نجسّد جوهر الفن الإبداعي',
+        },
+      ],
+    },
+    {
+      name: 'worksGrid',
+      type: 'array',
+      label: 'Works Grid Items',
+      admin: {
+        condition: (data) => data?.slug === 'works',
+        description: 'Add work items that appear in the 2-column grid on the works page',
+      },
+      fields: [
+        { name: 'project_en', type: 'text', required: true, label: 'Project Name (English)' },
+        { name: 'project_ar', type: 'text', required: true, label: 'Project Name (Arabic)' },
+        { name: 'industry_en', type: 'text', required: true, label: 'Industry (English)' },
+        { name: 'industry_ar', type: 'text', required: true, label: 'Industry (Arabic)' },
+        {
+          name: 'image',
+          type: 'upload',
+          relationTo: 'media',
+          required: true,
+          label: 'Cover Image',
+          admin: { description: 'Square image recommended (896×896px). Covers the full card.' },
+        },
+        { name: 'link', type: 'text', label: 'Link URL', admin: { description: 'Optional link when clicking the card' } },
+        { name: 'order', type: 'number', label: 'Order', defaultValue: 0 },
       ],
     },
 

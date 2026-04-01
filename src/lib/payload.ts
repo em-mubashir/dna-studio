@@ -47,33 +47,6 @@ export async function getPageBySlug(slug: string) {
 }
 
 /**
- * Fetch featured portfolio items
- * @param limit - Number of items to fetch (default: 6)
- * @returns Array of portfolio items
- */
-export async function getFeaturedPortfolio(limit: number = 6) {
-  try {
-    const payload = await getPayloadClient()
-    
-    const result = await payload.find({
-      collection: 'portfolio',
-      where: {
-        featured: {
-          equals: true,
-        },
-      },
-      limit,
-      sort: '-order',
-    })
-
-    return result.docs
-  } catch (error) {
-    console.error('Error fetching featured portfolio:', error)
-    return []
-  }
-}
-
-/**
  * Fetch all team members ordered by display order
  */
 export async function getTeamMembers() {

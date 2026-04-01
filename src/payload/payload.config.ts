@@ -7,7 +7,6 @@ import { Users } from './collections/Users'
 import { Pages } from './collections/Pages'
 import { Media } from './collections/Media'
 import { Blog } from './collections/Blog'
-import { Portfolio } from './collections/Portfolio'
 import { Team } from './collections/Team'
 import { Clients } from './collections/Clients'
 import { Timeline } from './collections/Timeline'
@@ -31,7 +30,7 @@ export default buildConfig({
     },
   },
 
-  collections: [Users, Pages, Blog, Portfolio, Team, Clients, Timeline, Media],
+  collections: [Users, Pages, Blog, Team, Clients, Timeline, Media],
 
   globals: [Settings],
 

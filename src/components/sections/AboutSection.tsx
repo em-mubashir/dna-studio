@@ -8,6 +8,7 @@ interface AboutSectionProps {
   heading?: string;
   image?: any;
   description?: string;
+  reverseSizes?: boolean;
 }
 
 /**
@@ -19,7 +20,8 @@ export default function AboutSection({
   label,
   heading,
   image,
-  description 
+  description,
+  reverseSizes = false,
 }: AboutSectionProps) {
   // Don't render if required content is missing
   if (!heading || !description) {
@@ -27,6 +29,9 @@ export default function AboutSection({
   }
 
   const imageUrl = image && typeof image === 'object' && 'url' in image ? image.url : null;
+
+  const headingSize = reverseSizes ? 'text-[24px] md:text-[40px]' : 'text-[40px] md:text-[80px]';
+  const descSize = reverseSizes ? 'text-[40px] md:text-[80px]' : 'text-[24px] md:text-[40px]';
 
   return (
     <section className="w-full bg-black py-20 md:py-32">
@@ -49,15 +54,13 @@ export default function AboutSection({
           style={{ width: '1368px', maxWidth: '100%' }}>
             {/* Heading */}
             <h2 
-              className="text-[40px] md:text-[80px] uppercase text-white mb-12"
+              className={`${headingSize} uppercase text-white mb-12`}
               style={{ 
                 fontFamily: 'Degular, sans-serif',
                 fontWeight: 700,
                 lineHeight: '1.0',
                 width: '100%',
                 maxWidth: '1368px',
-                paddingLeft: '150px',
-                paddingRight: '120px'
               }}
             >
               {heading}
@@ -78,15 +81,13 @@ export default function AboutSection({
 
             {/* Body Text */}
             <div 
-              className="text-[24px] md:text-[40px] uppercase text-white"
+              className={`${descSize} uppercase text-white`}
               style={{ 
                 fontFamily: 'Degular, sans-serif',
                 fontWeight: 700,
                 lineHeight: '1.2',
                 width: '100%',
                 maxWidth: '1368px',
-                paddingLeft: '150px',
-                paddingRight: '120px'
               }}
             >
               <p>

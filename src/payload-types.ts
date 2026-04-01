@@ -191,6 +191,21 @@ export interface Page {
     cta_link?: string | null;
   };
   /**
+   * Second hero banner (used on team and about pages)
+   */
+  hero2?: {
+    heading_en?: string | null;
+    heading_ar?: string | null;
+    /**
+     * Enter the Vimeo video ID (e.g., "123456789")
+     */
+    background_video?: string | null;
+    /**
+     * Fallback image if video is not available
+     */
+    background_image?: (string | null) | Media;
+  };
+  /**
    * Tagline displayed below the hero on the homepage
    */
   tagline?: {
@@ -224,7 +239,7 @@ export interface Page {
     soundOff_ar?: string | null;
   };
   /**
-   * About DNA Studio section on the homepage
+   * About DNA Studio section (homepage and team page)
    */
   aboutSection?: {
     label_en?: string | null;
@@ -239,7 +254,7 @@ export interface Page {
     description_ar?: string | null;
   };
   /**
-   * Call-to-action section on the homepage
+   * Call-to-action section (available on homepage and about page)
    */
   ctaSection?: {
     heading_en?: string | null;
@@ -255,64 +270,20 @@ export interface Page {
     circleImage?: (string | null) | Media;
   };
   /**
-   * Add flexible content sections to build your page
+   * Hero section with animated text overlay for the about page
    */
-  sections?:
-    | {
-        sectionType: 'richText' | 'twoColumn' | 'gallery' | 'cta' | 'custom';
-        heading_en?: string | null;
-        heading_ar?: string | null;
-        content_en?: {
-          root: {
-            type: string;
-            children: {
-              type: any;
-              version: number;
-              [k: string]: unknown;
-            }[];
-            direction: ('ltr' | 'rtl') | null;
-            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-            indent: number;
-            version: number;
-          };
-          [k: string]: unknown;
-        } | null;
-        content_ar?: {
-          root: {
-            type: string;
-            children: {
-              type: any;
-              version: number;
-              [k: string]: unknown;
-            }[];
-            direction: ('ltr' | 'rtl') | null;
-            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-            indent: number;
-            version: number;
-          };
-          [k: string]: unknown;
-        } | null;
-        image?: (string | null) | Media;
-        imagePosition?: ('left' | 'right') | null;
-        images?:
-          | {
-              image: string | Media;
-              caption_en?: string | null;
-              caption_ar?: string | null;
-              id?: string | null;
-            }[]
-          | null;
-        cta_text_en?: string | null;
-        cta_text_ar?: string | null;
-        cta_link?: string | null;
-        /**
-         * Use with caution. HTML will be sanitized on the frontend.
-         */
-        customHtml?: string | null;
-        backgroundColor?: ('white' | 'light-gray' | 'primary-light' | 'dark') | null;
-        id?: string | null;
-      }[]
-    | null;
+  aboutHero?: {
+    /**
+     * Text lines that animate over the hero image
+     */
+    textLines?:
+      | {
+          text_en: string;
+          text_ar: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
   seo?: {
     /**
      * 50-60 characters recommended
@@ -862,6 +833,14 @@ export interface PagesSelect<T extends boolean = true> {
         cta_text_ar?: T;
         cta_link?: T;
       };
+  hero2?:
+    | T
+    | {
+        heading_en?: T;
+        heading_ar?: T;
+        background_video?: T;
+        background_image?: T;
+      };
   tagline?:
     | T
     | {
@@ -907,30 +886,16 @@ export interface PagesSelect<T extends boolean = true> {
         backgroundImage?: T;
         circleImage?: T;
       };
-  sections?:
+  aboutHero?:
     | T
     | {
-        sectionType?: T;
-        heading_en?: T;
-        heading_ar?: T;
-        content_en?: T;
-        content_ar?: T;
-        image?: T;
-        imagePosition?: T;
-        images?:
+        textLines?:
           | T
           | {
-              image?: T;
-              caption_en?: T;
-              caption_ar?: T;
+              text_en?: T;
+              text_ar?: T;
               id?: T;
             };
-        cta_text_en?: T;
-        cta_text_ar?: T;
-        cta_link?: T;
-        customHtml?: T;
-        backgroundColor?: T;
-        id?: T;
       };
   seo?:
     | T

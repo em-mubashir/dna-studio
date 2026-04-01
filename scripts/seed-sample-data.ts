@@ -64,7 +64,7 @@ async function seed() {
               label_ar: 'فريق',
               description_en: 'Who we are',
               description_ar: 'من نحن',
-              url: '/about',
+              url: '/team',
               order: 2,
             },
             {

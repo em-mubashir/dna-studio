@@ -74,6 +74,63 @@ export async function getFeaturedPortfolio(limit: number = 6) {
 }
 
 /**
+ * Fetch all team members ordered by display order
+ */
+export async function getTeamMembers() {
+  try {
+    const payload = await getPayloadClient()
+    const result = await payload.find({
+      collection: 'team',
+      sort: 'order',
+      limit: 50,
+      depth: 1,
+    })
+    return result.docs
+  } catch (error) {
+    console.error('Error fetching team members:', error)
+    return []
+  }
+}
+
+/**
+ * Fetch all timeline items ordered by year/order
+ */
+export async function getTimelineItems() {
+  try {
+    const payload = await getPayloadClient()
+    const result = await payload.find({
+      collection: 'timeline',
+      sort: 'order',
+      limit: 50,
+      depth: 1,
+    })
+    return result.docs
+  } catch (error) {
+    console.error('Error fetching timeline items:', error)
+    return []
+  }
+}
+
+/**
+ * Fetch all clients/partners ordered by display order
+ */
+export async function getClients() {
+  try {
+    const payload = await getPayloadClient()
+    const result = await payload.find({
+      collection: 'clients',
+      sort: 'order',
+      limit: 50,
+      depth: 1,
+    })
+    return result.docs
+  } catch (error) {
+    console.error('Error fetching clients:', error)
+    return []
+  }
+}
+
+/**
  * Fetch blog posts with pagination and optional category filter
  * @param page - Page number (1-indexed)
  * @param limit - Number of posts per page (default: 12)

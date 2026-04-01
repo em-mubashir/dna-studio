@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import type { Language } from '@/src/lib/utils/language';
 
@@ -44,10 +43,15 @@ export default function Footer({ lang, footerData }: FooterProps) {
   const backgroundImage = footerData?.background_image;
   const termsLink = footerData?.terms_link;
 
-  // Get background image URL
-  const bgImageUrl = backgroundImage && typeof backgroundImage === 'object' && 'url' in backgroundImage
-    ? backgroundImage.url
-    : '/footer-background.jpg';
+  // Get background image URL - handle both populated object and string
+  let bgImageUrl: string | null = null;
+  if (backgroundImage) {
+    if (typeof backgroundImage === 'object' && backgroundImage !== null) {
+      bgImageUrl = backgroundImage.url || null;
+    } else if (typeof backgroundImage === 'string') {
+      bgImageUrl = backgroundImage;
+    }
+  }
 
   return (
     <footer className="relative w-full h-[574px] bg-black">
@@ -168,17 +172,17 @@ export default function Footer({ lang, footerData }: FooterProps) {
         </div>
 
         {/* Background Image - Exact Figma Specs */}
+        {bgImageUrl && (
         <div className="absolute top-[313px] left-4 md:left-[-194px] right-4 md:right-12 h-[213px] w-auto md:w-[1908px] md:mx-auto">
           <div className="relative w-full h-full">
-            <Image
+            <img
               src={bgImageUrl}
               alt=""
-              fill
-              className="object-cover"
-              style={{ opacity: 1 }}
+              className="w-full h-full object-cover"
             />
           </div>
         </div>
+        )}
       </div>
     </footer>
   );

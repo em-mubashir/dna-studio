@@ -61,8 +61,8 @@ export const Pages: CollectionConfig = {
       type: 'group',
       label: 'Hero Section',
       fields: [
-        { name: 'heading_en', type: 'text', label: 'Heading (English)' },
-        { name: 'heading_ar', type: 'text', label: 'Heading (Arabic)' },
+        { name: 'heading_en', type: 'textarea', label: 'Heading (English)' },
+        { name: 'heading_ar', type: 'textarea', label: 'Heading (Arabic)' },
         { name: 'subheading_en', type: 'textarea', label: 'Subheading (English)' },
         { name: 'subheading_ar', type: 'textarea', label: 'Subheading (Arabic)' },
         {
@@ -85,6 +85,36 @@ export const Pages: CollectionConfig = {
           type: 'text',
           label: 'CTA Button Link',
           admin: { description: 'URL or path (e.g., "/contact")' },
+        },
+      ],
+    },
+
+    // ──────────────────────────────────────────
+    // Hero Section 2 (team/about pages — second hero banner)
+    // ──────────────────────────────────────────
+    {
+      name: 'hero2',
+      type: 'group',
+      label: 'Hero Section 2',
+      admin: {
+        condition: (data) => data?.slug === 'team' || data?.slug === 'about',
+        description: 'Second hero banner (used on team and about pages)',
+      },
+      fields: [
+        { name: 'heading_en', type: 'textarea', label: 'Heading (English)' },
+        { name: 'heading_ar', type: 'textarea', label: 'Heading (Arabic)' },
+        {
+          name: 'background_video',
+          type: 'text',
+          label: 'Background Video (Vimeo ID)',
+          admin: { description: 'Enter the Vimeo video ID (e.g., "123456789")' },
+        },
+        {
+          name: 'background_image',
+          type: 'upload',
+          relationTo: 'media',
+          label: 'Background Image',
+          admin: { description: 'Fallback image if video is not available' },
         },
       ],
     },
@@ -164,8 +194,8 @@ export const Pages: CollectionConfig = {
       type: 'group',
       label: 'About Section',
       admin: {
-        condition: (data) => data?.slug === 'home',
-        description: 'About DNA Studio section on the homepage',
+        condition: (data) => data?.slug === 'home' || data?.slug === 'team',
+        description: 'About DNA Studio section (homepage and team page)',
       },
       fields: [
         { name: 'label_en', type: 'text', label: 'Label (English)', defaultValue: 'DNA STUDIO' },
@@ -210,8 +240,8 @@ export const Pages: CollectionConfig = {
       type: 'group',
       label: 'CTA Section',
       admin: {
-        condition: (data) => data?.slug === 'home',
-        description: 'Call-to-action section on the homepage',
+        condition: (data) => data?.slug === 'home' || data?.slug === 'about',
+        description: 'Call-to-action section (available on homepage and about page)',
       },
       fields: [
         { name: 'heading_en', type: 'text', label: 'Heading (English)', defaultValue: "LET'S CREATE TOGETHER" },
@@ -235,119 +265,27 @@ export const Pages: CollectionConfig = {
     },
 
     // ──────────────────────────────────────────
-    // Flexible Content Sections (all pages)
+    // About Page Sections
     // ──────────────────────────────────────────
+
+    // About Hero (animated text lines)
     {
-      name: 'sections',
-      type: 'array',
-      label: 'Page Sections',
-      admin: { description: 'Add flexible content sections to build your page' },
+      name: 'aboutHero',
+      type: 'group',
+      label: 'About Hero Section',
+      admin: {
+        condition: (data) => data?.slug === 'about',
+        description: 'Hero section with animated text overlay for the about page',
+      },
       fields: [
         {
-          name: 'sectionType',
-          type: 'select',
-          required: true,
-          label: 'Section Type',
-          options: [
-            { label: 'Rich Text Content', value: 'richText' },
-            { label: 'Two Column Layout', value: 'twoColumn' },
-            { label: 'Image Gallery', value: 'gallery' },
-            { label: 'Call to Action', value: 'cta' },
-            { label: 'Custom HTML', value: 'custom' },
-          ],
-        },
-        { name: 'heading_en', type: 'text', label: 'Section Heading (English)' },
-        { name: 'heading_ar', type: 'text', label: 'Section Heading (Arabic)' },
-        {
-          name: 'content_en',
-          type: 'richText',
-          label: 'Content (English)',
-          admin: {
-            condition: (_data, siblingData) =>
-              siblingData?.sectionType === 'richText' || siblingData?.sectionType === 'twoColumn',
-          },
-        },
-        {
-          name: 'content_ar',
-          type: 'richText',
-          label: 'Content (Arabic)',
-          admin: {
-            condition: (_data, siblingData) =>
-              siblingData?.sectionType === 'richText' || siblingData?.sectionType === 'twoColumn',
-          },
-        },
-        {
-          name: 'image',
-          type: 'upload',
-          relationTo: 'media',
-          label: 'Image',
-          admin: {
-            condition: (_data, siblingData) => siblingData?.sectionType === 'twoColumn',
-          },
-        },
-        {
-          name: 'imagePosition',
-          type: 'select',
-          label: 'Image Position',
-          defaultValue: 'right',
-          options: [
-            { label: 'Left', value: 'left' },
-            { label: 'Right', value: 'right' },
-          ],
-          admin: {
-            condition: (_data, siblingData) => siblingData?.sectionType === 'twoColumn',
-          },
-        },
-        {
-          name: 'images',
+          name: 'textLines',
           type: 'array',
-          label: 'Gallery Images',
-          admin: {
-            condition: (_data, siblingData) => siblingData?.sectionType === 'gallery',
-          },
+          label: 'Animated Text Lines',
+          admin: { description: 'Text lines that animate over the hero image' },
           fields: [
-            { name: 'image', type: 'upload', relationTo: 'media', required: true },
-            { name: 'caption_en', type: 'text', label: 'Caption (English)' },
-            { name: 'caption_ar', type: 'text', label: 'Caption (Arabic)' },
-          ],
-        },
-        {
-          name: 'cta_text_en',
-          type: 'text',
-          label: 'CTA Text (English)',
-          admin: { condition: (_data, siblingData) => siblingData?.sectionType === 'cta' },
-        },
-        {
-          name: 'cta_text_ar',
-          type: 'text',
-          label: 'CTA Text (Arabic)',
-          admin: { condition: (_data, siblingData) => siblingData?.sectionType === 'cta' },
-        },
-        {
-          name: 'cta_link',
-          type: 'text',
-          label: 'CTA Link',
-          admin: { condition: (_data, siblingData) => siblingData?.sectionType === 'cta' },
-        },
-        {
-          name: 'customHtml',
-          type: 'textarea',
-          label: 'Custom HTML',
-          admin: {
-            description: 'Use with caution. HTML will be sanitized on the frontend.',
-            condition: (_data, siblingData) => siblingData?.sectionType === 'custom',
-          },
-        },
-        {
-          name: 'backgroundColor',
-          type: 'select',
-          label: 'Background Color',
-          defaultValue: 'white',
-          options: [
-            { label: 'White', value: 'white' },
-            { label: 'Light Gray', value: 'light-gray' },
-            { label: 'Primary Light', value: 'primary-light' },
-            { label: 'Dark', value: 'dark' },
+            { name: 'text_en', type: 'text', required: true, label: 'Text (English)' },
+            { name: 'text_ar', type: 'text', required: true, label: 'Text (Arabic)' },
           ],
         },
       ],

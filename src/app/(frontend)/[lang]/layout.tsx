@@ -37,7 +37,7 @@ export default async function LanguageLayout({
   let settings: any = null;
   try {
     const payload = await getPayload({ config });
-    settings = await payload.findGlobal({ slug: 'settings' });
+    settings = await payload.findGlobal({ slug: 'settings', depth: 2 });
   } catch {
     // DB unavailable (e.g. during build) — use empty defaults
   }

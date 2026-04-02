@@ -70,7 +70,6 @@ export interface Config {
     users: User;
     pages: Page;
     blog: Blog;
-    portfolio: Portfolio;
     team: Team;
     clients: Client;
     timeline: Timeline;
@@ -85,7 +84,6 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
     blog: BlogSelect<false> | BlogSelect<true>;
-    portfolio: PortfolioSelect<false> | PortfolioSelect<true>;
     team: TeamSelect<false> | TeamSelect<true>;
     clients: ClientsSelect<false> | ClientsSelect<true>;
     timeline: TimelineSelect<false> | TimelineSelect<true>;
@@ -191,6 +189,21 @@ export interface Page {
     cta_link?: string | null;
   };
   /**
+   * Second hero banner (used on team and about pages)
+   */
+  hero2?: {
+    heading_en?: string | null;
+    heading_ar?: string | null;
+    /**
+     * Enter the Vimeo video ID (e.g., "123456789")
+     */
+    background_video?: string | null;
+    /**
+     * Fallback image if video is not available
+     */
+    background_image?: (string | null) | Media;
+  };
+  /**
    * Tagline displayed below the hero on the homepage
    */
   tagline?: {
@@ -224,7 +237,7 @@ export interface Page {
     soundOff_ar?: string | null;
   };
   /**
-   * About DNA Studio section on the homepage
+   * About DNA Studio section (homepage and team page)
    */
   aboutSection?: {
     label_en?: string | null;
@@ -238,9 +251,6 @@ export interface Page {
     description_en?: string | null;
     description_ar?: string | null;
   };
-  /**
-   * Call-to-action section on the homepage
-   */
   ctaSection?: {
     heading_en?: string | null;
     heading_ar?: string | null;
@@ -255,61 +265,45 @@ export interface Page {
     circleImage?: (string | null) | Media;
   };
   /**
-   * Add flexible content sections to build your page
+   * Hero section with animated text overlay for the about page
    */
-  sections?:
+  aboutHero?: {
+    /**
+     * Text lines that animate over the hero image
+     */
+    textLines?:
+      | {
+          text_en: string;
+          text_ar: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  /**
+   * Heading text shown at the top of the works page
+   */
+  worksHeading?: {
+    heading_en?: string | null;
+    heading_ar?: string | null;
+  };
+  /**
+   * Add work items that appear in the 2-column grid on the works page
+   */
+  worksGrid?:
     | {
-        sectionType: 'richText' | 'twoColumn' | 'gallery' | 'cta' | 'custom';
-        heading_en?: string | null;
-        heading_ar?: string | null;
-        content_en?: {
-          root: {
-            type: string;
-            children: {
-              type: any;
-              version: number;
-              [k: string]: unknown;
-            }[];
-            direction: ('ltr' | 'rtl') | null;
-            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-            indent: number;
-            version: number;
-          };
-          [k: string]: unknown;
-        } | null;
-        content_ar?: {
-          root: {
-            type: string;
-            children: {
-              type: any;
-              version: number;
-              [k: string]: unknown;
-            }[];
-            direction: ('ltr' | 'rtl') | null;
-            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-            indent: number;
-            version: number;
-          };
-          [k: string]: unknown;
-        } | null;
-        image?: (string | null) | Media;
-        imagePosition?: ('left' | 'right') | null;
-        images?:
-          | {
-              image: string | Media;
-              caption_en?: string | null;
-              caption_ar?: string | null;
-              id?: string | null;
-            }[]
-          | null;
-        cta_text_en?: string | null;
-        cta_text_ar?: string | null;
-        cta_link?: string | null;
+        project_en: string;
+        project_ar: string;
+        industry_en: string;
+        industry_ar: string;
         /**
-         * Use with caution. HTML will be sanitized on the frontend.
+         * Square image recommended (896×896px). Covers the full card.
          */
-        customHtml?: string | null;
-        backgroundColor?: ('white' | 'light-gray' | 'primary-light' | 'dark') | null;
+        image: string | Media;
+        /**
+         * Optional link when clicking the card
+         */
+        link?: string | null;
+        order?: number | null;
         id?: string | null;
       }[]
     | null;
@@ -515,104 +509,6 @@ export interface Blog {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "portfolio".
- */
-export interface Portfolio {
-  id: string;
-  title_en: string;
-  title_ar: string;
-  /**
-   * URL-friendly identifier (e.g., "my-project")
-   */
-  slug: string;
-  /**
-   * Name of the client for this project
-   */
-  client: string;
-  /**
-   * Full project description and details
-   */
-  description_en: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  /**
-   * Full project description and details
-   */
-  description_ar: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  category: 'commercial' | 'corporate' | 'documentary' | 'animation' | 'event';
-  /**
-   * Full Vimeo URL (e.g., "https://vimeo.com/123456789") or just the ID
-   */
-  video_url: string;
-  /**
-   * Project thumbnail for grid display (recommended: 1280×720px, 16:9 aspect ratio)
-   */
-  thumbnail: string | Media;
-  /**
-   * Display this project on the homepage
-   */
-  featured?: boolean | null;
-  /**
-   * Lower numbers appear first (0 = highest priority)
-   */
-  order?: number | null;
-  /**
-   * When this project was completed
-   */
-  completedDate: string;
-  seo?: {
-    /**
-     * Recommended: 50-60 characters. Defaults to project title if empty.
-     */
-    meta_title_en?: string | null;
-    /**
-     * Recommended: 50-60 characters. Defaults to project title if empty.
-     */
-    meta_title_ar?: string | null;
-    /**
-     * Recommended: 150-160 characters.
-     */
-    meta_description_en?: string | null;
-    /**
-     * Recommended: 150-160 characters.
-     */
-    meta_description_ar?: string | null;
-    /**
-     * Recommended size: 1200×630px. Defaults to thumbnail if empty.
-     */
-    og_image?: (string | null) | Media;
-  };
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "team".
  */
 export interface Team {
@@ -755,10 +651,6 @@ export interface PayloadLockedDocument {
         value: string | Blog;
       } | null)
     | ({
-        relationTo: 'portfolio';
-        value: string | Portfolio;
-      } | null)
-    | ({
         relationTo: 'team';
         value: string | Team;
       } | null)
@@ -862,6 +754,14 @@ export interface PagesSelect<T extends boolean = true> {
         cta_text_ar?: T;
         cta_link?: T;
       };
+  hero2?:
+    | T
+    | {
+        heading_en?: T;
+        heading_ar?: T;
+        background_video?: T;
+        background_image?: T;
+      };
   tagline?:
     | T
     | {
@@ -907,29 +807,33 @@ export interface PagesSelect<T extends boolean = true> {
         backgroundImage?: T;
         circleImage?: T;
       };
-  sections?:
+  aboutHero?:
     | T
     | {
-        sectionType?: T;
-        heading_en?: T;
-        heading_ar?: T;
-        content_en?: T;
-        content_ar?: T;
-        image?: T;
-        imagePosition?: T;
-        images?:
+        textLines?:
           | T
           | {
-              image?: T;
-              caption_en?: T;
-              caption_ar?: T;
+              text_en?: T;
+              text_ar?: T;
               id?: T;
             };
-        cta_text_en?: T;
-        cta_text_ar?: T;
-        cta_link?: T;
-        customHtml?: T;
-        backgroundColor?: T;
+      };
+  worksHeading?:
+    | T
+    | {
+        heading_en?: T;
+        heading_ar?: T;
+      };
+  worksGrid?:
+    | T
+    | {
+        project_en?: T;
+        project_ar?: T;
+        industry_en?: T;
+        industry_ar?: T;
+        image?: T;
+        link?: T;
+        order?: T;
         id?: T;
       };
   seo?:
@@ -978,35 +882,6 @@ export interface BlogSelect<T extends boolean = true> {
         og_image?: T;
         canonical_url?: T;
         noindex?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "portfolio_select".
- */
-export interface PortfolioSelect<T extends boolean = true> {
-  title_en?: T;
-  title_ar?: T;
-  slug?: T;
-  client?: T;
-  description_en?: T;
-  description_ar?: T;
-  category?: T;
-  video_url?: T;
-  thumbnail?: T;
-  featured?: T;
-  order?: T;
-  completedDate?: T;
-  seo?:
-    | T
-    | {
-        meta_title_en?: T;
-        meta_title_ar?: T;
-        meta_description_en?: T;
-        meta_description_ar?: T;
-        og_image?: T;
       };
   updatedAt?: T;
   createdAt?: T;

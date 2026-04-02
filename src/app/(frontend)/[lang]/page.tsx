@@ -1,12 +1,11 @@
 import { type Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { type Language, getBilingualField } from '@/src/lib/utils/language'
-import { getPageBySlug, getFeaturedPortfolio } from '@/src/lib/payload'
+import { getPageBySlug } from '@/src/lib/payload'
 import HeroSection from '@/src/components/sections/HeroSection'
 import TaglineSection from '@/src/components/sections/TaglineSection'
 import FeaturedWorkSection from '@/src/components/sections/FeaturedWorkSection'
 import AboutSection from '@/src/components/sections/AboutSection'
-import PortfolioGrid from '@/src/components/sections/PortfolioGrid'
 import CTASection from '@/src/components/sections/CTASection'
 
 export const dynamic = 'force-dynamic'
@@ -31,7 +30,6 @@ export async function generateMetadata({ params }: HomePageProps): Promise<Metad
   const ogImage = page.seo?.og_image
   const keywords = getBilingualField<string>(page.seo || {}, 'keywords', lang as Language)
 
-  // Get the base URL from environment or default
   const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'https://dnamedia.com'
   const currentUrl = `${baseUrl}/${lang}`
 
@@ -80,61 +78,32 @@ export async function generateMetadata({ params }: HomePageProps): Promise<Metad
 export default async function HomePage({ params }: HomePageProps) {
   const { lang } = await params
   
-  // Fetch page data from CMS
   const page = await getPageBySlug('home')
   
   if (!page) {
     notFound()
   }
 
-  // Fetch featured portfolio items
-  const portfolioItems = await getFeaturedPortfolio(6)
-
-  // Get tagline content from page
-  const taglineText = lang === 'ar' 
-    ? page?.tagline?.text_ar 
-    : page?.tagline?.text_en
-  const taglineButtonText = lang === 'ar'
-    ? page?.tagline?.button_text_ar
-    : page?.tagline?.button_text_en
+  const taglineText = lang === 'ar' ? page?.tagline?.text_ar : page?.tagline?.text_en
+  const taglineButtonText = lang === 'ar' ? page?.tagline?.button_text_ar : page?.tagline?.button_text_en
   const taglineButtonLink = page?.tagline?.button_link
 
-  // Get featured work content from page
   const featuredWork = page?.featuredWork
-  const featuredWorkServiceType = lang === 'ar'
-    ? featuredWork?.serviceType_ar
-    : featuredWork?.serviceType_en
-  const featuredWorkProjectTitle = lang === 'ar'
-    ? featuredWork?.projectTitle_ar
-    : featuredWork?.projectTitle_en
-  const featuredWorkSoundOn = lang === 'ar'
-    ? featuredWork?.soundOn_ar
-    : featuredWork?.soundOn_en
-  const featuredWorkSoundOff = lang === 'ar'
-    ? featuredWork?.soundOff_ar
-    : featuredWork?.soundOff_en
+  const featuredWorkServiceType = lang === 'ar' ? featuredWork?.serviceType_ar : featuredWork?.serviceType_en
+  const featuredWorkProjectTitle = lang === 'ar' ? featuredWork?.projectTitle_ar : featuredWork?.projectTitle_en
+  const featuredWorkSoundOn = lang === 'ar' ? featuredWork?.soundOn_ar : featuredWork?.soundOn_en
+  const featuredWorkSoundOff = lang === 'ar' ? featuredWork?.soundOff_ar : featuredWork?.soundOff_en
 
-  // Get about section content from page
   const about = page?.aboutSection
-  const aboutLabel = lang === 'ar'
-    ? about?.label_ar
-    : about?.label_en
-  const aboutHeading = lang === 'ar'
-    ? about?.heading_ar
-    : about?.heading_en
-  const aboutDescription = lang === 'ar'
-    ? about?.description_ar
-    : about?.description_en
+  const aboutLabel = lang === 'ar' ? about?.label_ar : about?.label_en
+  const aboutHeading = lang === 'ar' ? about?.heading_ar : about?.heading_en
+  const aboutDescription = lang === 'ar' ? about?.description_ar : about?.description_en
 
-  // Get CTA section content from page
   const cta = page?.ctaSection
-  const ctaHeading = lang === 'ar'
-    ? cta?.heading_ar
-    : cta?.heading_en
+  const ctaHeading = lang === 'ar' ? cta?.heading_ar : cta?.heading_en
 
   return (
     <main>
-      {/* Hero Section */}
       {page.hero && (
         <HeroSection
           heading={getBilingualField<string>(page.hero, 'heading', lang as Language)}
@@ -144,7 +113,6 @@ export default async function HomePage({ params }: HomePageProps) {
         />
       )}
 
-      {/* Tagline Section */}
       <TaglineSection 
         lang={lang as Language} 
         taglineText={taglineText ?? undefined}
@@ -152,7 +120,6 @@ export default async function HomePage({ params }: HomePageProps) {
         buttonLink={taglineButtonLink ?? undefined}
       />
 
-      {/* Featured Work Section */}
       <FeaturedWorkSection 
         lang={lang as Language}
         projectNumber={featuredWork?.projectNumber ?? undefined}
@@ -165,7 +132,6 @@ export default async function HomePage({ params }: HomePageProps) {
         soundOffText={featuredWorkSoundOff ?? undefined}
       />
 
-      {/* About Section */}
       <AboutSection 
         lang={lang as Language}
         label={aboutLabel ?? undefined}
@@ -174,16 +140,6 @@ export default async function HomePage({ params }: HomePageProps) {
         description={aboutDescription ?? undefined}
       />
 
-      {/* Featured Portfolio */}
-      {portfolioItems.length > 0 && (
-        <PortfolioGrid
-          items={portfolioItems}
-          lang={lang as Language}
-          featured
-        />
-      )}
-
-      {/* CTA Section */}
       <CTASection 
         lang={lang as Language}
         heading={ctaHeading ?? undefined}

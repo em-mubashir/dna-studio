@@ -54,15 +54,18 @@ export const Pages: CollectionConfig = {
     },
 
     // ──────────────────────────────────────────
-    // Hero Section (all pages)
+    // Hero Section (home, team, about, contact — NOT works)
     // ──────────────────────────────────────────
     {
       name: 'hero',
       type: 'group',
       label: 'Hero Section',
+      admin: {
+        condition: (data) => data?.slug !== 'works',
+      },
       fields: [
-        { name: 'heading_en', type: 'text', label: 'Heading (English)' },
-        { name: 'heading_ar', type: 'text', label: 'Heading (Arabic)' },
+        { name: 'heading_en', type: 'textarea', label: 'Heading (English)' },
+        { name: 'heading_ar', type: 'textarea', label: 'Heading (Arabic)' },
         { name: 'subheading_en', type: 'textarea', label: 'Subheading (English)' },
         { name: 'subheading_ar', type: 'textarea', label: 'Subheading (Arabic)' },
         {
@@ -85,6 +88,36 @@ export const Pages: CollectionConfig = {
           type: 'text',
           label: 'CTA Button Link',
           admin: { description: 'URL or path (e.g., "/contact")' },
+        },
+      ],
+    },
+
+    // ──────────────────────────────────────────
+    // Hero Section 2 (team/about pages — second hero banner)
+    // ──────────────────────────────────────────
+    {
+      name: 'hero2',
+      type: 'group',
+      label: 'Hero Section 2',
+      admin: {
+        condition: (data) => data?.slug === 'team' || data?.slug === 'about',
+        description: 'Second hero banner (used on team and about pages)',
+      },
+      fields: [
+        { name: 'heading_en', type: 'textarea', label: 'Heading (English)' },
+        { name: 'heading_ar', type: 'textarea', label: 'Heading (Arabic)' },
+        {
+          name: 'background_video',
+          type: 'text',
+          label: 'Background Video (Vimeo ID)',
+          admin: { description: 'Enter the Vimeo video ID (e.g., "123456789")' },
+        },
+        {
+          name: 'background_image',
+          type: 'upload',
+          relationTo: 'media',
+          label: 'Background Image',
+          admin: { description: 'Fallback image if video is not available' },
         },
       ],
     },
@@ -118,7 +151,7 @@ export const Pages: CollectionConfig = {
         },
         { name: 'button_text_en', type: 'text', label: 'Button Text (English)', defaultValue: 'VIEW ALL WORKS' },
         { name: 'button_text_ar', type: 'text', label: 'Button Text (Arabic)', defaultValue: 'عرض جميع الأعمال' },
-        { name: 'button_link', type: 'text', label: 'Button Link', defaultValue: '/portfolio' },
+        { name: 'button_link', type: 'text', label: 'Button Link', defaultValue: '/works' },
       ],
     },
 
@@ -164,8 +197,8 @@ export const Pages: CollectionConfig = {
       type: 'group',
       label: 'About Section',
       admin: {
-        condition: (data) => data?.slug === 'home',
-        description: 'About DNA Studio section on the homepage',
+        condition: (data) => data?.slug === 'home' || data?.slug === 'team',
+        description: 'About DNA Studio section (homepage and team page)',
       },
       fields: [
         { name: 'label_en', type: 'text', label: 'Label (English)', defaultValue: 'DNA STUDIO' },
@@ -210,8 +243,7 @@ export const Pages: CollectionConfig = {
       type: 'group',
       label: 'CTA Section',
       admin: {
-        condition: (data) => data?.slug === 'home',
-        description: 'Call-to-action section on the homepage',
+        condition: (data) => data?.slug === 'home' || data?.slug === 'about' || data?.slug === 'works',
       },
       fields: [
         { name: 'heading_en', type: 'text', label: 'Heading (English)', defaultValue: "LET'S CREATE TOGETHER" },
@@ -235,121 +267,81 @@ export const Pages: CollectionConfig = {
     },
 
     // ──────────────────────────────────────────
-    // Flexible Content Sections (all pages)
+    // About Page Sections
     // ──────────────────────────────────────────
+
+    // About Hero (animated text lines)
     {
-      name: 'sections',
-      type: 'array',
-      label: 'Page Sections',
-      admin: { description: 'Add flexible content sections to build your page' },
+      name: 'aboutHero',
+      type: 'group',
+      label: 'About Hero Section',
+      admin: {
+        condition: (data) => data?.slug === 'about',
+        description: 'Hero section with animated text overlay for the about page',
+      },
       fields: [
         {
-          name: 'sectionType',
-          type: 'select',
-          required: true,
-          label: 'Section Type',
-          options: [
-            { label: 'Rich Text Content', value: 'richText' },
-            { label: 'Two Column Layout', value: 'twoColumn' },
-            { label: 'Image Gallery', value: 'gallery' },
-            { label: 'Call to Action', value: 'cta' },
-            { label: 'Custom HTML', value: 'custom' },
+          name: 'textLines',
+          type: 'array',
+          label: 'Animated Text Lines',
+          admin: { description: 'Text lines that animate over the hero image' },
+          fields: [
+            { name: 'text_en', type: 'text', required: true, label: 'Text (English)' },
+            { name: 'text_ar', type: 'text', required: true, label: 'Text (Arabic)' },
           ],
         },
-        { name: 'heading_en', type: 'text', label: 'Section Heading (English)' },
-        { name: 'heading_ar', type: 'text', label: 'Section Heading (Arabic)' },
+      ],
+    },
+
+    // ──────────────────────────────────────────
+    // Works Page Sections
+    // ──────────────────────────────────────────
+    {
+      name: 'worksHeading',
+      type: 'group',
+      label: 'Works Page Heading',
+      admin: {
+        condition: (data) => data?.slug === 'works',
+        description: 'Heading text shown at the top of the works page',
+      },
+      fields: [
         {
-          name: 'content_en',
-          type: 'richText',
-          label: 'Content (English)',
-          admin: {
-            condition: (_data, siblingData) =>
-              siblingData?.sectionType === 'richText' || siblingData?.sectionType === 'twoColumn',
-          },
+          name: 'heading_en',
+          type: 'text',
+          label: 'Heading (English)',
+          defaultValue: 'AT DNA, WE EMBODY THE ESSENCE OF THE ART GENE',
         },
         {
-          name: 'content_ar',
-          type: 'richText',
-          label: 'Content (Arabic)',
-          admin: {
-            condition: (_data, siblingData) =>
-              siblingData?.sectionType === 'richText' || siblingData?.sectionType === 'twoColumn',
-          },
+          name: 'heading_ar',
+          type: 'text',
+          label: 'Heading (Arabic)',
+          defaultValue: 'في DNA، نجسّد جوهر الفن الإبداعي',
         },
+      ],
+    },
+    {
+      name: 'worksGrid',
+      type: 'array',
+      label: 'Works Grid Items',
+      admin: {
+        condition: (data) => data?.slug === 'works',
+        description: 'Add work items that appear in the 2-column grid on the works page',
+      },
+      fields: [
+        { name: 'project_en', type: 'text', required: true, label: 'Project Name (English)' },
+        { name: 'project_ar', type: 'text', required: true, label: 'Project Name (Arabic)' },
+        { name: 'industry_en', type: 'text', required: true, label: 'Industry (English)' },
+        { name: 'industry_ar', type: 'text', required: true, label: 'Industry (Arabic)' },
         {
           name: 'image',
           type: 'upload',
           relationTo: 'media',
-          label: 'Image',
-          admin: {
-            condition: (_data, siblingData) => siblingData?.sectionType === 'twoColumn',
-          },
+          required: true,
+          label: 'Cover Image',
+          admin: { description: 'Square image recommended (896×896px). Covers the full card.' },
         },
-        {
-          name: 'imagePosition',
-          type: 'select',
-          label: 'Image Position',
-          defaultValue: 'right',
-          options: [
-            { label: 'Left', value: 'left' },
-            { label: 'Right', value: 'right' },
-          ],
-          admin: {
-            condition: (_data, siblingData) => siblingData?.sectionType === 'twoColumn',
-          },
-        },
-        {
-          name: 'images',
-          type: 'array',
-          label: 'Gallery Images',
-          admin: {
-            condition: (_data, siblingData) => siblingData?.sectionType === 'gallery',
-          },
-          fields: [
-            { name: 'image', type: 'upload', relationTo: 'media', required: true },
-            { name: 'caption_en', type: 'text', label: 'Caption (English)' },
-            { name: 'caption_ar', type: 'text', label: 'Caption (Arabic)' },
-          ],
-        },
-        {
-          name: 'cta_text_en',
-          type: 'text',
-          label: 'CTA Text (English)',
-          admin: { condition: (_data, siblingData) => siblingData?.sectionType === 'cta' },
-        },
-        {
-          name: 'cta_text_ar',
-          type: 'text',
-          label: 'CTA Text (Arabic)',
-          admin: { condition: (_data, siblingData) => siblingData?.sectionType === 'cta' },
-        },
-        {
-          name: 'cta_link',
-          type: 'text',
-          label: 'CTA Link',
-          admin: { condition: (_data, siblingData) => siblingData?.sectionType === 'cta' },
-        },
-        {
-          name: 'customHtml',
-          type: 'textarea',
-          label: 'Custom HTML',
-          admin: {
-            description: 'Use with caution. HTML will be sanitized on the frontend.',
-            condition: (_data, siblingData) => siblingData?.sectionType === 'custom',
-          },
-        },
-        {
-          name: 'backgroundColor',
-          type: 'select',
-          label: 'Background Color',
-          defaultValue: 'white',
-          options: [
-            { label: 'White', value: 'white' },
-            { label: 'Light Gray', value: 'light-gray' },
-            { label: 'Primary Light', value: 'primary-light' },
-            { label: 'Dark', value: 'dark' },
-          ],
-        },
+        { name: 'link', type: 'text', label: 'Link URL', admin: { description: 'Optional link when clicking the card' } },
+        { name: 'order', type: 'number', label: 'Order', defaultValue: 0 },
       ],
     },
 

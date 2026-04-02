@@ -47,28 +47,58 @@ export async function getPageBySlug(slug: string) {
 }
 
 /**
- * Fetch featured portfolio items
- * @param limit - Number of items to fetch (default: 6)
- * @returns Array of portfolio items
+ * Fetch all team members ordered by display order
  */
-export async function getFeaturedPortfolio(limit: number = 6) {
+export async function getTeamMembers() {
   try {
     const payload = await getPayloadClient()
-    
     const result = await payload.find({
-      collection: 'portfolio',
-      where: {
-        featured: {
-          equals: true,
-        },
-      },
-      limit,
-      sort: '-order',
+      collection: 'team',
+      sort: 'order',
+      limit: 50,
+      depth: 1,
     })
-
     return result.docs
   } catch (error) {
-    console.error('Error fetching featured portfolio:', error)
+    console.error('Error fetching team members:', error)
+    return []
+  }
+}
+
+/**
+ * Fetch all timeline items ordered by year/order
+ */
+export async function getTimelineItems() {
+  try {
+    const payload = await getPayloadClient()
+    const result = await payload.find({
+      collection: 'timeline',
+      sort: 'order',
+      limit: 50,
+      depth: 1,
+    })
+    return result.docs
+  } catch (error) {
+    console.error('Error fetching timeline items:', error)
+    return []
+  }
+}
+
+/**
+ * Fetch all clients/partners ordered by display order
+ */
+export async function getClients() {
+  try {
+    const payload = await getPayloadClient()
+    const result = await payload.find({
+      collection: 'clients',
+      sort: 'order',
+      limit: 50,
+      depth: 1,
+    })
+    return result.docs
+  } catch (error) {
+    console.error('Error fetching clients:', error)
     return []
   }
 }

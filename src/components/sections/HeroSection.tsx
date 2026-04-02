@@ -9,6 +9,9 @@ interface HeroSectionProps {
   backgroundVideo?: string
   backgroundImage?: any
   lang: Language
+  className?: string
+  innerPadding?: number
+  textCenter?: boolean
 }
 
 /**
@@ -25,6 +28,9 @@ export default function HeroSection({
   backgroundVideo,
   backgroundImage,
   lang,
+  className,
+  innerPadding,
+  textCenter = false,
 }: HeroSectionProps) {
   const videoRef = useRef<HTMLIFrameElement>(null)
   const sectionRef = useRef<HTMLElement>(null)
@@ -46,74 +52,89 @@ export default function HeroSection({
     hasImage: !!bgImageUrl
   });
 
+  const pad = innerPadding ?? 0
+
   return (
     <section
       ref={sectionRef}
-      className="relative w-full overflow-hidden"
+      className={`relative w-full overflow-hidden bg-black ${className || ''}`}
       style={{
         height: 'calc(1080px - 120px)', // 960px on desktop
         marginTop: '120px', // Account for fixed header
       }}
       aria-label={lang === 'en' ? 'Hero section' : 'قسم البطل'}
     >
-      {/* Background Image - Always show if available */}
-      {bgImageUrl && (
-        <div className="absolute inset-0 z-0">
-          <img
-            src={bgImageUrl}
-            alt=""
-            className="w-full h-full object-cover"
-            style={{ objectFit: 'cover' }}
-          />
-        </div>
-      )}
-
-      {/* Background Video (Vimeo) - Overlay on top of image */}
-      {backgroundVideo && (
-        <div className="absolute inset-0 z-0">
-          <iframe
-            ref={videoRef}
-            src={`https://player.vimeo.com/video/${backgroundVideo}?background=1&autoplay=1&loop=1&muted=1&controls=0`}
-            className="absolute top-1/2 left-1/2 min-w-full min-h-full w-auto h-auto -translate-x-1/2 -translate-y-1/2"
-            style={{ aspectRatio: '16/9' }}
-            allow="autoplay; fullscreen"
-            title={lang === 'en' ? 'Background video' : 'فيديو الخلفية'}
-            aria-hidden="true"
-          />
-        </div>
-      )}
-
-      {/* Overlay - Lighter for better image visibility */}
-      <div className="absolute inset-0 z-10 bg-black/20" aria-hidden="true" />
-
-      {/* Text Content - Positioned as per Figma specs */}
-      <div 
-        className="absolute z-20 text-white uppercase"
-        style={{
-          width: 'auto',
-          maxWidth: '1824px',
-          height: '80px',
-          bottom: '80px', // 920px from viewport top = 80px from section bottom (1080 - 120 - 80 = 880)
-          left: '48px',
-          opacity: 1,
-          whiteSpace: 'nowrap',
-        }}
+      {/* Inner container — when innerPadding is set, everything lives inside this box */}
+      <div
+        className={pad ? 'absolute overflow-hidden' : 'absolute inset-0'}
+        style={pad ? { top: pad, right: pad, bottom: pad, left: pad, borderRadius: '16px' } : undefined}
       >
-        <h1 
-          style={{
-            fontFamily: 'Degular, sans-serif',
-            fontWeight: 700,
-            fontSize: '80px',
-            lineHeight: '100%',
-            letterSpacing: '0%',
-            textAlign: 'left',
-            textTransform: 'uppercase',
-            margin: 0,
-            whiteSpace: 'nowrap',
+        {/* Background Image */}
+        {bgImageUrl && (
+          <div className="absolute inset-0 z-0">
+            <img
+              src={bgImageUrl}
+              alt=""
+              className="w-full h-full object-cover"
+            />
+          </div>
+        )}
+
+        {/* Background Video (Vimeo) */}
+        {backgroundVideo && (
+          <div className="absolute inset-0 z-0">
+            <iframe
+              ref={videoRef}
+              src={`https://player.vimeo.com/video/${backgroundVideo}?background=1&autoplay=1&loop=1&muted=1&controls=0`}
+              className="absolute top-1/2 left-1/2 min-w-full min-h-full w-auto h-auto -translate-x-1/2 -translate-y-1/2"
+              style={{ aspectRatio: '16/9' }}
+              allow="autoplay; fullscreen"
+              title={lang === 'en' ? 'Background video' : 'فيديو الخلفية'}
+              aria-hidden="true"
+            />
+          </div>
+        )}
+
+        {/* Overlay */}
+        <div className="absolute inset-0 z-10 bg-black/20" aria-hidden="true" />
+
+        {/* Text Content — always inside the image bounds */}
+        <div 
+          className="absolute z-20 text-white uppercase"
+          style={textCenter ? {
+            top: '50%',
+            left: '48px',
+            right: '48px',
+            transform: 'translateY(-50%)',
+            textAlign: 'center',
+            maxWidth: '1824px',
+            opacity: 1,
+            whiteSpace: 'pre-line',
+          } : {
+            width: 'auto',
+            maxWidth: '1824px',
+            bottom: '48px',
+            left: '48px',
+            right: '48px',
+            opacity: 1,
+            whiteSpace: 'pre-line',
           }}
         >
-          {heading}
-        </h1>
+          <h1 
+            style={{
+              fontFamily: 'Degular, sans-serif',
+              fontWeight: 700,
+              fontSize: '80px',
+              lineHeight: '100%',
+              letterSpacing: '0%',
+              textAlign: textCenter ? 'center' : 'left',
+              textTransform: 'uppercase',
+              margin: 0,
+            }}
+          >
+            {heading}
+          </h1>
+        </div>
       </div>
     </section>
   )

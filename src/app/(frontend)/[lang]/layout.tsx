@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation';
+import { headers } from 'next/headers';
 import { isValidLanguage, getLanguageDirection, type Language } from '@/src/lib/utils/language';
 import Header from '@/src/components/layout/Header';
 import Footer from '@/src/components/layout/Footer';
@@ -68,11 +69,16 @@ export default async function LanguageLayout({
     background_image: settings?.footer?.background_image,
   };
 
+  // Hide footer on contact page
+  const headersList = await headers();
+  const pathname = headersList.get('x-pathname') || '';
+  const isContactPage = pathname.includes('/contact');
+
   return (
     <div lang={lang} dir={direction} className={fontClass}>
       <Header lang={lang as Language} menuItems={menuItems} logo={logo} logoAlt={logoAlt ?? undefined} />
       {children}
-      <Footer lang={lang as Language} footerData={footerData} />
+      {!isContactPage && <Footer lang={lang as Language} footerData={footerData} />}
     </div>
   );
 }

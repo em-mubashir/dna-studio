@@ -307,6 +307,70 @@ export interface Page {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Content for the contact/let's work page
+   */
+  contactSection?: {
+    tab1_en?: string | null;
+    tab1_ar?: string | null;
+    tab2_en?: string | null;
+    tab2_ar?: string | null;
+    /**
+     * Full-width background image (1920×900px recommended)
+     */
+    background_image?: (string | null) | Media;
+    office_heading_en?: string | null;
+    office_heading_ar?: string | null;
+    office_address_en?: string | null;
+    office_address_ar?: string | null;
+    mail_heading_en?: string | null;
+    mail_heading_ar?: string | null;
+    emails?:
+      | {
+          email: string;
+          id?: string | null;
+        }[]
+      | null;
+    follow_heading_en?: string | null;
+    follow_heading_ar?: string | null;
+    socialLinks?:
+      | {
+          platform: string;
+          url: string;
+          id?: string | null;
+        }[]
+      | null;
+    bottom_heading_en?: string | null;
+    bottom_heading_ar?: string | null;
+    form_name_label_en?: string | null;
+    form_name_label_ar?: string | null;
+    form_name_placeholder_en?: string | null;
+    form_name_placeholder_ar?: string | null;
+    form_email_label_en?: string | null;
+    form_email_label_ar?: string | null;
+    form_email_placeholder_en?: string | null;
+    form_email_placeholder_ar?: string | null;
+    form_services_label_en?: string | null;
+    form_services_label_ar?: string | null;
+    /**
+     * Pill/tag options for services selection
+     */
+    services?:
+      | {
+          label_en: string;
+          label_ar: string;
+          id?: string | null;
+        }[]
+      | null;
+    form_message_label_en?: string | null;
+    form_message_label_ar?: string | null;
+    form_message_placeholder_en?: string | null;
+    form_message_placeholder_ar?: string | null;
+    form_submit_en?: string | null;
+    form_submit_ar?: string | null;
+    form_submitting_en?: string | null;
+    form_submitting_ar?: string | null;
+  };
   seo?: {
     /**
      * 50-60 characters recommended
@@ -835,6 +899,63 @@ export interface PagesSelect<T extends boolean = true> {
         link?: T;
         order?: T;
         id?: T;
+      };
+  contactSection?:
+    | T
+    | {
+        tab1_en?: T;
+        tab1_ar?: T;
+        tab2_en?: T;
+        tab2_ar?: T;
+        background_image?: T;
+        office_heading_en?: T;
+        office_heading_ar?: T;
+        office_address_en?: T;
+        office_address_ar?: T;
+        mail_heading_en?: T;
+        mail_heading_ar?: T;
+        emails?:
+          | T
+          | {
+              email?: T;
+              id?: T;
+            };
+        follow_heading_en?: T;
+        follow_heading_ar?: T;
+        socialLinks?:
+          | T
+          | {
+              platform?: T;
+              url?: T;
+              id?: T;
+            };
+        bottom_heading_en?: T;
+        bottom_heading_ar?: T;
+        form_name_label_en?: T;
+        form_name_label_ar?: T;
+        form_name_placeholder_en?: T;
+        form_name_placeholder_ar?: T;
+        form_email_label_en?: T;
+        form_email_label_ar?: T;
+        form_email_placeholder_en?: T;
+        form_email_placeholder_ar?: T;
+        form_services_label_en?: T;
+        form_services_label_ar?: T;
+        services?:
+          | T
+          | {
+              label_en?: T;
+              label_ar?: T;
+              id?: T;
+            };
+        form_message_label_en?: T;
+        form_message_label_ar?: T;
+        form_message_placeholder_en?: T;
+        form_message_placeholder_ar?: T;
+        form_submit_en?: T;
+        form_submit_ar?: T;
+        form_submitting_en?: T;
+        form_submitting_ar?: T;
       };
   seo?:
     | T

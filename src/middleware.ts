@@ -33,7 +33,10 @@ export async function middleware(request: NextRequest) {
 
   // Only rate-limit custom API routes (not Payload's own API)
   if (!request.nextUrl.pathname.startsWith('/api/')) {
-    return NextResponse.next()
+    const response = NextResponse.next()
+    // Pass pathname to layout for conditional rendering (e.g. hide footer on contact)
+    response.headers.set('x-pathname', pathname)
+    return response
   }
 
   const redisUrl = process.env.UPSTASH_REDIS_REST_URL

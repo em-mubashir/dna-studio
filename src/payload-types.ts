@@ -251,6 +251,9 @@ export interface Page {
     description_en?: string | null;
     description_ar?: string | null;
   };
+  /**
+   * CTA section with heading and button link
+   */
   ctaSection?: {
     heading_en?: string | null;
     heading_ar?: string | null;
@@ -263,6 +266,37 @@ export interface Page {
      * 500×500px recommended
      */
     circleImage?: (string | null) | Media;
+  };
+  /**
+   * Simple CTA banner with heading and button (shown before footer)
+   */
+  blogCta?: {
+    heading_en?: string | null;
+    heading_ar?: string | null;
+    buttonLink?: string | null;
+  };
+  /**
+   * Featured hero section at the top of the blog page
+   */
+  blogHero?: {
+    /**
+     * Main heading displayed over the hero image (supports multiple lines)
+     */
+    title_en?: string | null;
+    title_ar?: string | null;
+    /**
+     * Small label shown above the title (e.g., "Topic")
+     */
+    topic_en?: string | null;
+    topic_ar?: string | null;
+    /**
+     * URL for the Read More button (e.g., "/en/blog/my-post")
+     */
+    link?: string | null;
+    /**
+     * Hero background image (1824×1027px recommended). Will be displayed in grayscale.
+     */
+    background_image?: (string | null) | Media;
   };
   /**
    * Hero section with animated text overlay for the about page
@@ -870,6 +904,23 @@ export interface PagesSelect<T extends boolean = true> {
         buttonLink?: T;
         backgroundImage?: T;
         circleImage?: T;
+      };
+  blogCta?:
+    | T
+    | {
+        heading_en?: T;
+        heading_ar?: T;
+        buttonLink?: T;
+      };
+  blogHero?:
+    | T
+    | {
+        title_en?: T;
+        title_ar?: T;
+        topic_en?: T;
+        topic_ar?: T;
+        link?: T;
+        background_image?: T;
       };
   aboutHero?:
     | T

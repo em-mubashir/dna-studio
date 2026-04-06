@@ -61,7 +61,7 @@ export const Pages: CollectionConfig = {
       type: 'group',
       label: 'Hero Section',
       admin: {
-        condition: (data) => data?.slug !== 'works' && data?.slug !== 'contact',
+        condition: (data) => data?.slug !== 'works' && data?.slug !== 'contact' && data?.slug !== 'blog',
       },
       fields: [
         { name: 'heading_en', type: 'textarea', label: 'Heading (English)' },
@@ -244,6 +244,7 @@ export const Pages: CollectionConfig = {
       label: 'CTA Section',
       admin: {
         condition: (data) => data?.slug === 'home' || data?.slug === 'about' || data?.slug === 'works',
+        description: 'CTA section with heading and button link',
       },
       fields: [
         { name: 'heading_en', type: 'text', label: 'Heading (English)', defaultValue: "LET'S CREATE TOGETHER" },
@@ -262,6 +263,47 @@ export const Pages: CollectionConfig = {
           relationTo: 'media',
           label: 'Circle Image',
           admin: { description: '500×500px recommended' },
+        },
+      ],
+    },
+
+    // ──────────────────────────────────────────
+    // Blog Page Hero Section
+    // ──────────────────────────────────────────
+    {
+      name: 'blogCta',
+      type: 'group',
+      label: 'Blog CTA Section',
+      admin: {
+        condition: (data) => data?.slug === 'blog',
+        description: 'Simple CTA banner with heading and button (shown before footer)',
+      },
+      fields: [
+        { name: 'heading_en', type: 'text', label: 'Heading (English)', defaultValue: "LET'S CREATE TOGETHER" },
+        { name: 'heading_ar', type: 'text', label: 'Heading (Arabic)', defaultValue: 'لنبدع معاً' },
+        { name: 'buttonLink', type: 'text', label: 'Button Link', defaultValue: '/contact' },
+      ],
+    },
+    {
+      name: 'blogHero',
+      type: 'group',
+      label: 'Blog Hero Section',
+      admin: {
+        condition: (data) => data?.slug === 'blog',
+        description: 'Featured hero section at the top of the blog page',
+      },
+      fields: [
+        { name: 'title_en', type: 'textarea', label: 'Title (English)', admin: { description: 'Main heading displayed over the hero image (supports multiple lines)' } },
+        { name: 'title_ar', type: 'textarea', label: 'Title (Arabic)' },
+        { name: 'topic_en', type: 'textarea', label: 'Topic Label (English)', admin: { description: 'Small label shown above the title (e.g., "Topic")' } },
+        { name: 'topic_ar', type: 'textarea', label: 'Topic Label (Arabic)' },
+        { name: 'link', type: 'text', label: 'Read More Link', admin: { description: 'URL for the Read More button (e.g., "/en/blog/my-post")' } },
+        {
+          name: 'background_image',
+          type: 'upload',
+          relationTo: 'media',
+          label: 'Background Image',
+          admin: { description: 'Hero background image (1824×1027px recommended). Will be displayed in grayscale.' },
         },
       ],
     },

@@ -1,0 +1,69 @@
+'use client'
+
+import Link from 'next/link'
+
+type LayoutVariant = 'blog' | 'works'
+
+interface ProjectCardProps {
+  title: string
+  topic: string
+  href?: string
+  thumbnail: any
+  className?: string
+  /** 'blog' = title top-left, topic bottom-right; 'works' = title top-left, topic top-right */
+  variant?: LayoutVariant
+}
+
+export default function ProjectCard({ title, topic, href, thumbnail, className = '', variant = 'blog' }: ProjectCardProps) {
+  let thumbnailUrl: string | null = null
+  if (thumbnail) {
+    if (typeof thumbnail === 'object' && 'url' in thumbnail) {
+      thumbnailUrl = thumbnail.url
+    } else if (typeof thumbnail === 'string') {
+      thumbnailUrl = thumbnail
+    }
+  }
+
+  const Wrapper = href ? Link : 'div'
+  const wrapperProps = href ? { href } : {}
+
+  return (
+    <Wrapper
+      {...(wrapperProps as any)}
+      className={`group relative block aspect-square overflow-hidden bg-neutral-900 ${className}`}
+      aria-label={`${title} - ${topic}`}
+    >
+      {thumbnailUrl ? (
+        <img
+          src={thumbnailUrl}
+          alt={title || ''}
+          className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 grayscale"
+          loading="lazy"
+        />
+      ) : (
+        <div className="absolute inset-0 bg-neutral-800" />
+      )}
+
+      {/* Overlay gradient */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/40 pointer-events-none" />
+
+      {/* Top-left: Title */}
+      <div className="absolute top-4 left-4 max-w-[60%]">
+        <span className="text-white text-xs sm:text-sm font-bold uppercase leading-tight block">
+          {title}
+        </span>
+      </div>
+
+      {/* Topic position depends on variant */}
+      {variant === 'works' ? (
+        <span className="absolute top-4 right-4 text-white text-xs sm:text-sm font-medium uppercase tracking-wide">
+          {topic}
+        </span>
+      ) : (
+        <span className="absolute bottom-4 right-4 text-white text-xs sm:text-sm font-medium uppercase tracking-wide">
+          {topic}
+        </span>
+      )}
+    </Wrapper>
+  )
+}

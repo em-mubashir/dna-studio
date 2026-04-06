@@ -1,7 +1,7 @@
 import { type Metadata } from 'next'
 import { type Language } from '@/src/lib/utils/language'
 import { getPageBySlug } from '@/src/lib/payload'
-import WorkCard from '@/src/components/works/WorkCard'
+import ProjectCard from '@/src/components/ui/ProjectCard'
 import CTASection from '@/src/components/sections/CTASection'
 
 export const dynamic = 'force-dynamic'
@@ -44,13 +44,13 @@ export default async function WorkPage({ params }: WorkPageProps) {
       <section className="px-2 sm:px-4 pb-20">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-4 max-w-[1840px] mx-auto">
           {items.map((item: any) => (
-            <WorkCard
+            <ProjectCard
               key={item.id}
               title={lang === 'ar' ? item.project_ar : item.project_en}
-              industry={lang === 'ar' ? item.industry_ar : item.industry_en}
-              slug={item.link || ''}
+              topic={lang === 'ar' ? item.industry_ar : item.industry_en}
+              href={item.link || ''}
               thumbnail={item.image}
-              lang={lang as Language}
+              variant="works"
             />
           ))}
         </div>

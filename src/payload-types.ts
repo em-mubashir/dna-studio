@@ -251,6 +251,9 @@ export interface Page {
     description_en?: string | null;
     description_ar?: string | null;
   };
+  /**
+   * CTA section with heading and button link
+   */
   ctaSection?: {
     heading_en?: string | null;
     heading_ar?: string | null;
@@ -263,6 +266,37 @@ export interface Page {
      * 500×500px recommended
      */
     circleImage?: (string | null) | Media;
+  };
+  /**
+   * Simple CTA banner with heading and button (shown before footer)
+   */
+  blogCta?: {
+    heading_en?: string | null;
+    heading_ar?: string | null;
+    buttonLink?: string | null;
+  };
+  /**
+   * Featured hero section at the top of the blog page
+   */
+  blogHero?: {
+    /**
+     * Main heading displayed over the hero image (supports multiple lines)
+     */
+    title_en?: string | null;
+    title_ar?: string | null;
+    /**
+     * Small label shown above the title (e.g., "Topic")
+     */
+    topic_en?: string | null;
+    topic_ar?: string | null;
+    /**
+     * URL for the Read More button (e.g., "/en/blog/my-post")
+     */
+    link?: string | null;
+    /**
+     * Hero background image (1824×1027px recommended). Will be displayed in grayscale.
+     */
+    background_image?: (string | null) | Media;
   };
   /**
    * Hero section with animated text overlay for the about page
@@ -307,6 +341,70 @@ export interface Page {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Content for the contact/let's work page
+   */
+  contactSection?: {
+    tab1_en?: string | null;
+    tab1_ar?: string | null;
+    tab2_en?: string | null;
+    tab2_ar?: string | null;
+    /**
+     * Full-width background image (1920×900px recommended)
+     */
+    background_image?: (string | null) | Media;
+    office_heading_en?: string | null;
+    office_heading_ar?: string | null;
+    office_address_en?: string | null;
+    office_address_ar?: string | null;
+    mail_heading_en?: string | null;
+    mail_heading_ar?: string | null;
+    emails?:
+      | {
+          email: string;
+          id?: string | null;
+        }[]
+      | null;
+    follow_heading_en?: string | null;
+    follow_heading_ar?: string | null;
+    socialLinks?:
+      | {
+          platform: string;
+          url: string;
+          id?: string | null;
+        }[]
+      | null;
+    bottom_heading_en?: string | null;
+    bottom_heading_ar?: string | null;
+    form_name_label_en?: string | null;
+    form_name_label_ar?: string | null;
+    form_name_placeholder_en?: string | null;
+    form_name_placeholder_ar?: string | null;
+    form_email_label_en?: string | null;
+    form_email_label_ar?: string | null;
+    form_email_placeholder_en?: string | null;
+    form_email_placeholder_ar?: string | null;
+    form_services_label_en?: string | null;
+    form_services_label_ar?: string | null;
+    /**
+     * Pill/tag options for services selection
+     */
+    services?:
+      | {
+          label_en: string;
+          label_ar: string;
+          id?: string | null;
+        }[]
+      | null;
+    form_message_label_en?: string | null;
+    form_message_label_ar?: string | null;
+    form_message_placeholder_en?: string | null;
+    form_message_placeholder_ar?: string | null;
+    form_submit_en?: string | null;
+    form_submit_ar?: string | null;
+    form_submitting_en?: string | null;
+    form_submitting_ar?: string | null;
+  };
   seo?: {
     /**
      * 50-60 characters recommended
@@ -807,6 +905,23 @@ export interface PagesSelect<T extends boolean = true> {
         backgroundImage?: T;
         circleImage?: T;
       };
+  blogCta?:
+    | T
+    | {
+        heading_en?: T;
+        heading_ar?: T;
+        buttonLink?: T;
+      };
+  blogHero?:
+    | T
+    | {
+        title_en?: T;
+        title_ar?: T;
+        topic_en?: T;
+        topic_ar?: T;
+        link?: T;
+        background_image?: T;
+      };
   aboutHero?:
     | T
     | {
@@ -835,6 +950,63 @@ export interface PagesSelect<T extends boolean = true> {
         link?: T;
         order?: T;
         id?: T;
+      };
+  contactSection?:
+    | T
+    | {
+        tab1_en?: T;
+        tab1_ar?: T;
+        tab2_en?: T;
+        tab2_ar?: T;
+        background_image?: T;
+        office_heading_en?: T;
+        office_heading_ar?: T;
+        office_address_en?: T;
+        office_address_ar?: T;
+        mail_heading_en?: T;
+        mail_heading_ar?: T;
+        emails?:
+          | T
+          | {
+              email?: T;
+              id?: T;
+            };
+        follow_heading_en?: T;
+        follow_heading_ar?: T;
+        socialLinks?:
+          | T
+          | {
+              platform?: T;
+              url?: T;
+              id?: T;
+            };
+        bottom_heading_en?: T;
+        bottom_heading_ar?: T;
+        form_name_label_en?: T;
+        form_name_label_ar?: T;
+        form_name_placeholder_en?: T;
+        form_name_placeholder_ar?: T;
+        form_email_label_en?: T;
+        form_email_label_ar?: T;
+        form_email_placeholder_en?: T;
+        form_email_placeholder_ar?: T;
+        form_services_label_en?: T;
+        form_services_label_ar?: T;
+        services?:
+          | T
+          | {
+              label_en?: T;
+              label_ar?: T;
+              id?: T;
+            };
+        form_message_label_en?: T;
+        form_message_label_ar?: T;
+        form_message_placeholder_en?: T;
+        form_message_placeholder_ar?: T;
+        form_submit_en?: T;
+        form_submit_ar?: T;
+        form_submitting_en?: T;
+        form_submitting_ar?: T;
       };
   seo?:
     | T

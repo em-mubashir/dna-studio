@@ -61,7 +61,7 @@ export const Pages: CollectionConfig = {
       type: 'group',
       label: 'Hero Section',
       admin: {
-        condition: (data) => data?.slug !== 'works',
+        condition: (data) => data?.slug !== 'works' && data?.slug !== 'contact' && data?.slug !== 'blog',
       },
       fields: [
         { name: 'heading_en', type: 'textarea', label: 'Heading (English)' },
@@ -244,6 +244,7 @@ export const Pages: CollectionConfig = {
       label: 'CTA Section',
       admin: {
         condition: (data) => data?.slug === 'home' || data?.slug === 'about' || data?.slug === 'works',
+        description: 'CTA section with heading and button link',
       },
       fields: [
         { name: 'heading_en', type: 'text', label: 'Heading (English)', defaultValue: "LET'S CREATE TOGETHER" },
@@ -262,6 +263,47 @@ export const Pages: CollectionConfig = {
           relationTo: 'media',
           label: 'Circle Image',
           admin: { description: '500×500px recommended' },
+        },
+      ],
+    },
+
+    // ──────────────────────────────────────────
+    // Blog Page Hero Section
+    // ──────────────────────────────────────────
+    {
+      name: 'blogCta',
+      type: 'group',
+      label: 'Blog CTA Section',
+      admin: {
+        condition: (data) => data?.slug === 'blog',
+        description: 'Simple CTA banner with heading and button (shown before footer)',
+      },
+      fields: [
+        { name: 'heading_en', type: 'text', label: 'Heading (English)', defaultValue: "LET'S CREATE TOGETHER" },
+        { name: 'heading_ar', type: 'text', label: 'Heading (Arabic)', defaultValue: 'لنبدع معاً' },
+        { name: 'buttonLink', type: 'text', label: 'Button Link', defaultValue: '/contact' },
+      ],
+    },
+    {
+      name: 'blogHero',
+      type: 'group',
+      label: 'Blog Hero Section',
+      admin: {
+        condition: (data) => data?.slug === 'blog',
+        description: 'Featured hero section at the top of the blog page',
+      },
+      fields: [
+        { name: 'title_en', type: 'textarea', label: 'Title (English)', admin: { description: 'Main heading displayed over the hero image (supports multiple lines)' } },
+        { name: 'title_ar', type: 'textarea', label: 'Title (Arabic)' },
+        { name: 'topic_en', type: 'textarea', label: 'Topic Label (English)', admin: { description: 'Small label shown above the title (e.g., "Topic")' } },
+        { name: 'topic_ar', type: 'textarea', label: 'Topic Label (Arabic)' },
+        { name: 'link', type: 'text', label: 'Read More Link', admin: { description: 'URL for the Read More button (e.g., "/en/blog/my-post")' } },
+        {
+          name: 'background_image',
+          type: 'upload',
+          relationTo: 'media',
+          label: 'Background Image',
+          admin: { description: 'Hero background image (1824×1027px recommended). Will be displayed in grayscale.' },
         },
       ],
     },
@@ -342,6 +384,94 @@ export const Pages: CollectionConfig = {
         },
         { name: 'link', type: 'text', label: 'Link URL', admin: { description: 'Optional link when clicking the card' } },
         { name: 'order', type: 'number', label: 'Order', defaultValue: 0 },
+      ],
+    },
+
+    // ──────────────────────────────────────────
+    // Contact Page Sections
+    // ──────────────────────────────────────────
+    {
+      name: 'contactSection',
+      type: 'group',
+      label: 'Contact Page Content',
+      admin: {
+        condition: (data) => data?.slug === 'contact',
+        description: 'Content for the contact/let\'s work page',
+      },
+      fields: [
+        // Tabs
+        { name: 'tab1_en', type: 'text', label: 'Tab 1 Text (English)' },
+        { name: 'tab1_ar', type: 'text', label: 'Tab 1 Text (Arabic)' },
+        { name: 'tab2_en', type: 'text', label: 'Tab 2 Text (English)' },
+        { name: 'tab2_ar', type: 'text', label: 'Tab 2 Text (Arabic)' },
+        // Background image
+        {
+          name: 'background_image',
+          type: 'upload',
+          relationTo: 'media',
+          label: 'Background Image',
+          admin: { description: 'Full-width background image (1920×900px recommended)' },
+        },
+        // Office section
+        { name: 'office_heading_en', type: 'text', label: 'Office Heading (English)' },
+        { name: 'office_heading_ar', type: 'text', label: 'Office Heading (Arabic)' },
+        { name: 'office_address_en', type: 'textarea', label: 'Office Address (English)' },
+        { name: 'office_address_ar', type: 'textarea', label: 'Office Address (Arabic)' },
+        // Mail section
+        { name: 'mail_heading_en', type: 'text', label: 'Mail Heading (English)' },
+        { name: 'mail_heading_ar', type: 'text', label: 'Mail Heading (Arabic)' },
+        {
+          name: 'emails',
+          type: 'array',
+          label: 'Email Addresses',
+          fields: [
+            { name: 'email', type: 'email', required: true, label: 'Email Address' },
+          ],
+        },
+        // Follow section
+        { name: 'follow_heading_en', type: 'text', label: 'Follow Heading (English)' },
+        { name: 'follow_heading_ar', type: 'text', label: 'Follow Heading (Arabic)' },
+        {
+          name: 'socialLinks',
+          type: 'array',
+          label: 'Social Media Links',
+          fields: [
+            { name: 'platform', type: 'text', required: true, label: 'Platform Name' },
+            { name: 'url', type: 'text', required: true, label: 'URL' },
+          ],
+        },
+        // Bottom heading
+        { name: 'bottom_heading_en', type: 'text', label: 'Bottom Heading (English)' },
+        { name: 'bottom_heading_ar', type: 'text', label: 'Bottom Heading (Arabic)' },
+        // Form labels
+        { name: 'form_name_label_en', type: 'text', label: 'Name Label (English)' },
+        { name: 'form_name_label_ar', type: 'text', label: 'Name Label (Arabic)' },
+        { name: 'form_name_placeholder_en', type: 'text', label: 'Name Placeholder (English)' },
+        { name: 'form_name_placeholder_ar', type: 'text', label: 'Name Placeholder (Arabic)' },
+        { name: 'form_email_label_en', type: 'text', label: 'Email Label (English)' },
+        { name: 'form_email_label_ar', type: 'text', label: 'Email Label (Arabic)' },
+        { name: 'form_email_placeholder_en', type: 'text', label: 'Email Placeholder (English)' },
+        { name: 'form_email_placeholder_ar', type: 'text', label: 'Email Placeholder (Arabic)' },
+        { name: 'form_services_label_en', type: 'text', label: 'Services Label (English)' },
+        { name: 'form_services_label_ar', type: 'text', label: 'Services Label (Arabic)' },
+        {
+          name: 'services',
+          type: 'array',
+          label: 'Service Options',
+          admin: { description: 'Pill/tag options for services selection' },
+          fields: [
+            { name: 'label_en', type: 'text', required: true, label: 'Service Name (English)' },
+            { name: 'label_ar', type: 'text', required: true, label: 'Service Name (Arabic)' },
+          ],
+        },
+        { name: 'form_message_label_en', type: 'text', label: 'Message Label (English)' },
+        { name: 'form_message_label_ar', type: 'text', label: 'Message Label (Arabic)' },
+        { name: 'form_message_placeholder_en', type: 'text', label: 'Message Placeholder (English)' },
+        { name: 'form_message_placeholder_ar', type: 'text', label: 'Message Placeholder (Arabic)' },
+        { name: 'form_submit_en', type: 'text', label: 'Submit Button (English)' },
+        { name: 'form_submit_ar', type: 'text', label: 'Submit Button (Arabic)' },
+        { name: 'form_submitting_en', type: 'text', label: 'Submitting Text (English)' },
+        { name: 'form_submitting_ar', type: 'text', label: 'Submitting Text (Arabic)' },
       ],
     },
 

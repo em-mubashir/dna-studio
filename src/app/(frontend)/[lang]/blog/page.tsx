@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { getPageBySlug, getBlogPosts } from '@/src/lib/payload'
 import type { Media } from '@/src/payload-types'
 import BlogGridSection from '@/src/components/blog/BlogGridSection'
+import BlogHeroSection from '@/src/components/blog/BlogHeroSection'
 import CTABanner from '@/src/components/sections/CTABanner'
 
 export const dynamic = 'force-dynamic'
@@ -79,50 +80,13 @@ export default async function BlogPage({ params, searchParams }: BlogPageProps) 
     <main className="min-h-screen bg-black" dir={lang === 'ar' ? 'rtl' : 'ltr'}>
       {/* Hero Section — data from CMS Pages > Blog */}
       {blogHero && (
-        <section className="relative w-full pt-[72px] md:pt-[120px]">
-          <div className="relative mx-4 md:mx-12 mt-4 md:mt-[54px]">
-            <div className="relative w-full aspect-[1824/1027] overflow-hidden rounded-sm">
-              {heroImageUrl ? (
-                <Image
-                  src={heroImageUrl}
-                  alt={heroTitle || 'Blog hero'}
-                  fill
-                  unoptimized
-                  className="object-cover grayscale"
-                  priority
-                  sizes="100vw"
-                />
-              ) : (
-                <div className="absolute inset-0 bg-neutral-800" />
-              )}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-
-              <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-10 lg:p-14">
-                {heroTopic && (
-                  <span className="inline-block w-fit px-4 py-1.5 mb-4 md:mb-5 text-xs md:text-sm font-medium text-white border border-white/60 rounded-sm">
-                    {heroTopic}
-                  </span>
-                )}
-
-                <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold text-white uppercase leading-tight max-w-3xl mb-5 md:mb-8 whitespace-pre-line">
-                  {heroTitle}
-                </h1>
-
-                <Link
-                  href={heroLink}
-                  className="inline-flex items-center gap-2 text-sm md:text-base text-white/90 hover:text-white transition-colors group"
-                >
-                  {readMoreText}
-                  <span className="inline-flex items-center gap-0.5 text-white/70 group-hover:text-white transition-colors">
-                    <span className="w-1 h-1 rounded-full bg-current" />
-                    <span className="w-1 h-1 rounded-full bg-current" />
-                    <span className="w-1 h-1 rounded-full bg-current" />
-                  </span>
-                </Link>
-              </div>
-            </div>
-          </div>
-        </section>
+        <BlogHeroSection
+          title={heroTitle}
+          topic={heroTopic}
+          imageUrl={heroImageUrl}
+          link={heroLink}
+          lang={lang}
+        />
       )}
 
       {/* Blog Grid Section — Filters + Cards + Pagination */}

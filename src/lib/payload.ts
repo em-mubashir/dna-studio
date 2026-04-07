@@ -175,6 +175,7 @@ export async function getBlogPostBySlug(slug: string) {
         },
       },
       limit: 1,
+      depth: 2,
     })
 
     return result.docs[0] || null
@@ -205,6 +206,57 @@ export async function getAllBlogSlugs() {
     return result.docs.map((post: any) => post.slug)
   } catch (error) {
     console.error('Error fetching blog slugs:', error)
+    return []
+  }
+}
+
+
+/**
+ * Fetch related blog posts (same category, excluding current post)
+ * @param currentSlug - Current blog post slug to exclude
+ * @param category - Category to match
+ * @param limit - Number of related posts to return (default: 2)
+ * @returns Array of related blog posts
+ */
+export async function getRelatedBlogPosts(currentSlug: string, category: string, limit: number = 2) {
+  try {
+    const payload = await getPayloadClient()
+
+    // First try same category
+    const result = await payload.find({
+      collection: 'blog',
+      where: {
+        slug: { not_equals: currentSlug },
+        category: { equals: category },
+        status: { equals: 'published' },
+      },
+      sort: '-publishedDate',
+      limit,
+      depth: 2,
+    })
+
+    let posts = result.docs || []
+
+    // If not enough posts in same category, fill with any other published posts
+    if (posts.length < limit) {
+      const remaining = limit - posts.length
+      const excludeSlugs = [currentSlug, ...posts.map((d: any) => d.slug)]
+      const fallback = await payload.find({
+        collection: 'blog',
+        where: {
+          slug: { not_in: excludeSlugs },
+          status: { equals: 'published' },
+        },
+        sort: '-publishedDate',
+        limit: remaining,
+        depth: 2,
+      })
+      posts = [...posts, ...(fallback.docs || [])]
+    }
+
+    return posts
+  } catch (error) {
+    console.error('Error fetching related blog posts:', error)
     return []
   }
 }

@@ -1,11 +1,12 @@
 import { type Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import Image from 'next/image'
 import Link from 'next/link'
 import { type Language, getBilingualField } from '@/src/lib/utils/language'
-import { getBlogPostBySlug } from '@/src/lib/payload'
-import { formatDate } from '@/src/lib/utils/date'
+import { getBlogPostBySlug, getRelatedBlogPosts, getPageBySlug } from '@/src/lib/payload'
 import BlogContent from '@/src/components/blog/BlogContent'
+import ProjectCard from '@/src/components/ui/ProjectCard'
+import BlogHeroSection from '@/src/components/blog/BlogHeroSection'
+import BlogArticleSection from '@/src/components/blog/BlogArticleSection'
 
 export const dynamic = 'force-dynamic'
 
@@ -17,33 +18,36 @@ export async function generateStaticParams() {
   return []
 }
 
+function getImageUrl(image: any): string | null {
+  if (!image) return null
+  if (typeof image === 'string') return image
+  if (typeof image === 'object' && 'url' in image) return image.url || null
+  return null
+}
+
 export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
-  const { lang, slug } = await params
+  const { lang, slug: rawSlug } = await params
+  const slug = decodeURIComponent(rawSlug)
   const post = await getBlogPostBySlug(slug)
 
   if (!post) {
-    return {
-      title: 'Post Not Found',
-    }
+    return { title: 'Post Not Found' }
   }
 
   const title = getBilingualField<string>(post, 'title', lang as Language)
   const excerpt = getBilingualField<string>(post, 'excerpt', lang as Language)
-  
-  // Use SEO meta title if available, otherwise use post title
+
   const metaTitle = post.seo?.meta_title_en || post.seo?.meta_title_ar
     ? getBilingualField<string>(post.seo, 'meta_title', lang as Language)
     : title
-  
-  // Use SEO meta description if available, otherwise use excerpt
+
   const metaDescription = post.seo?.meta_description_en || post.seo?.meta_description_ar
     ? getBilingualField<string>(post.seo, 'meta_description', lang as Language)
     : excerpt
 
   const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'https://dnamedia.com'
   const currentUrl = `${baseUrl}/${lang}/blog/${slug}`
-  
-  // Get Open Graph image
+
   const ogImage = post.seo?.og_image || post.featured_image
   const ogImageUrl = ogImage && typeof ogImage === 'object' && 'url' in ogImage
     ? ogImage.url
@@ -78,128 +82,111 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
         ar: `${baseUrl}/ar/blog/${slug}`,
       },
     },
-    robots: post.seo?.noindex
-      ? {
-          index: false,
-          follow: false,
-        }
-      : undefined,
+    robots: post.seo?.noindex ? { index: false, follow: false } : undefined,
   }
 }
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
-  const { lang, slug } = await params
+  const { lang, slug: rawSlug } = await params
+  const slug = decodeURIComponent(rawSlug)
   const post = await getBlogPostBySlug(slug)
 
   if (!post) {
     notFound()
   }
 
-  const title = getBilingualField<string>(post, 'title', lang as Language)
   const content = getBilingualField<any>(post, 'content', lang as Language)
-  const featuredImage = post.featured_image
 
-  // Get category label
-  const categoryLabels: Record<string, { en: string; ar: string }> = {
-    'video-production': { en: 'Video Production', ar: 'إنتاج الفيديو' },
-    'industry-news': { en: 'Industry News', ar: 'أخبار الصناعة' },
-    'case-studies': { en: 'Case Studies', ar: 'دراسات الحالة' },
-    'tips-tutorials': { en: 'Tips & Tutorials', ar: 'نصائح ودروس' },
-    'company-news': { en: 'Company News', ar: 'أخبار الشركة' },
+  // Fetch 2 related blog posts
+  const relatedPosts = await getRelatedBlogPosts(slug, post.category, 2)
+
+  // Fetch the same blog hero data from CMS Pages > Blog (same source as listing page)
+  const page = await getPageBySlug('blog')
+  const blogHero = page?.blogHero
+
+  const heroTitle = blogHero
+    ? (lang === 'ar' ? blogHero.title_ar : blogHero.title_en)
+    : null
+  const heroTopic = blogHero
+    ? (lang === 'ar' ? blogHero.topic_ar : blogHero.topic_en)
+    : null
+  const heroLink = blogHero?.link || '#'
+  const heroImageUrl = getImageUrl(blogHero?.background_image)
+
+  // Article Detail Section from CMS (article_detail group)
+  const detail = (post as any).article_detail || {}
+
+  const articleDescription = lang === 'ar'
+    ? (detail.description_ar || '')
+    : (detail.description_en || '')
+
+  const articleMainHeading = lang === 'ar'
+    ? (detail.main_heading_ar || '')
+    : (detail.main_heading_en || '')
+
+  let mainImageUrl: string | null = null
+  let mainImageAlt = ''
+  if (detail.main_image) {
+    if (typeof detail.main_image === 'object' && 'url' in detail.main_image) {
+      mainImageUrl = detail.main_image.url as string
+      mainImageAlt = (detail.main_image.alt as string) || ''
+    } else if (typeof detail.main_image === 'string') {
+      mainImageUrl = `/api/media/file/${detail.main_image}`
+    }
   }
 
-  const categoryLabel = categoryLabels[post.category]?.[lang as Language] || post.category
-
-  // Get author name
-  const authorName = post.author && typeof post.author === 'object' && 'name' in post.author
-    ? post.author.name
-    : lang === 'ar' ? 'DNA Media' : 'DNA Media'
+  const cmsBlocks = detail.blocks as any[] | undefined
+  const contentBlocks = (cmsBlocks || []).map((block: any) => ({
+    heading: lang === 'ar' ? (block.heading_ar || block.heading_en) : block.heading_en,
+    paragraph: lang === 'ar' ? (block.paragraph_ar || block.paragraph_en) : block.paragraph_en,
+  }))
 
   return (
-    <main className="min-h-screen">
-      {/* Hero Section with Featured Image */}
-      <section className="relative h-[60vh] min-h-[400px] bg-gray-900">
-        {featuredImage && typeof featuredImage === 'object' && 'url' in featuredImage && (
-          <Image
-            src={featuredImage.url as string}
-            alt={featuredImage.alt as string || title}
-            fill
-            className="object-cover opacity-60"
-            priority
-            sizes="100vw"
-          />
-        )}
-        
-        {/* Overlay Content */}
-        <div className="absolute inset-0 flex items-end">
-          <div className="container mx-auto px-4 pb-12">
-            <div className="max-w-4xl">
-              {/* Category */}
-              <div className="mb-4">
-                <span className="inline-block px-4 py-2 bg-primary-600 text-white text-sm font-medium rounded-full">
-                  {categoryLabel}
-                </span>
-              </div>
+    <main className="min-h-screen bg-black" dir={lang === 'ar' ? 'rtl' : 'ltr'}>
+      {/* Same Blog Hero Section as listing page — data from CMS Pages > Blog */}
+      {blogHero && (
+        <BlogHeroSection
+          title={heroTitle}
+          topic={heroTopic}
+          imageUrl={heroImageUrl}
+          link={heroLink}
+          lang={lang}
+          showReadMore={false}
+        />
+      )}
 
-              {/* Title */}
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
-                {title}
-              </h1>
+      {/* Blog Article — left sidebar + right content */}
+      <BlogArticleSection
+        description={articleDescription}
+        mainHeading={articleMainHeading}
+        mainImageUrl={mainImageUrl}
+        mainImageAlt={mainImageAlt}
+        blocks={contentBlocks}
+        lang={lang}
+      />
 
-              {/* Meta Info */}
-              <div className="flex items-center gap-4 text-white/90">
-                <span className="font-medium">{authorName}</span>
-                <span>•</span>
-                <time dateTime={post.publishedDate}>
-                  {formatDate(post.publishedDate, lang as Language)}
-                </time>
-              </div>
-            </div>
+      {/* Related Blogs */}
+      {relatedPosts.length > 0 && (
+        <section className="px-4 md:px-12 pb-16">
+          <h2
+            className="text-white text-2xl md:text-4xl font-bold uppercase mb-10"
+            style={{ fontFamily: 'Degular, sans-serif' }}
+          >
+            {lang === 'ar' ? 'مقالات ذات صلة' : 'RELATED ARTICLES'}
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+            {relatedPosts.map((rp: any) => (
+              <ProjectCard
+                key={rp.id || rp.slug}
+                title={lang === 'ar' ? (rp.title_ar || rp.title_en) : rp.title_en}
+                topic={rp.category || 'TOPIC'}
+                href={`/${lang}/blog/${rp.slug}`}
+                thumbnail={rp.featured_image}
+              />
+            ))}
           </div>
-        </div>
-      </section>
-
-      {/* Blog Content */}
-      <section className="py-12 md:py-16">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            {/* Breadcrumb */}
-            <nav className="mb-8 text-sm">
-              <ol className="flex items-center gap-2 text-gray-600">
-                <li>
-                  <Link href={`/${lang}`} className="hover:text-primary-600 transition-colors">
-                    {lang === 'ar' ? 'الرئيسية' : 'Home'}
-                  </Link>
-                </li>
-                <li>{lang === 'ar' ? '←' : '→'}</li>
-                <li>
-                  <Link href={`/${lang}/blog`} className="hover:text-primary-600 transition-colors">
-                    {lang === 'ar' ? 'المدونة' : 'Blog'}
-                  </Link>
-                </li>
-                <li>{lang === 'ar' ? '←' : '→'}</li>
-                <li className="text-gray-900 font-medium">{title}</li>
-              </ol>
-            </nav>
-
-            {/* Article Content */}
-            <article className="bg-white rounded-xl shadow-sm p-8 md:p-12">
-              <BlogContent content={content} lang={lang as Language} />
-            </article>
-
-            {/* Back to Blog */}
-            <div className="mt-12 text-center">
-              <Link
-                href={`/${lang}/blog`}
-                className="inline-flex items-center gap-2 px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-900 font-medium rounded-lg transition-colors"
-              >
-                {lang === 'ar' ? '← العودة إلى المدونة' : '← Back to Blog'}
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+        </section>
+      )}
     </main>
   )
 }
-

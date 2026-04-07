@@ -176,6 +176,87 @@ export const Blog: CollectionConfig = {
         },
       ],
     },
+    // Article Detail Section — shown on blog detail page
+    // Sequence: description → main heading → main image → repeatable heading+paragraph blocks
+    {
+      name: 'article_detail',
+      type: 'group',
+      label: 'Article Detail Section',
+      admin: {
+        description: 'Content for the blog detail page. Description, main heading, main image appear once. Add multiple content blocks below.',
+      },
+      fields: [
+        {
+          name: 'description_en',
+          type: 'textarea',
+          label: 'Description / Intro (English)',
+          admin: {
+            description: 'Introductory paragraph shown at the very top of the article',
+          },
+        },
+        {
+          name: 'description_ar',
+          type: 'textarea',
+          label: 'Description / Intro (Arabic)',
+        },
+        {
+          name: 'main_heading_en',
+          type: 'text',
+          label: 'Main Heading (English)',
+          admin: {
+            description: 'Main heading shown below the description, above the image',
+          },
+        },
+        {
+          name: 'main_heading_ar',
+          type: 'text',
+          label: 'Main Heading (Arabic)',
+        },
+        {
+          name: 'main_image',
+          type: 'upload',
+          relationTo: 'media',
+          label: 'Main Image',
+          admin: {
+            description: 'Image shown below the main heading (one time only)',
+          },
+        },
+        {
+          name: 'blocks',
+          type: 'array',
+          label: 'Content Blocks (Heading + Paragraph)',
+          admin: {
+            description: 'Add as many heading + paragraph sections as you need',
+          },
+          fields: [
+            {
+              name: 'heading_en',
+              type: 'text',
+              label: 'Heading (English)',
+              required: true,
+            },
+            {
+              name: 'heading_ar',
+              type: 'text',
+              label: 'Heading (Arabic)',
+              required: true,
+            },
+            {
+              name: 'paragraph_en',
+              type: 'textarea',
+              label: 'Paragraph (English)',
+              required: true,
+            },
+            {
+              name: 'paragraph_ar',
+              type: 'textarea',
+              label: 'Paragraph (Arabic)',
+              required: true,
+            },
+          ],
+        },
+      ],
+    },
     // SEO Fields
     {
       name: 'seo',

@@ -572,6 +572,37 @@ export interface Blog {
    */
   publishedDate: string;
   status: 'draft' | 'published';
+  /**
+   * Content for the blog detail page. Description, main heading, main image appear once. Add multiple content blocks below.
+   */
+  article_detail?: {
+    /**
+     * Introductory paragraph shown at the very top of the article
+     */
+    description_en?: string | null;
+    description_ar?: string | null;
+    /**
+     * Main heading shown below the description, above the image
+     */
+    main_heading_en?: string | null;
+    main_heading_ar?: string | null;
+    /**
+     * Image shown below the main heading (one time only)
+     */
+    main_image?: (string | null) | Media;
+    /**
+     * Add as many heading + paragraph sections as you need
+     */
+    blocks?:
+      | {
+          heading_en: string;
+          heading_ar: string;
+          paragraph_en: string;
+          paragraph_ar: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
   seo?: {
     /**
      * Recommended: 50-60 characters. Defaults to post title if empty.
@@ -1044,6 +1075,24 @@ export interface BlogSelect<T extends boolean = true> {
   author?: T;
   publishedDate?: T;
   status?: T;
+  article_detail?:
+    | T
+    | {
+        description_en?: T;
+        description_ar?: T;
+        main_heading_en?: T;
+        main_heading_ar?: T;
+        main_image?: T;
+        blocks?:
+          | T
+          | {
+              heading_en?: T;
+              heading_ar?: T;
+              paragraph_en?: T;
+              paragraph_ar?: T;
+              id?: T;
+            };
+      };
   seo?:
     | T
     | {

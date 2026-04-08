@@ -70,6 +70,7 @@ export interface Config {
     users: User;
     pages: Page;
     blog: Blog;
+    works: Work;
     team: Team;
     clients: Client;
     timeline: Timeline;
@@ -84,6 +85,7 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
     blog: BlogSelect<false> | BlogSelect<true>;
+    works: WorksSelect<false> | WorksSelect<true>;
     team: TeamSelect<false> | TeamSelect<true>;
     clients: ClientsSelect<false> | ClientsSelect<true>;
     timeline: TimelineSelect<false> | TimelineSelect<true>;
@@ -320,27 +322,6 @@ export interface Page {
     heading_en?: string | null;
     heading_ar?: string | null;
   };
-  /**
-   * Add work items that appear in the 2-column grid on the works page
-   */
-  worksGrid?:
-    | {
-        project_en: string;
-        project_ar: string;
-        industry_en: string;
-        industry_ar: string;
-        /**
-         * Square image recommended (896×896px). Covers the full card.
-         */
-        image: string | Media;
-        /**
-         * Optional link when clicking the card
-         */
-        link?: string | null;
-        order?: number | null;
-        id?: string | null;
-      }[]
-    | null;
   /**
    * Content for the contact/let's work page
    */
@@ -638,6 +619,66 @@ export interface Blog {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "works".
+ */
+export interface Work {
+  id: string;
+  project_en: string;
+  project_ar: string;
+  /**
+   * URL-friendly identifier (e.g., "my-project")
+   */
+  slug: string;
+  industry_en: string;
+  industry_ar: string;
+  /**
+   * Project description shown on the detail page
+   */
+  description_en?: string | null;
+  description_ar?: string | null;
+  /**
+   * Square image recommended (896×896px). Used in the works grid.
+   */
+  image: string | Media;
+  order?: number | null;
+  status: 'draft' | 'published';
+  /**
+   * Videos shown in the horizontal carousel on the detail page
+   */
+  videos?:
+    | {
+        url: string;
+        thumbnail?: string | null;
+        title?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  credits?: {
+    client_en?: string | null;
+    client_ar?: string | null;
+    agency_en?: string | null;
+    agency_ar?: string | null;
+    director_en?: string | null;
+    director_ar?: string | null;
+    dop_en?: string | null;
+    dop_ar?: string | null;
+    executiveProducer_en?: string | null;
+    executiveProducer_ar?: string | null;
+    industry_en?: string | null;
+    industry_ar?: string | null;
+  };
+  seo?: {
+    meta_title_en?: string | null;
+    meta_title_ar?: string | null;
+    meta_description_en?: string | null;
+    meta_description_ar?: string | null;
+    og_image?: (string | null) | Media;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "team".
  */
 export interface Team {
@@ -778,6 +819,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'blog';
         value: string | Blog;
+      } | null)
+    | ({
+        relationTo: 'works';
+        value: string | Work;
       } | null)
     | ({
         relationTo: 'team';
@@ -970,18 +1015,6 @@ export interface PagesSelect<T extends boolean = true> {
         heading_en?: T;
         heading_ar?: T;
       };
-  worksGrid?:
-    | T
-    | {
-        project_en?: T;
-        project_ar?: T;
-        industry_en?: T;
-        industry_ar?: T;
-        image?: T;
-        link?: T;
-        order?: T;
-        id?: T;
-      };
   contactSection?:
     | T
     | {
@@ -1103,6 +1136,57 @@ export interface BlogSelect<T extends boolean = true> {
         og_image?: T;
         canonical_url?: T;
         noindex?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "works_select".
+ */
+export interface WorksSelect<T extends boolean = true> {
+  project_en?: T;
+  project_ar?: T;
+  slug?: T;
+  industry_en?: T;
+  industry_ar?: T;
+  description_en?: T;
+  description_ar?: T;
+  image?: T;
+  order?: T;
+  status?: T;
+  videos?:
+    | T
+    | {
+        url?: T;
+        thumbnail?: T;
+        title?: T;
+        id?: T;
+      };
+  credits?:
+    | T
+    | {
+        client_en?: T;
+        client_ar?: T;
+        agency_en?: T;
+        agency_ar?: T;
+        director_en?: T;
+        director_ar?: T;
+        dop_en?: T;
+        dop_ar?: T;
+        executiveProducer_en?: T;
+        executiveProducer_ar?: T;
+        industry_en?: T;
+        industry_ar?: T;
+      };
+  seo?:
+    | T
+    | {
+        meta_title_en?: T;
+        meta_title_ar?: T;
+        meta_description_en?: T;
+        meta_description_ar?: T;
+        og_image?: T;
       };
   updatedAt?: T;
   createdAt?: T;

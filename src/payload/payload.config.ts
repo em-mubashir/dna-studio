@@ -10,6 +10,7 @@ import { Blog } from './collections/Blog'
 import { Team } from './collections/Team'
 import { Clients } from './collections/Clients'
 import { Timeline } from './collections/Timeline'
+import { Works } from './collections/Works'
 import { Settings } from './globals/Settings'
 
 const filename = fileURLToPath(import.meta.url)
@@ -30,7 +31,7 @@ export default buildConfig({
     },
   },
 
-  collections: [Users, Pages, Blog, Team, Clients, Timeline, Media],
+  collections: [Users, Pages, Blog, Works, Team, Clients, Timeline, Media],
 
   globals: [Settings],
 

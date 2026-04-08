@@ -260,3 +260,46 @@ export async function getRelatedBlogPosts(currentSlug: string, category: string,
     return []
   }
 }
+
+
+/**
+ * Fetch all published works ordered by display order
+ */
+export async function getWorks() {
+  try {
+    const payload = await getPayloadClient()
+    const result = await payload.find({
+      collection: 'works',
+      where: { status: { equals: 'published' } },
+      sort: 'order',
+      limit: 100,
+      depth: 2,
+    })
+    return result.docs
+  } catch (error) {
+    console.error('Error fetching works:', error)
+    return []
+  }
+}
+
+/**
+ * Fetch a single work by slug
+ */
+export async function getWorkBySlug(slug: string) {
+  try {
+    const payload = await getPayloadClient()
+    const result = await payload.find({
+      collection: 'works',
+      where: {
+        slug: { equals: slug },
+        status: { equals: 'published' },
+      },
+      limit: 1,
+      depth: 2,
+    })
+    return result.docs[0] || null
+  } catch (error) {
+    console.error(`Error fetching work with slug "${slug}":`, error)
+    return null
+  }
+}

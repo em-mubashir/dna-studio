@@ -361,31 +361,6 @@ export const Pages: CollectionConfig = {
         },
       ],
     },
-    {
-      name: 'worksGrid',
-      type: 'array',
-      label: 'Works Grid Items',
-      admin: {
-        condition: (data) => data?.slug === 'works',
-        description: 'Add work items that appear in the 2-column grid on the works page',
-      },
-      fields: [
-        { name: 'project_en', type: 'text', required: true, label: 'Project Name (English)' },
-        { name: 'project_ar', type: 'text', required: true, label: 'Project Name (Arabic)' },
-        { name: 'industry_en', type: 'text', required: true, label: 'Industry (English)' },
-        { name: 'industry_ar', type: 'text', required: true, label: 'Industry (Arabic)' },
-        {
-          name: 'image',
-          type: 'upload',
-          relationTo: 'media',
-          required: true,
-          label: 'Cover Image',
-          admin: { description: 'Square image recommended (896×896px). Covers the full card.' },
-        },
-        { name: 'link', type: 'text', label: 'Link URL', admin: { description: 'Optional link when clicking the card' } },
-        { name: 'order', type: 'number', label: 'Order', defaultValue: 0 },
-      ],
-    },
 
     // ──────────────────────────────────────────
     // Contact Page Sections

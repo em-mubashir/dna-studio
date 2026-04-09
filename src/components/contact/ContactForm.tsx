@@ -50,7 +50,7 @@ export default function ContactForm({
     )
   }
 
-  const visibleCount = 3
+  const visibleCount = typeof window !== 'undefined' && window.innerWidth < 640 ? 2 : 3
   const maxScroll = Math.max(0, serviceList.length - visibleCount)
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -66,16 +66,13 @@ export default function ContactForm({
 
   return (
     <div
-      className="bg-black flex flex-col justify-between"
+      className="bg-black flex flex-col justify-between w-full max-w-[671px]"
       style={{
-        width: '100%',
-        maxWidth: '671px',
-        height: '768px',
         padding: '24px',
         opacity: 1,
       }}
     >
-      <form onSubmit={handleSubmit} className="flex flex-col justify-between h-full">
+      <form onSubmit={handleSubmit} className="flex flex-col justify-between h-full gap-6">
         <div className="flex flex-col gap-5">
           {/* NAME */}
           <div className="flex flex-col gap-2">
@@ -149,7 +146,7 @@ export default function ContactForm({
               <div className="overflow-hidden">
                 <div
                   className="flex gap-2 transition-transform duration-300"
-                  style={{ transform: `translateX(-${scrollIndex * 190}px)` }}
+                  style={{ transform: `translateX(-${scrollIndex * 150}px)` }}
                 >
                   {serviceList.map((label, i) => {
                     const isSelected = selectedServices.includes(label)

@@ -89,7 +89,7 @@ export default async function ContactPage({ params }: ContactPageProps) {
       <div className="w-full flex items-center">
         <Link
           href={`/${lang}/contact`}
-          className="flex-1 h-[80px] md:h-[112px] flex items-center justify-center font-bold text-[32px] uppercase text-white transition-colors"
+          className="flex-1 h-[80px] md:h-[112px] flex items-center justify-center font-bold text-[20px] sm:text-[28px] md:text-[32px] uppercase text-white transition-colors"
           style={{ fontFamily: 'Degular, sans-serif', lineHeight: '1.0' }}
         >
           {tab1}
@@ -97,7 +97,7 @@ export default async function ContactPage({ params }: ContactPageProps) {
         <div className="w-px h-[60px] md:h-[112px] bg-white/50" />
         <Link
           href={`/${lang}/contact`}
-          className="flex-1 h-[80px] md:h-[112px] flex items-center justify-center font-bold text-[32px] uppercase text-white/50 hover:text-white transition-colors"
+          className="flex-1 h-[80px] md:h-[112px] flex items-center justify-center font-bold text-[20px] sm:text-[28px] md:text-[32px] uppercase text-white/50 hover:text-white transition-colors"
           style={{ fontFamily: 'Degular, sans-serif', lineHeight: '1.0' }}
         >
           {tab2}
@@ -120,7 +120,7 @@ export default async function ContactPage({ params }: ContactPageProps) {
         <div className="relative z-10 w-full max-w-[1824px] mx-auto px-4 md:px-12 py-10">
           {/* Desktop layout */}
           <div className="hidden lg:flex flex-row justify-between">
-            <div className="flex flex-col justify-between" style={{ height: '768px' }}>
+            <div className="flex flex-col justify-between min-h-[600px]">
               <div className="flex flex-col max-w-[400px]" style={{ gap: '80px' }}>
                 {/* OFFICE */}
                 <div className="flex flex-row gap-4">
@@ -173,14 +173,14 @@ export default async function ContactPage({ params }: ContactPageProps) {
             </div>
 
             {/* Form modal */}
-            <div style={{ width: '671px', height: '768px', flexShrink: 0 }}>
+            <div className="w-full max-w-[671px] flex-shrink-0">
               <ContactForm lang={lang as Language} {...formProps} />
             </div>
           </div>
 
           {/* Mobile layout */}
-          <div className="lg:hidden flex flex-col gap-10 py-10">
-            <div className="flex flex-col max-w-[400px]" style={{ gap: '80px' }}>
+          <div className="lg:hidden flex flex-col gap-8 py-6">
+            <div className="flex flex-col" style={{ gap: '40px' }}>
               <div className="flex flex-row gap-4">
                 <div className="w-px bg-white/50" style={{ marginTop: '-16px', marginBottom: '-16px', alignSelf: 'stretch' }} />
                 <div className="flex flex-col gap-2">
@@ -207,7 +207,7 @@ export default async function ContactPage({ params }: ContactPageProps) {
                 </div>
               </div>
             </div>
-            <h2 className="font-bold text-[48px] uppercase text-white leading-[1.0]" style={{ fontFamily: 'Degular, sans-serif' }}>
+            <h2 className="font-bold text-[32px] sm:text-[48px] uppercase text-white leading-[1.0]" style={{ fontFamily: 'Degular, sans-serif' }}>
               {line1}{line2 && <><br />{line2}</>}
             </h2>
             <ContactForm lang={lang as Language} {...formProps} />

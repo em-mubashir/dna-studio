@@ -32,11 +32,11 @@ export default function TaglineSection({
   const btnLink = buttonLink || '/works';
 
   return (
-    <section className="w-full bg-black py-20 md:py-32">
+    <section className="w-full bg-black py-12 md:py-20 lg:py-32">
       <div className="px-4 md:px-12 max-w-[1920px] mx-auto">
-        <div className="max-w-[902px]">
+        <div className="max-w-full md:max-w-[902px]">
           <h2 
-            className="text-[40px] md:text-[80px] uppercase text-white"
+            className="text-[28px] sm:text-[40px] md:text-[60px] lg:text-[80px] uppercase text-white"
             style={{ 
               fontFamily: 'Degular, sans-serif',
               fontWeight: 700,
@@ -49,10 +49,10 @@ export default function TaglineSection({
         </div>
         
         {/* View All Works Button */}
-        <div className="mt-64 text-center">
+        <div className="mt-16 md:mt-32 lg:mt-64 text-center">
           <Link 
             href={`/${lang}${btnLink}`}
-            className="inline-block font-bold text-[24px] uppercase text-white hover:text-white/80 transition-colors"
+            className="inline-block font-bold text-[18px] md:text-[24px] uppercase text-white hover:text-white/80 transition-colors"
             style={{ fontFamily: 'Degular, sans-serif' }}
           >
             {btnText}

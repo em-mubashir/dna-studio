@@ -49,7 +49,7 @@ export default function FeaturedWorkSection({
   const displaySoundOff = soundOffText || (isArabic ? 'الصوت مغلق' : 'SOUND OFF');
 
   const content = (
-    <div className="relative w-full max-w-[1824px] h-[920px] mx-auto overflow-hidden group border border-white/10">
+    <div className="relative w-full max-w-[1824px] h-[300px] sm:h-[450px] md:h-[650px] lg:h-[920px] mx-auto overflow-hidden group border border-white/10">
       {/* Background Image - Always show if available */}
       {bgImageUrl && (
         <div 
@@ -77,12 +77,12 @@ export default function FeaturedWorkSection({
       <div className="absolute inset-0 z-10 bg-gradient-to-b from-black/30 via-transparent to-black/50 group-hover:from-black/40 group-hover:to-black/60 transition-all duration-500" />
 
       {/* Content Container */}
-      <div className="absolute inset-0 z-20 flex flex-col justify-between p-10">
+      <div className="absolute inset-0 z-20 flex flex-col justify-between p-4 sm:p-6 md:p-10">
         {/* Top Row */}
         <div className="flex justify-between items-start">
           {/* Project Number - Top Left */}
           <span 
-            className="text-white text-[32px] leading-none uppercase tracking-wide"
+            className="text-white text-[16px] sm:text-[20px] md:text-[28px] lg:text-[32px] leading-none uppercase tracking-wide"
             style={{ fontFamily: 'Degular, sans-serif', fontWeight: 700 }}
           >
             {projectNumber}
@@ -90,7 +90,7 @@ export default function FeaturedWorkSection({
 
           {/* Service Type - Top Right */}
           <span 
-            className="text-white text-[32px] leading-none uppercase tracking-wide"
+            className="text-white text-[16px] sm:text-[20px] md:text-[28px] lg:text-[32px] leading-none uppercase tracking-wide"
             style={{ fontFamily: 'Degular, sans-serif', fontWeight: 700 }}
           >
             {displayServiceType}
@@ -101,7 +101,7 @@ export default function FeaturedWorkSection({
         <div className="flex justify-between items-end">
           {/* Project Title - Bottom Left */}
           <h3 
-            className="text-white text-[32px] leading-tight uppercase tracking-wide max-w-[400px]"
+            className="text-white text-[16px] sm:text-[20px] md:text-[28px] lg:text-[32px] leading-tight uppercase tracking-wide max-w-[200px] sm:max-w-[300px] md:max-w-[400px]"
             style={{ fontFamily: 'Degular, sans-serif', fontWeight: 700 }}
           >
             {displayProjectTitle}
@@ -111,7 +111,7 @@ export default function FeaturedWorkSection({
           {backgroundVideo && (
             <button
               onClick={() => setSoundOn(!soundOn)}
-              className="text-white text-[32px] leading-none uppercase tracking-wide hover:opacity-70 transition-opacity duration-300"
+              className="text-white text-[14px] sm:text-[18px] md:text-[24px] lg:text-[32px] leading-none uppercase tracking-wide hover:opacity-70 transition-opacity duration-300"
               style={{ fontFamily: 'Degular, sans-serif', fontWeight: 700 }}
               aria-label={soundOn ? displaySoundOn : displaySoundOff}
             >
@@ -124,8 +124,8 @@ export default function FeaturedWorkSection({
   );
 
   return (
-    <section className="w-full bg-black py-8">
-      <div className="px-12 max-w-[1920px] mx-auto">
+    <section className="w-full bg-black py-4 md:py-8">
+      <div className="px-4 md:px-12 max-w-[1920px] mx-auto">
         {projectLink ? (
           <Link href={`/${lang}${projectLink}`} className="block cursor-pointer">
             {content}

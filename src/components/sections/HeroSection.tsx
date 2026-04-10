@@ -44,24 +44,12 @@ export default function HeroSection({
     ? backgroundImage.url
     : null
 
-  console.log('Hero Section Debug:', {
-    backgroundVideo,
-    backgroundImage,
-    bgImageUrl,
-    hasVideo: !!backgroundVideo,
-    hasImage: !!bgImageUrl
-  });
-
   const pad = innerPadding ?? 0
 
   return (
     <section
       ref={sectionRef}
-      className={`relative w-full overflow-hidden bg-black ${className || ''}`}
-      style={{
-        height: 'calc(1080px - 120px)', // 960px on desktop
-        marginTop: '120px', // Account for fixed header
-      }}
+      className={`relative w-full overflow-hidden bg-black mt-[72px] md:mt-[120px] h-[calc(100svh-72px)] md:h-[calc(1080px-120px)] ${className || ''}`}
       aria-label={lang === 'en' ? 'Hero section' : 'قسم البطل'}
     >
       {/* Inner container — when innerPadding is set, everything lives inside this box */}
@@ -100,36 +88,16 @@ export default function HeroSection({
 
         {/* Text Content — always inside the image bounds */}
         <div 
-          className="absolute z-20 text-white uppercase"
-          style={textCenter ? {
-            top: '50%',
-            left: '48px',
-            right: '48px',
-            transform: 'translateY(-50%)',
-            textAlign: 'center',
-            maxWidth: '1824px',
-            opacity: 1,
-            whiteSpace: 'pre-line',
-          } : {
-            width: 'auto',
-            maxWidth: '1824px',
-            bottom: '48px',
-            left: '48px',
-            right: '48px',
-            opacity: 1,
-            whiteSpace: 'pre-line',
-          }}
+          className={`absolute z-20 text-white uppercase ${textCenter ? 'top-1/2 left-4 right-4 md:left-12 md:right-12 -translate-y-1/2 text-center' : 'bottom-6 left-4 right-4 md:bottom-12 md:left-12 md:right-12'}`}
+          style={{ maxWidth: '1824px', whiteSpace: 'pre-line' }}
         >
           <h1 
+            className="text-[32px] sm:text-[48px] md:text-[64px] lg:text-[80px] uppercase m-0"
             style={{
               fontFamily: 'Degular, sans-serif',
               fontWeight: 700,
-              fontSize: '80px',
               lineHeight: '100%',
-              letterSpacing: '0%',
               textAlign: textCenter ? 'center' : 'left',
-              textTransform: 'uppercase',
-              margin: 0,
             }}
           >
             {heading}

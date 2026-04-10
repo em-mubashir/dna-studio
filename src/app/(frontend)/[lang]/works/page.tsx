@@ -1,8 +1,8 @@
 import { type Metadata } from 'next'
 import { type Language } from '@/src/lib/utils/language'
-import { getPageBySlug } from '@/src/lib/payload'
+import { getPageBySlug, getWorks } from '@/src/lib/payload'
 import ProjectCard from '@/src/components/ui/ProjectCard'
-import CTASection from '@/src/components/sections/CTASection'
+import CTABanner from '@/src/components/sections/CTABanner'
 
 export const dynamic = 'force-dynamic'
 
@@ -23,13 +23,12 @@ export async function generateMetadata({ params }: WorkPageProps): Promise<Metad
 export default async function WorkPage({ params }: WorkPageProps) {
   const { lang } = await params
   const page = await getPageBySlug('works')
+  const works = await getWorks()
 
   const heading =
     lang === 'ar'
       ? page?.worksHeading?.heading_ar || 'في DNA، نجسّد جوهر الفن الإبداعي'
       : page?.worksHeading?.heading_en || 'AT DNA, WE EMBODY THE ESSENCE OF THE ART GENE'
-
-  const items = (page?.worksGrid || []).sort((a: any, b: any) => (a.order || 0) - (b.order || 0))
 
   return (
     <main className="bg-black min-h-screen">
@@ -43,32 +42,30 @@ export default async function WorkPage({ params }: WorkPageProps) {
       {/* Work Grid - 2 columns */}
       <section className="px-2 sm:px-4 pb-20">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-4 max-w-[1840px] mx-auto">
-          {items.map((item: any) => (
+          {works.map((item: any) => (
             <ProjectCard
               key={item.id}
               title={lang === 'ar' ? item.project_ar : item.project_en}
               topic={lang === 'ar' ? item.industry_ar : item.industry_en}
-              href={item.link || ''}
+              href={`/${lang}/works/${item.slug}`}
               thumbnail={item.image}
               variant="works"
             />
           ))}
         </div>
 
-        {items.length === 0 && (
+        {works.length === 0 && (
           <p className="text-neutral-500 text-center py-20 text-lg">
             {lang === 'ar' ? 'لا توجد مشاريع حالياً' : 'No projects yet'}
           </p>
         )}
       </section>
 
-      {/* CTA Section */}
-      <CTASection
-        lang={lang as Language}
+      {/* CTA Banner */}
+      <CTABanner
         heading={lang === 'ar' ? page?.ctaSection?.heading_ar : page?.ctaSection?.heading_en}
         buttonLink={page?.ctaSection?.buttonLink}
-        backgroundImage={page?.ctaSection?.backgroundImage}
-        circleImage={page?.ctaSection?.circleImage}
+        lang={lang}
       />
     </main>
   )

@@ -29,6 +29,11 @@ const nextConfig = {
         hostname: 'i.vimeocdn.com',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: '*.digitaloceanspaces.com',
+        pathname: '/**',
+      },
     ],
     formats: ['image/avif', 'image/webp'],
   },

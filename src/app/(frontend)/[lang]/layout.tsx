@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import { isValidLanguage, getLanguageDirection, type Language } from '@/src/lib/utils/language';
 import Header from '@/src/components/layout/Header';
 import ConditionalFooter from '@/src/components/layout/ConditionalFooter';
+import GSAPProvider from '@/src/lib/gsap/GSAPProvider';
 import { getPayload } from 'payload';
 import config from '@/src/payload/payload.config';
 
@@ -70,9 +71,11 @@ export default async function LanguageLayout({
 
   return (
     <div lang={lang} dir={direction} className={fontClass}>
-      <Header lang={lang as Language} menuItems={menuItems} logo={logo} logoAlt={logoAlt ?? undefined} />
-      {children}
-      <ConditionalFooter lang={lang as Language} footerData={footerData} />
+      <GSAPProvider>
+        <Header lang={lang as Language} menuItems={menuItems} logo={logo} logoAlt={logoAlt ?? undefined} />
+        {children}
+        <ConditionalFooter lang={lang as Language} footerData={footerData} />
+      </GSAPProvider>
     </div>
   );
 }

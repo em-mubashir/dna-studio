@@ -131,7 +131,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       mainImageUrl = detail.main_image.url as string
       mainImageAlt = (detail.main_image.alt as string) || ''
     } else if (typeof detail.main_image === 'string') {
-      mainImageUrl = `/api/media/file/${detail.main_image}`
+      // String means unpopulated ID — image not available, skip
+      mainImageUrl = null
     }
   }
 

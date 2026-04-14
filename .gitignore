@@ -34,5 +34,8 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# Regenerated on each deploy — cross-platform lockfile issues with npm 10/11
+package-lock.json
+
 # Payload local media uploads — use S3 (DO Spaces) in all environments
 /media

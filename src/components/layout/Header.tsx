@@ -1,9 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
+import { gsap } from 'gsap';
+import { SplitText } from 'gsap/SplitText';
 import type { Language } from '@/src/lib/utils/language';
 
 interface MenuItem {
@@ -31,10 +33,59 @@ interface HeaderProps {
  * Border-bottom: 1px solid rgba(255, 255, 255, 0.5)
  * Padding: 0 48px (desktop), 0 16px (mobile)
  */
+/** Hook: split text hover animation for a single element */
+function useSplitTextHover() {
+  const textRef = useRef<HTMLSpanElement>(null);
+  const splitRef = useRef<SplitText | null>(null);
+  const tlRef = useRef<gsap.core.Timeline | null>(null);
+
+  const onEnter = useCallback(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (!textRef.current) return;
+
+    tlRef.current?.kill();
+    splitRef.current?.revert();
+
+    const split = SplitText.create(textRef.current, { type: 'chars' });
+    splitRef.current = split;
+
+    gsap.set(split.chars, { y: 0, opacity: 1 });
+
+    const tl = gsap.timeline();
+    tlRef.current = tl;
+
+    tl.to(split.chars, {
+      y: -8,
+      opacity: 0,
+      duration: 0.2,
+      stagger: 0.02,
+      ease: 'power2.in',
+    }).set(split.chars, { y: 8 }).to(split.chars, {
+      y: 0,
+      opacity: 1,
+      duration: 0.25,
+      stagger: 0.02,
+      ease: 'power2.out',
+    });
+  }, []);
+
+  const onLeave = useCallback(() => {
+    tlRef.current?.kill();
+    if (splitRef.current) {
+      gsap.set(splitRef.current.chars, { y: 0, opacity: 1 });
+    }
+  }, []);
+
+  return { textRef, onEnter, onLeave };
+}
+
 export default function Header({ lang, menuItems = [], logo, logoAlt }: HeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
   const isArabic = lang === 'ar';
+
+  const english = useSplitTextHover();
+  const arabic = useSplitTextHover();
 
   // Sort menu items by order
   const sortedMenuItems = [...menuItems].sort((a, b) => a.order - b.order);
@@ -71,8 +122,10 @@ export default function Header({ lang, menuItems = [], logo, logoAlt }: HeaderPr
                   lang === 'en' ? 'text-white' : 'text-white/50'
                 }`}
                 style={{ fontFamily: 'Degular, sans-serif' }}
+                onMouseEnter={english.onEnter}
+                onMouseLeave={english.onLeave}
               >
-                ENGLISH
+                <span ref={english.textRef}>ENGLISH</span>
               </Link>
               <div className="w-px h-[23px] bg-white/50" />
               <Link
@@ -81,8 +134,10 @@ export default function Header({ lang, menuItems = [], logo, logoAlt }: HeaderPr
                   lang === 'ar' ? 'text-white' : 'text-white/50'
                 }`}
                 style={{ fontFamily: 'Degular, sans-serif' }}
+                onMouseEnter={arabic.onEnter}
+                onMouseLeave={arabic.onLeave}
               >
-                ARABIC
+                <span ref={arabic.textRef}>ARABIC</span>
               </Link>
             </div>
 

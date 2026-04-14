@@ -14,10 +14,15 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'http',
-        hostname: 'localhost',
-        port: '3000',
-        pathname: '/api/media/**',
+        protocol: 'https',
+        hostname: '*.digitaloceanspaces.com',
+        pathname: '/**',
+      },
+      {
+        // DO Spaces CDN endpoint (enable CDN in your Space settings)
+        protocol: 'https',
+        hostname: '*.cdn.digitaloceanspaces.com',
+        pathname: '/**',
       },
       {
         protocol: 'https',

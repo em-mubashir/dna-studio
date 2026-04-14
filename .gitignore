@@ -33,3 +33,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Payload local media uploads — use S3 (DO Spaces) in all environments
+/media

@@ -57,7 +57,7 @@ export async function middleware(request: NextRequest) {
       redis,
       limiter: Ratelimit.slidingWindow(10, '10 s'),
       analytics: true,
-      prefix: 'dna-media-ratelimit',
+      prefix: 'dna-studio-ratelimit',
     })
 
     const ip = request.headers.get('x-forwarded-for') ?? request.headers.get('x-real-ip') ?? 'anonymous'

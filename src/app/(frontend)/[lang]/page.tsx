@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: HomePageProps): Promise<Metad
 
   if (!page) {
     return {
-      title: 'DNA Media',
+      title: 'DNA Studio',
       description: 'Premium video production company',
     }
   }
@@ -41,7 +41,7 @@ export async function generateMetadata({ params }: HomePageProps): Promise<Metad
       title: metaTitle || getBilingualField<string>(page, 'title', lang as Language),
       description: metaDescription || '',
       url: currentUrl,
-      siteName: 'DNA Media',
+      siteName: 'DNA Studio',
       locale: lang === 'en' ? 'en_US' : 'ar_SA',
       type: 'website',
       images: ogImage && typeof ogImage === 'object' && 'url' in ogImage 

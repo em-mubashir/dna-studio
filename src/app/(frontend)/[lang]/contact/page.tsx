@@ -17,8 +17,8 @@ export async function generateMetadata({ params }: ContactPageProps): Promise<Me
   const isArabic = lang === 'ar'
 
   const metaTitle = isArabic
-    ? (page?.seo?.meta_title_ar || page?.title_ar || 'تواصل معنا - DNA Media')
-    : (page?.seo?.meta_title_en || page?.title_en || "Let's Work - DNA Media")
+    ? (page?.seo?.meta_title_ar || page?.title_ar || 'تواصل معنا - DNA Studio')
+    : (page?.seo?.meta_title_en || page?.title_en || "Let's Work - DNA Studio")
   const metaDesc = isArabic
     ? (page?.seo?.meta_description_ar || '')
     : (page?.seo?.meta_description_en || '')

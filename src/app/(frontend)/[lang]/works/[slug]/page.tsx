@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: WorkDetailPageProps): Promise
   const title = lang === 'ar' ? work.project_ar : work.project_en
   const description = lang === 'ar' ? work.description_ar : work.description_en
   return {
-    title: `${title} | DNA Media`,
+    title: `${title} | DNA Studio`,
     description: description || '',
   }
 }

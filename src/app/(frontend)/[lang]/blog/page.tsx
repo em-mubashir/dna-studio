@@ -16,7 +16,7 @@ interface BlogPageProps {
 
 export async function generateMetadata({ params }: BlogPageProps): Promise<Metadata> {
   const { lang } = await params
-  const title = lang === 'ar' ? 'المدونة - DNA Media' : 'Blog - DNA Media'
+  const title = lang === 'ar' ? 'المدونة - DNA Studio' : 'Blog - DNA Studio'
   const description =
     lang === 'ar'
       ? 'اكتشف أحدث الأخبار والنصائح والرؤى حول إنتاج الفيديو والصناعة الإبداعية'
@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: BlogPageProps): Promise<Metad
   return {
     title,
     description,
-    openGraph: { title, description, url: currentUrl, siteName: 'DNA Media', locale: lang === 'en' ? 'en_US' : 'ar_SA', type: 'website' },
+    openGraph: { title, description, url: currentUrl, siteName: 'DNA Studio', locale: lang === 'en' ? 'en_US' : 'ar_SA', type: 'website' },
     twitter: { card: 'summary_large_image', title, description },
     alternates: { canonical: currentUrl, languages: { en: `${baseUrl}/en/blog`, ar: `${baseUrl}/ar/blog` } },
   }

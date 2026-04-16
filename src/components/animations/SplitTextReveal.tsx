@@ -8,18 +8,26 @@ import { SplitText } from 'gsap/SplitText'
 // Register plugins at module level — runs once on import, before any useEffect
 gsap.registerPlugin(ScrollTrigger, SplitText)
 
+/**
+ * Fisher-Yates shuffle — returns a new array with indices in random order.
+ */
+function shuffledIndices(length: number): number[] {
+  const arr = Array.from({ length }, (_, i) => i)
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[arr[i], arr[j]] = [arr[j], arr[i]]
+  }
+  return arr
+}
+
 interface SplitTextRevealProps {
   children: React.ReactNode
   /** HTML tag to render */
   as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span' | 'div'
-  /** Split by 'chars', 'words', or 'chars,words' */
-  splitType?: 'chars' | 'words' | 'chars,words'
-  /** Animation duration per element */
+  /** Animation duration per character reveal */
   duration?: number
-  /** Stagger delay between elements */
-  stagger?: number
-  /** Y offset to animate from */
-  yOffset?: number
+  /** Total time spread across which all characters appear (seconds) */
+  totalDuration?: number
   /** Delay before animation starts */
   delay?: number
   className?: string
@@ -30,10 +38,8 @@ interface SplitTextRevealProps {
 export default function SplitTextReveal({
   children,
   as: Tag = 'h2',
-  splitType = 'chars',
-  duration = 0.6,
-  stagger = 0.02,
-  yOffset = 40,
+  duration = 0.4,
+  totalDuration = 1.2,
   delay = 0,
   className,
   style,
@@ -48,32 +54,43 @@ export default function SplitTextReveal({
     // Respect reduced motion
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
-    const split = SplitText.create(el, { type: splitType })
-    const targets = splitType.includes('chars') ? split.chars : split.words
+    const split = SplitText.create(el, { type: 'chars' })
+    const chars = split.chars
 
-    gsap.set(targets, { y: yOffset, opacity: 0 })
+    // Hide all characters initially
+    gsap.set(chars, { opacity: 0 })
+
+    // Build a random reveal order
+    const order = shuffledIndices(chars.length)
+    const staggerGap = chars.length > 1 ? totalDuration / (chars.length - 1) : 0
+
+    const tl = gsap.timeline({ delay })
+
+    // Add each character tween at its randomised position in time
+    order.forEach((charIndex, i) => {
+      tl.to(
+        chars[charIndex],
+        { opacity: 1, duration, ease: 'power2.out' },
+        i * staggerGap // position on the timeline
+      )
+    })
 
     const trigger = ScrollTrigger.create({
       trigger: el,
       start: 'top 85%',
       once: true,
-      onEnter: () => {
-        gsap.to(targets, {
-          y: 0,
-          opacity: 1,
-          duration,
-          stagger,
-          delay,
-          ease: 'power3.out',
-        })
-      },
+      onEnter: () => tl.play(),
     })
+
+    // Pause until scroll triggers it
+    tl.pause()
 
     return () => {
       trigger.kill()
+      tl.kill()
       split.revert()
     }
-  }, [splitType, duration, stagger, yOffset, delay])
+  }, [duration, totalDuration, delay])
 
   return (
     <Tag

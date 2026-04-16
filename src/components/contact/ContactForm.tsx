@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import AnimatedButton from '@/src/components/ui/AnimatedButton'
 
 interface ServiceOption {
   label_en: string
@@ -190,16 +191,17 @@ export default function ContactForm({
         </div>
 
         {/* SUBMIT */}
-        <button
+        <AnimatedButton
           type="submit"
           disabled={isSubmitting}
-          className="w-full h-[52px] bg-white text-black font-bold text-[18px] uppercase rounded-lg hover:bg-white/90 transition-colors disabled:opacity-50 mt-4"
+          className="w-full h-[52px] font-bold text-[18px] uppercase rounded-lg mt-4"
           style={{ fontFamily: 'Degular, sans-serif' }}
+          variant="dark"
         >
           {isSubmitting
             ? (submittingText || '')
             : (submitText || '')}
-        </button>
+        </AnimatedButton>
       </form>
     </div>
   )

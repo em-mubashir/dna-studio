@@ -1,8 +1,8 @@
 'use client'
 
-import Link from 'next/link'
 import Image from 'next/image'
 import SplitTextReveal from '@/src/components/animations/SplitTextReveal'
+import AnimatedButton from '@/src/components/ui/AnimatedButton'
 
 interface BlogHeroSectionProps {
   title: string | null
@@ -49,17 +49,18 @@ export default function BlogHeroSection({ title, topic, imageUrl, link, lang, sh
             )}
 
             {showReadMore && (
-              <Link
+              <AnimatedButton
                 href={link}
-                className="inline-flex items-center gap-2 text-sm md:text-base text-white/90 hover:text-white transition-colors group"
+                className="px-6 py-2 rounded-full text-sm md:text-base"
+                variant="dark"
               >
                 {readMoreText}
-                <span className="inline-flex items-center gap-0.5 text-white/70 group-hover:text-white transition-colors">
+                <span className="inline-flex items-center gap-0.5">
                   <span className="w-1 h-1 rounded-full bg-current" />
                   <span className="w-1 h-1 rounded-full bg-current" />
                   <span className="w-1 h-1 rounded-full bg-current" />
                 </span>
-              </Link>
+              </AnimatedButton>
             )}
           </div>
         </div>

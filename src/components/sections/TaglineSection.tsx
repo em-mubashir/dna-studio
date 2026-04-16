@@ -1,8 +1,8 @@
 'use client'
 
-import Link from 'next/link';
 import type { Language } from '@/src/lib/utils/language';
 import SplitTextReveal from '@/src/components/animations/SplitTextReveal';
+import AnimatedButton from '@/src/components/ui/AnimatedButton';
 
 interface TaglineSectionProps {
   lang: Language;
@@ -54,13 +54,14 @@ export default function TaglineSection({
         
         {/* View All Works Button */}
         <div className="mt-16 md:mt-32 lg:mt-64 text-center">
-          <Link 
+          <AnimatedButton 
             href={`/${lang}${btnLink}`}
-            className="inline-block font-bold text-[18px] md:text-[24px] uppercase text-white hover:text-white/80 transition-colors"
+            className="px-8 py-3 rounded-full font-bold text-[18px] md:text-[24px] uppercase"
             style={{ fontFamily: 'Degular, sans-serif' }}
+            variant="dark"
           >
             {btnText}
-          </Link>
+          </AnimatedButton>
         </div>
       </div>
     </section>

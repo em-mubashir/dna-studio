@@ -38,8 +38,8 @@ interface SplitTextRevealProps {
 export default function SplitTextReveal({
   children,
   as: Tag = 'h2',
-  duration = 0.4,
-  totalDuration = 1.2,
+  duration = 0.2,
+  totalDuration = 0.6,
   delay = 0,
   className,
   style,

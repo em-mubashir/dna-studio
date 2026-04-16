@@ -203,7 +203,7 @@ function MenuItem({ href, label, description }: { href: string; label: string; d
       }}
     >
       <span 
-        className="uppercase text-white group-hover:text-white/80 transition-colors"
+        className="uppercase text-white/40 group-hover:text-white transition-colors duration-300"
         style={{ 
           fontFamily: 'Degular, sans-serif',
           fontWeight: 700,
@@ -216,7 +216,7 @@ function MenuItem({ href, label, description }: { href: string; label: string; d
         {label}
       </span>
       <span 
-        className="text-white/50 group-hover:text-white transition-colors"
+        className="text-white/30 group-hover:text-white transition-colors duration-300"
         style={{ fontFamily: 'IBM Plex Sans, sans-serif', fontSize: '24px' }}
       >
         {description}

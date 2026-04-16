@@ -17,14 +17,14 @@ const cairo = Cairo({
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SERVER_URL || 'https://dnamedia.com'),
   title: {
-    default: 'DNA Media - Premium Video Production',
-    template: '%s | DNA Media',
+    default: 'DNA Studio - Premium Video Production',
+    template: '%s | DNA Studio',
   },
   description: 'Premium video production company specializing in commercial, corporate, and documentary content',
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    siteName: 'DNA Media',
+    siteName: 'DNA Studio',
   },
   twitter: {
     card: 'summary_large_image',

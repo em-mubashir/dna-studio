@@ -1,7 +1,7 @@
 import type { LexicalEditorProps } from '@payloadcms/richtext-lexical'
 
 /**
- * Lexical Editor Configuration for DNA Media CMS
+ * Lexical Editor Configuration for DNA Studio CMS
  * 
  * This configuration provides a rich text editing experience with:
  * - Standard formatting (bold, italic, underline, strikethrough)

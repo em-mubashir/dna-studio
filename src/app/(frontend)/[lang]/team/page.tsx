@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: TeamPageProps): Promise<Metad
   const { lang } = await params
   const page = await getPageBySlug('team')
 
-  const fallbackTitle = lang === 'ar' ? 'الفريق - DNA Media' : 'Team - DNA Media'
+  const fallbackTitle = lang === 'ar' ? 'الفريق - DNA Studio' : 'Team - DNA Studio'
   if (!page) return { title: fallbackTitle }
 
   const metaTitle = getBilingualField<string>(page.seo || {}, 'meta_title', lang as Language)
@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: TeamPageProps): Promise<Metad
       title: metaTitle || fallbackTitle,
       description: metaDescription || '',
       url: `${baseUrl}/${lang}/team`,
-      siteName: 'DNA Media',
+      siteName: 'DNA Studio',
       locale: lang === 'en' ? 'en_US' : 'ar_SA',
       type: 'website',
     },

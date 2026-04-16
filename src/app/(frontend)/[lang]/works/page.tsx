@@ -12,7 +12,7 @@ interface WorkPageProps {
 
 export async function generateMetadata({ params }: WorkPageProps): Promise<Metadata> {
   const { lang } = await params
-  const title = lang === 'ar' ? 'أعمالنا | DNA Media' : 'Our Work | DNA Media'
+  const title = lang === 'ar' ? 'أعمالنا | DNA Studio' : 'Our Work | DNA Studio'
   const description =
     lang === 'ar'
       ? 'استكشف مشاريعنا الإبداعية في إنتاج الفيديو'

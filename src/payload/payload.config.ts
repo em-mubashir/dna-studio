@@ -21,7 +21,7 @@ export default buildConfig({
   admin: {
     user: 'users',
     meta: {
-      titleSuffix: '- DNA Media CMS',
+      titleSuffix: '- DNA Studio CMS',
     },
     livePreview: {
       breakpoints: [
@@ -46,7 +46,7 @@ export default buildConfig({
       retryWrites: true,
       retryReads: true,
       compressors: ['zlib'],
-      appName: 'DNA-Media-Website',
+      appName: 'DNA-Studio-Website',
     },
   }),
 
@@ -56,7 +56,7 @@ export default buildConfig({
     ],
   }),
 
-  secret: process.env.PAYLOAD_SECRET || 'dna-media-dev-secret-change-in-production',
+  secret: process.env.PAYLOAD_SECRET || 'dna-studio-dev-secret-change-in-production',
 
   typescript: {
     outputFile: path.resolve(dirname, '../payload-types.ts'),

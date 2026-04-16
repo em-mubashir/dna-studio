@@ -60,7 +60,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
       title: metaTitle,
       description: metaDescription,
       url: currentUrl,
-      siteName: 'DNA Media',
+      siteName: 'DNA Studio',
       locale: lang === 'en' ? 'en_US' : 'ar_SA',
       type: 'article',
       publishedTime: post.publishedDate,

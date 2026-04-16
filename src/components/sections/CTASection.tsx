@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import type { Language } from '@/src/lib/utils/language';
+import SplitTextReveal from '@/src/components/animations/SplitTextReveal';
 
 interface CTASectionProps {
   lang: Language;
@@ -57,7 +58,8 @@ export default function CTASection({
       <div className="relative z-10 h-full flex items-end justify-start px-4 md:px-12 pb-10 md:pb-20">
         <div className="flex items-center gap-4 sm:gap-6 md:gap-12">
           {/* Headline */}
-          <h2 
+          <SplitTextReveal 
+            as="h2"
             className="text-[24px] sm:text-[32px] md:text-[56px] lg:text-[80px] uppercase text-white max-w-[280px] sm:max-w-[400px] md:max-w-[581px]"
             style={{ 
               fontFamily: 'Degular, sans-serif',
@@ -66,7 +68,7 @@ export default function CTASection({
             }}
           >
             {heading}
-          </h2>
+          </SplitTextReveal>
 
           {/* CTA Button */}
           <Link

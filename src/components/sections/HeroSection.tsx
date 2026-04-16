@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react'
 import Image from 'next/image'
 import { type Language } from '@/src/lib/utils/language'
+import SplitTextReveal from '@/src/components/animations/SplitTextReveal'
 
 interface HeroSectionProps {
   heading: string
@@ -91,7 +92,8 @@ export default function HeroSection({
           className={`absolute z-20 text-white uppercase ${textCenter ? 'top-1/2 left-4 right-4 md:left-12 md:right-12 -translate-y-1/2 text-center' : 'bottom-6 left-4 right-4 md:bottom-12 md:left-12 md:right-12'}`}
           style={{ maxWidth: '1824px', whiteSpace: 'pre-line' }}
         >
-          <h1 
+          <SplitTextReveal 
+            as="h1"
             className="text-[32px] sm:text-[48px] md:text-[64px] lg:text-[80px] uppercase m-0"
             style={{
               fontFamily: 'Degular, sans-serif',
@@ -101,7 +103,7 @@ export default function HeroSection({
             }}
           >
             {heading}
-          </h1>
+          </SplitTextReveal>
         </div>
       </div>
     </section>

@@ -443,6 +443,7 @@ export interface Media {
   alt: string;
   caption_en?: string | null;
   caption_ar?: string | null;
+  prefix?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -1243,6 +1244,7 @@ export interface MediaSelect<T extends boolean = true> {
   alt?: T;
   caption_en?: T;
   caption_ar?: T;
+  prefix?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;

@@ -1,5 +1,8 @@
+'use client'
+
 import Link from 'next/link';
 import type { Language } from '@/src/lib/utils/language';
+import SplitTextReveal from '@/src/components/animations/SplitTextReveal';
 
 interface TaglineSectionProps {
   lang: Language;
@@ -35,7 +38,8 @@ export default function TaglineSection({
     <section className="w-full bg-black py-12 md:py-20 lg:py-32">
       <div className="px-4 md:px-12 max-w-[1920px] mx-auto">
         <div className="max-w-full md:max-w-[902px]">
-          <h2 
+          <SplitTextReveal 
+            as="h2"
             className="text-[28px] sm:text-[40px] md:text-[60px] lg:text-[80px] uppercase text-white"
             style={{ 
               fontFamily: 'Degular, sans-serif',
@@ -45,7 +49,7 @@ export default function TaglineSection({
             }}
           >
             {text}
-          </h2>
+          </SplitTextReveal>
         </div>
         
         {/* View All Works Button */}

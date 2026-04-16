@@ -2,6 +2,7 @@
 
 import { type Language, getBilingualField } from '@/src/lib/utils/language'
 import WorkCard from '@/src/components/works/WorkCard'
+import SplitTextReveal from '@/src/components/animations/SplitTextReveal'
 
 interface WorkItem {
   id: string
@@ -32,9 +33,9 @@ export default function WorksGrid({ items, lang, featured = false }: WorksGridPr
     <section className="py-16 px-4 sm:px-6 lg:px-8 bg-black" aria-labelledby="works-heading">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
-          <h2 id="works-heading" className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">
+          <SplitTextReveal as="h2" id="works-heading" className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">
             {sectionTitle}
-          </h2>
+          </SplitTextReveal>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

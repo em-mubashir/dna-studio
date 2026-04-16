@@ -1,6 +1,7 @@
 'use client'
 
 import type { Language } from '@/src/lib/utils/language';
+import SplitTextReveal from '@/src/components/animations/SplitTextReveal';
 
 interface AboutSectionProps {
   lang: Language;
@@ -52,7 +53,8 @@ export default function AboutSection({
           {/* Content - Right Side */}
           <div className="w-full max-w-[1368px]">
             {/* Heading */}
-            <h2 
+            <SplitTextReveal 
+              as="h2"
               className={`${headingSize} uppercase text-white mb-6 md:mb-12`}
               style={{ 
                 fontFamily: 'Degular, sans-serif',
@@ -61,7 +63,7 @@ export default function AboutSection({
               }}
             >
               {heading}
-            </h2>
+            </SplitTextReveal>
 
             {/* Image */}
             {imageUrl && (

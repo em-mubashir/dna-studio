@@ -2,6 +2,7 @@
 
 import { useRef, useEffect, useState } from 'react'
 import { type Language } from '@/src/lib/utils/language'
+import SplitTextReveal from '@/src/components/animations/SplitTextReveal'
 
 interface VideoItem {
   url: string
@@ -99,9 +100,9 @@ export default function WorkDetailHero({
           <p className="text-sm leading-relaxed text-white/80 max-w-[400px]">
             {description}
           </p>
-          <h1 className="text-5xl lg:text-7xl font-bold uppercase mt-8 lg:mt-0">
+          <SplitTextReveal as="h1" className="text-5xl lg:text-7xl font-bold uppercase mt-8 lg:mt-0">
             {title}
-          </h1>
+          </SplitTextReveal>
         </div>
 
         {/* Right: Horizontal scrolling video carousel */}

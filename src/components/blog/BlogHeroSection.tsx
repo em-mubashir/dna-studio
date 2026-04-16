@@ -1,5 +1,8 @@
+'use client'
+
 import Link from 'next/link'
 import Image from 'next/image'
+import SplitTextReveal from '@/src/components/animations/SplitTextReveal'
 
 interface BlogHeroSectionProps {
   title: string | null
@@ -40,9 +43,9 @@ export default function BlogHeroSection({ title, topic, imageUrl, link, lang, sh
             )}
 
             {title && (
-              <h1 className="text-xl sm:text-2xl md:text-5xl lg:text-6xl font-bold text-white uppercase leading-tight max-w-3xl mb-4 md:mb-8 whitespace-pre-line">
+              <SplitTextReveal as="h1" className="text-xl sm:text-2xl md:text-5xl lg:text-6xl font-bold text-white uppercase leading-tight max-w-3xl mb-4 md:mb-8 whitespace-pre-line">
                 {title}
-              </h1>
+              </SplitTextReveal>
             )}
 
             {showReadMore && (

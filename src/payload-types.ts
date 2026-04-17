@@ -329,8 +329,14 @@ export interface Page {
    * Content for the contact/let's work page
    */
   contactSection?: {
+    /**
+     * e.g. "WORK"
+     */
     tab1_en?: string | null;
     tab1_ar?: string | null;
+    /**
+     * e.g. "COLLABORATE"
+     */
     tab2_en?: string | null;
     tab2_ar?: string | null;
     /**
@@ -388,6 +394,30 @@ export interface Page {
     form_submit_ar?: string | null;
     form_submitting_en?: string | null;
     form_submitting_ar?: string | null;
+    collab_name_label_en?: string | null;
+    collab_name_label_ar?: string | null;
+    collab_name_placeholder_en?: string | null;
+    collab_name_placeholder_ar?: string | null;
+    collab_profession_label_en?: string | null;
+    collab_profession_label_ar?: string | null;
+    collab_profession_placeholder_en?: string | null;
+    collab_profession_placeholder_ar?: string | null;
+    collab_email_label_en?: string | null;
+    collab_email_label_ar?: string | null;
+    collab_email_placeholder_en?: string | null;
+    collab_email_placeholder_ar?: string | null;
+    collab_portfolio_label_en?: string | null;
+    collab_portfolio_label_ar?: string | null;
+    collab_portfolio_placeholder_en?: string | null;
+    collab_portfolio_placeholder_ar?: string | null;
+    collab_cover_letter_label_en?: string | null;
+    collab_cover_letter_label_ar?: string | null;
+    collab_cover_letter_placeholder_en?: string | null;
+    collab_cover_letter_placeholder_ar?: string | null;
+    collab_submit_en?: string | null;
+    collab_submit_ar?: string | null;
+    collab_submitting_en?: string | null;
+    collab_submitting_ar?: string | null;
   };
   seo?: {
     /**
@@ -1075,6 +1105,30 @@ export interface PagesSelect<T extends boolean = true> {
         form_submit_ar?: T;
         form_submitting_en?: T;
         form_submitting_ar?: T;
+        collab_name_label_en?: T;
+        collab_name_label_ar?: T;
+        collab_name_placeholder_en?: T;
+        collab_name_placeholder_ar?: T;
+        collab_profession_label_en?: T;
+        collab_profession_label_ar?: T;
+        collab_profession_placeholder_en?: T;
+        collab_profession_placeholder_ar?: T;
+        collab_email_label_en?: T;
+        collab_email_label_ar?: T;
+        collab_email_placeholder_en?: T;
+        collab_email_placeholder_ar?: T;
+        collab_portfolio_label_en?: T;
+        collab_portfolio_label_ar?: T;
+        collab_portfolio_placeholder_en?: T;
+        collab_portfolio_placeholder_ar?: T;
+        collab_cover_letter_label_en?: T;
+        collab_cover_letter_label_ar?: T;
+        collab_cover_letter_placeholder_en?: T;
+        collab_cover_letter_placeholder_ar?: T;
+        collab_submit_en?: T;
+        collab_submit_ar?: T;
+        collab_submitting_en?: T;
+        collab_submitting_ar?: T;
       };
   seo?:
     | T

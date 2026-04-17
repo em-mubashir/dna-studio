@@ -20,7 +20,7 @@ interface HeroSectionProps {
  * Hero Section - Figma Design Implementation
  * 
  * Total viewport height: 1080px (including header)
- * Header height: 120px (desktop), 72px (mobile)
+ * Header height: 90px (desktop), 72px (mobile)
  * Hero section height: 1080px - header height
  * Text Layout: 788px × 80px at position (48px, 920px from top of viewport)
  * Typography: Degular Bold 80px, line-height 100%, uppercase
@@ -49,7 +49,7 @@ export default function HeroSection({
   return (
     <section
       ref={sectionRef}
-      className={`relative w-full overflow-hidden bg-black mt-[72px] md:mt-[120px] h-[calc(100svh-72px)] md:h-[calc(1080px-120px)] ${className || ''}`}
+      className={`relative w-full overflow-hidden bg-black mt-[72px] md:mt-[90px] h-[calc(100svh-72px)] md:h-[calc(1080px-90px)] ${className || ''}`}
       aria-label={lang === 'en' ? 'Hero section' : 'قسم البطل'}
     >
       {/* Inner container — when innerPadding is set, everything lives inside this box */}

@@ -84,7 +84,7 @@ export default async function ContactPage({ params }: ContactPageProps) {
   }
 
   return (
-    <main className="bg-black min-h-screen pt-[72px] md:pt-[120px]">
+    <main className="bg-black min-h-screen pt-[72px] md:pt-[90px]">
       {/* Tabs Section */}
       <div className="w-full flex items-center">
         <Link
@@ -112,7 +112,7 @@ export default async function ContactPage({ params }: ContactPageProps) {
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
-          minHeight: 'calc(100vh - 120px - 112px)',
+          minHeight: 'calc(100vh - 90px - 112px)',
         }}
       >
         <div className="absolute inset-0 bg-black/50" />

@@ -17,7 +17,7 @@ export default function BlogHeroSection({ title, topic, imageUrl, link, lang, sh
   const readMoreText = lang === 'ar' ? 'اقرأ المزيد' : 'Read More'
 
   return (
-    <section className="relative w-full pt-[72px] md:pt-[120px]">
+    <section className="relative w-full pt-[72px] md:pt-[90px]">
       <div className="relative mx-3 sm:mx-4 md:mx-12 mt-4 md:mt-[54px]">
         <div className="relative w-full aspect-[3/4] sm:aspect-[4/3] md:aspect-[1824/1027] overflow-hidden rounded-sm">
           {imageUrl ? (

@@ -64,7 +64,8 @@ export default function SplitTextReveal({
     const order = shuffledIndices(chars.length)
     const staggerGap = chars.length > 1 ? totalDuration / (chars.length - 1) : 0
 
-    const tl = gsap.timeline({ delay })
+    // Create timeline paused from the start to avoid race conditions
+    const tl = gsap.timeline({ delay, paused: true })
 
     // Add each character tween at its randomised position in time
     order.forEach((charIndex, i) => {
@@ -75,6 +76,12 @@ export default function SplitTextReveal({
       )
     })
 
+    // Ensure all chars become visible when the timeline completes,
+    // as a safety net against any edge-case where a char stays hidden
+    tl.eventCallback('onComplete', () => {
+      gsap.set(chars, { opacity: 1 })
+    })
+
     const trigger = ScrollTrigger.create({
       trigger: el,
       start: 'top 85%',
@@ -82,10 +89,20 @@ export default function SplitTextReveal({
       onEnter: () => tl.play(),
     })
 
-    // Pause until scroll triggers it
-    tl.pause()
+    // If the element is already in the viewport on mount, ScrollTrigger
+    // may not fire onEnter. Detect this and play immediately.
+    // Use a rAF to let the browser finish layout first.
+    const rafId = requestAnimationFrame(() => {
+      ScrollTrigger.refresh(true)
+      const rect = el.getBoundingClientRect()
+      const inViewport = rect.top < window.innerHeight * 0.85
+      if (inViewport && tl.paused() && tl.progress() === 0) {
+        tl.play()
+      }
+    })
 
     return () => {
+      cancelAnimationFrame(rafId)
       trigger.kill()
       tl.kill()
       split.revert()

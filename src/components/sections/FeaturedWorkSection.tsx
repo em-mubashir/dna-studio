@@ -3,6 +3,7 @@
 import { useState, useRef } from 'react';
 import Link from 'next/link';
 import type { Language } from '@/src/lib/utils/language';
+import { getImageUrl } from '@/src/lib/utils/image';
 
 interface FeaturedWorkSectionProps {
   lang: Language;
@@ -38,9 +39,7 @@ export default function FeaturedWorkSection({
   const isArabic = lang === 'ar';
 
   // Get background image URL
-  const bgImageUrl = backgroundImage && typeof backgroundImage === 'object' && 'url' in backgroundImage
-    ? backgroundImage.url
-    : null;
+  const bgImageUrl = getImageUrl(backgroundImage);
 
   // Default texts
   const displayServiceType = serviceType || (isArabic ? 'خدمة' : 'SERVICE');

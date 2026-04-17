@@ -2,6 +2,7 @@ import { type Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { type Language, getBilingualField } from '@/src/lib/utils/language'
+import { getImageUrl } from '@/src/lib/utils/image'
 import { getBlogPostBySlug, getRelatedBlogPosts, getPageBySlug } from '@/src/lib/payload'
 import BlogContent from '@/src/components/blog/BlogContent'
 import ProjectCard from '@/src/components/ui/ProjectCard'
@@ -16,13 +17,6 @@ interface BlogPostPageProps {
 
 export async function generateStaticParams() {
   return []
-}
-
-function getImageUrl(image: any): string | null {
-  if (!image) return null
-  if (typeof image === 'string') return image
-  if (typeof image === 'object' && 'url' in image) return image.url || null
-  return null
 }
 
 export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
@@ -49,9 +43,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
   const currentUrl = `${baseUrl}/${lang}/blog/${slug}`
 
   const ogImage = post.seo?.og_image || post.featured_image
-  const ogImageUrl = ogImage && typeof ogImage === 'object' && 'url' in ogImage
-    ? ogImage.url
-    : null
+  const ogImageUrl = getImageUrl(ogImage)
 
   return {
     title: metaTitle,
@@ -127,12 +119,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   let mainImageUrl: string | null = null
   let mainImageAlt = ''
   if (detail.main_image) {
-    if (typeof detail.main_image === 'object' && 'url' in detail.main_image) {
-      mainImageUrl = detail.main_image.url as string
+    mainImageUrl = getImageUrl(detail.main_image)
+    if (typeof detail.main_image === 'object' && 'alt' in detail.main_image) {
       mainImageAlt = (detail.main_image.alt as string) || ''
-    } else if (typeof detail.main_image === 'string') {
-      // String means unpopulated ID — image not available, skip
-      mainImageUrl = null
     }
   }
 

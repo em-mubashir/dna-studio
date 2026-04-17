@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react'
 import Image from 'next/image'
 import { type Language } from '@/src/lib/utils/language'
+import { getImageUrl } from '@/src/lib/utils/image'
 import SplitTextReveal from '@/src/components/animations/SplitTextReveal'
 
 interface HeroSectionProps {
@@ -41,9 +42,7 @@ export default function HeroSection({
   }, [])
 
   // Get background image URL
-  const bgImageUrl = backgroundImage && typeof backgroundImage === 'object' && 'url' in backgroundImage
-    ? backgroundImage.url
-    : null
+  const bgImageUrl = getImageUrl(backgroundImage)
 
   const pad = innerPadding ?? 0
 
@@ -61,10 +60,13 @@ export default function HeroSection({
         {/* Background Image */}
         {bgImageUrl && (
           <div className="absolute inset-0 z-0">
-            <img
+            <Image
               src={bgImageUrl}
               alt=""
-              className="w-full h-full object-cover"
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover"
             />
           </div>
         )}

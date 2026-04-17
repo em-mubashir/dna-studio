@@ -25,7 +25,6 @@ export default function BlogHeroSection({ title, topic, imageUrl, link, lang, sh
               src={imageUrl}
               alt={title || 'Blog hero'}
               fill
-              unoptimized
               className="object-cover grayscale"
               priority
               sizes="100vw"

@@ -1,6 +1,8 @@
 'use client'
 
+import Image from 'next/image';
 import type { Language } from '@/src/lib/utils/language';
+import { getImageUrl } from '@/src/lib/utils/image';
 import SplitTextReveal from '@/src/components/animations/SplitTextReveal';
 
 interface AboutSectionProps {
@@ -29,7 +31,7 @@ export default function AboutSection({
     return null;
   }
 
-  const imageUrl = image && typeof image === 'object' && 'url' in image ? image.url : null;
+  const imageUrl = getImageUrl(image);
 
   const headingSize = reverseSizes ? 'text-[18px] sm:text-[24px] md:text-[40px]' : 'text-[24px] sm:text-[32px] md:text-[56px] lg:text-[80px]';
   const descSize = reverseSizes ? 'text-[24px] sm:text-[32px] md:text-[56px] lg:text-[80px]' : 'text-[18px] sm:text-[24px] md:text-[32px] lg:text-[40px]';
@@ -67,11 +69,13 @@ export default function AboutSection({
 
             {/* Image */}
             {imageUrl && (
-              <div className="w-full h-[200px] sm:h-[300px] md:h-[450px] lg:h-[618px]">
-                <img
+              <div className="relative w-full h-[200px] sm:h-[300px] md:h-[450px] lg:h-[618px]">
+                <Image
                   src={imageUrl}
                   alt={label || 'About'}
-                  className="w-full h-full object-cover"
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1368px"
+                  className="object-cover"
                 />
               </div>
             )}

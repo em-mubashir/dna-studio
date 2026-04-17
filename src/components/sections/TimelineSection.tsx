@@ -1,7 +1,9 @@
 'use client'
 
 import { useRef, useState } from 'react'
+import Image from 'next/image'
 import type { Language } from '@/src/lib/utils/language'
+import { getImageUrl } from '@/src/lib/utils/image'
 
 interface TimelineItem {
   id: string
@@ -79,20 +81,19 @@ export default function TimelineSection({ lang, items }: TimelineSectionProps) {
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
         >
           {items.map((item) => {
-            const iconUrl =
-              item.icon && typeof item.icon === 'object' && 'url' in item.icon
-                ? item.icon.url
-                : null
+            const iconUrl = getImageUrl(item.icon)
 
             return (
               <div key={item.id} className="flex-shrink-0 w-[320px] md:w-[560px]">
                 {/* Image */}
                 {iconUrl && (
-                  <div className="w-full aspect-[4/3] mb-6 overflow-hidden">
-                    <img
+                  <div className="relative w-full aspect-[4/3] mb-6 overflow-hidden">
+                    <Image
                       src={iconUrl}
                       alt={isArabic ? item.title_ar : item.title_en}
-                      className="w-full h-full object-cover"
+                      fill
+                      sizes="(max-width: 768px) 320px, 560px"
+                      className="object-cover"
                     />
                   </div>
                 )}

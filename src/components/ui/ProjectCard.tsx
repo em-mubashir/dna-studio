@@ -1,6 +1,8 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
+import { getImageUrl } from '@/src/lib/utils/image'
 
 type LayoutVariant = 'blog' | 'works'
 
@@ -15,14 +17,7 @@ interface ProjectCardProps {
 }
 
 export default function ProjectCard({ title, topic, href, thumbnail, className = '', variant = 'blog' }: ProjectCardProps) {
-  let thumbnailUrl: string | null = null
-  if (thumbnail) {
-    if (typeof thumbnail === 'object' && 'url' in thumbnail) {
-      thumbnailUrl = thumbnail.url
-    } else if (typeof thumbnail === 'string') {
-      thumbnailUrl = thumbnail
-    }
-  }
+  const thumbnailUrl = getImageUrl(thumbnail)
 
   const Wrapper = href ? Link : 'div'
   const wrapperProps = href ? { href } : {}
@@ -34,11 +29,12 @@ export default function ProjectCard({ title, topic, href, thumbnail, className =
       aria-label={`${title} - ${topic}`}
     >
       {thumbnailUrl ? (
-        <img
+        <Image
           src={thumbnailUrl}
           alt={title || ''}
-          className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 grayscale"
-          loading="lazy"
+          fill
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          className="object-cover transition-transform duration-500 group-hover:scale-105 grayscale"
         />
       ) : (
         <div className="absolute inset-0 bg-neutral-800" />

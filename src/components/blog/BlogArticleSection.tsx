@@ -131,7 +131,6 @@ export default function BlogArticleSection({
                 src={mainImageUrl}
                 alt={mainImageAlt || mainHeading || ''}
                 fill
-                unoptimized
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, 60vw"
               />

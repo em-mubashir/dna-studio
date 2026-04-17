@@ -7,6 +7,7 @@ import { usePathname } from 'next/navigation';
 import { gsap } from 'gsap';
 import { SplitText } from 'gsap/SplitText';
 import type { Language } from '@/src/lib/utils/language';
+import { getImageUrl } from '@/src/lib/utils/image';
 
 interface MenuItem {
   label_en: string;
@@ -91,9 +92,7 @@ export default function Header({ lang, menuItems = [], logo, logoAlt }: HeaderPr
   const sortedMenuItems = [...menuItems].sort((a, b) => a.order - b.order);
 
   // Get logo URL from CMS or use default
-  const logoUrl = logo && typeof logo === 'object' && 'url' in logo
-    ? logo.url
-    : '/dna-logo-white.svg';
+  const logoUrl = getImageUrl(logo) || '/dna-logo-white.svg';
 
   const logoAltText = logoAlt || 'DNA Studio';
 
@@ -107,6 +106,7 @@ export default function Header({ lang, menuItems = [], logo, logoAlt }: HeaderPr
               src={logoUrl}
               alt={logoAltText}
               fill
+              sizes="97px"
               className="object-contain"
               priority
             />

@@ -1,6 +1,8 @@
 'use client'
 
+import Image from 'next/image';
 import type { Language } from '@/src/lib/utils/language';
+import { getImageUrl } from '@/src/lib/utils/image';
 import SplitTextReveal from '@/src/components/animations/SplitTextReveal';
 import AnimatedButton from '@/src/components/ui/AnimatedButton';
 
@@ -30,13 +32,8 @@ export default function CTASection({
     return null;
   }
 
-  const bgImageUrl = backgroundImage && typeof backgroundImage === 'object' && 'url' in backgroundImage
-    ? backgroundImage.url
-    : null;
-
-  const circleImageUrl = circleImage && typeof circleImage === 'object' && 'url' in circleImage
-    ? circleImage.url
-    : null;
+  const bgImageUrl = getImageUrl(backgroundImage);
+  const circleImageUrl = getImageUrl(circleImage);
 
   const ctaLink = buttonLink || '/contact';
 
@@ -45,10 +42,13 @@ export default function CTASection({
       {/* Background Image */}
       {bgImageUrl && (
         <div className="absolute inset-0">
-          <img
+          <Image
             src={bgImageUrl}
             alt=""
-            className="w-full h-full object-cover"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
           />
           <div className="absolute inset-0 bg-black/50" />
         </div>
@@ -98,10 +98,12 @@ export default function CTASection({
         {/* Circular Masked Image */}
         {circleImageUrl && (
           <div className="absolute bottom-10 md:bottom-40 left-1/2 -translate-x-1/2 w-[150px] h-[150px] sm:w-[200px] sm:h-[200px] md:w-[350px] md:h-[350px] lg:w-[500px] lg:h-[500px] rounded-full overflow-hidden opacity-80">
-            <img
+            <Image
               src={circleImageUrl}
               alt=""
-              className="w-full h-full object-cover"
+              fill
+              sizes="(max-width: 640px) 150px, (max-width: 768px) 200px, (max-width: 1024px) 350px, 500px"
+              className="object-cover"
             />
           </div>
         )}

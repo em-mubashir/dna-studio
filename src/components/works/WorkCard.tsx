@@ -1,7 +1,9 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { type Language } from '@/src/lib/utils/language'
+import { getImageUrl } from '@/src/lib/utils/image'
 
 interface WorkCardProps {
   title: string
@@ -12,15 +14,7 @@ interface WorkCardProps {
 }
 
 export default function WorkCard({ title, industry, slug, thumbnail, lang }: WorkCardProps) {
-  // Handle both populated object and string URL
-  let thumbnailUrl: string | null = null
-  if (thumbnail) {
-    if (typeof thumbnail === 'object' && 'url' in thumbnail) {
-      thumbnailUrl = thumbnail.url
-    } else if (typeof thumbnail === 'string') {
-      thumbnailUrl = thumbnail
-    }
-  }
+  const thumbnailUrl = getImageUrl(thumbnail)
 
   const Wrapper = slug ? Link : 'div'
   const wrapperProps = slug
@@ -34,11 +28,12 @@ export default function WorkCard({ title, industry, slug, thumbnail, lang }: Wor
       aria-label={`${title} - ${industry}`}
     >
       {thumbnailUrl ? (
-        <img
+        <Image
           src={thumbnailUrl}
           alt={title || ''}
-          className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-          loading="lazy"
+          fill
+          sizes="(max-width: 768px) 100vw, 896px"
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
         />
       ) : (
         <div className="absolute inset-0 bg-neutral-800" />

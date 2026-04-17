@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { type Language, getBilingualField } from '@/src/lib/utils/language'
 import { formatDate } from '@/src/lib/utils/date'
+import { getImageUrl } from '@/src/lib/utils/image'
 
 interface BlogCardProps {
   post: any
@@ -30,17 +31,22 @@ export default function BlogCard({ post, lang }: BlogCardProps) {
       className="group block bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300"
     >
       {/* Featured Image */}
-      {featuredImage && typeof featuredImage === 'object' && 'url' in featuredImage && (
-        <div className="relative aspect-video overflow-hidden rounded-t-xl">
-          <Image
-            src={featuredImage.url as string}
-            alt={featuredImage.alt as string || title}
-            fill
-            className="object-cover group-hover:scale-105 transition-transform duration-300"
-            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          />
-        </div>
-      )}
+      {(() => {
+        const imageUrl = getImageUrl(featuredImage)
+        const imageAlt = featuredImage && typeof featuredImage === 'object' && 'alt' in featuredImage
+          ? (featuredImage.alt as string) : title
+        return imageUrl ? (
+          <div className="relative aspect-video overflow-hidden rounded-t-xl">
+            <Image
+              src={imageUrl}
+              alt={imageAlt || title}
+              fill
+              className="object-cover group-hover:scale-105 transition-transform duration-300"
+              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            />
+          </div>
+        ) : null
+      })()}
 
       {/* Content */}
       <div className="p-5">

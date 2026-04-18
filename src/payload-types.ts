@@ -528,56 +528,10 @@ export interface Blog {
    */
   slug: string;
   /**
-   * Short summary for blog listing pages (150-200 characters)
-   */
-  excerpt_en: string;
-  /**
-   * Short summary for blog listing pages (150-200 characters)
-   */
-  excerpt_ar: string;
-  content_en: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  content_ar: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  /**
    * Main image for the blog post (recommended: 1200×630px)
    */
   featured_image: string | Media;
   category: 'video-production' | 'industry-news' | 'case-studies' | 'tips-tutorials' | 'company-news';
-  /**
-   * Comma-separated tags (e.g., "video, editing, production")
-   */
-  tags_en?: string | null;
-  /**
-   * Comma-separated tags in Arabic
-   */
-  tags_ar?: string | null;
   /**
    * Select the author of this blog post
    */
@@ -1155,14 +1109,8 @@ export interface BlogSelect<T extends boolean = true> {
   title_en?: T;
   title_ar?: T;
   slug?: T;
-  excerpt_en?: T;
-  excerpt_ar?: T;
-  content_en?: T;
-  content_ar?: T;
   featured_image?: T;
   category?: T;
-  tags_en?: T;
-  tags_ar?: T;
   author?: T;
   publishedDate?: T;
   status?: T;

@@ -21,7 +21,7 @@ function shuffledIndices(length: number): number[] {
 }
 
 interface SplitTextRevealProps {
-  children: React.ReactNode
+  children?: React.ReactNode
   /** HTML tag to render */
   as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'span' | 'div'
   /** Animation duration per character reveal */
@@ -33,6 +33,8 @@ interface SplitTextRevealProps {
   className?: string
   style?: React.CSSProperties
   id?: string
+  /** Render raw HTML (e.g. text with <br> tags from CMS) */
+  dangerouslySetInnerHTML?: { __html: string }
 }
 
 export default function SplitTextReveal({
@@ -44,6 +46,7 @@ export default function SplitTextReveal({
   className,
   style,
   id,
+  dangerouslySetInnerHTML,
 }: SplitTextRevealProps) {
   const elementRef = useRef<HTMLElement>(null)
 
@@ -54,7 +57,7 @@ export default function SplitTextReveal({
     // Respect reduced motion
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
-    const split = SplitText.create(el, { type: 'chars' })
+    const split = SplitText.create(el, { type: 'lines, chars', mask: 'lines' })
     const chars = split.chars
 
     // Hide all characters initially
@@ -108,6 +111,18 @@ export default function SplitTextReveal({
       split.revert()
     }
   }, [duration, totalDuration, delay])
+
+  if (dangerouslySetInnerHTML) {
+    return (
+      <Tag
+        ref={elementRef as any}
+        className={className}
+        style={style}
+        id={id}
+        dangerouslySetInnerHTML={dangerouslySetInnerHTML}
+      />
+    )
+  }
 
   return (
     <Tag

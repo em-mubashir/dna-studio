@@ -45,7 +45,7 @@ export default function ProjectCard({ title, topic, href, thumbnail, className =
 
       {/* Top-left: Title */}
       <div className="absolute top-4 left-4 max-w-[60%]">
-        <span className="text-white text-xs sm:text-sm font-bold uppercase leading-tight block">
+        <span className="text-white text-xs sm:text-sm font-bold uppercase leading-tight block whitespace-pre-line">
           {title}
         </span>
       </div>

@@ -11,7 +11,6 @@ interface BlogCardProps {
 
 export default function BlogCard({ post, lang }: BlogCardProps) {
   const title = getBilingualField<string>(post, 'title', lang)
-  const excerpt = getBilingualField<string>(post, 'excerpt', lang)
   const featuredImage = post.featured_image
 
   // Get category label
@@ -63,9 +62,6 @@ export default function BlogCard({ post, lang }: BlogCardProps) {
         <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-primary-600 transition-colors line-clamp-2">
           {title}
         </h3>
-
-        {/* Excerpt */}
-        <p className="text-gray-600 line-clamp-3">{excerpt}</p>
 
         {/* Read More */}
         <div className="mt-4 text-primary-600 font-medium group-hover:text-primary-700 transition-colors">

@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import Image from 'next/image'
 import SplitTextReveal from '@/src/components/animations/SplitTextReveal'
 import AnimatedButton from '@/src/components/ui/AnimatedButton'
@@ -36,22 +37,26 @@ export default function BlogHeroSection({ title, topic, imageUrl, link, lang, sh
 
           <div className="absolute inset-0 flex flex-col justify-end p-4 sm:p-6 md:p-10 lg:p-14">
             {topic && (
-              <span className="inline-block w-fit px-3 sm:px-4 py-1 sm:py-1.5 mb-3 md:mb-5 text-[10px] sm:text-xs md:text-sm font-medium text-white border border-white/60 rounded-sm">
+              <AnimatedButton
+                className="w-fit px-3 sm:px-4 py-1 sm:py-1.5 mb-3 md:mb-5 text-[10px] sm:text-xs md:text-sm font-medium rounded-sm"
+                variant="dark"
+              >
                 {topic}
-              </span>
+              </AnimatedButton>
             )}
 
             {title && (
-              <SplitTextReveal as="h1" className="text-xl sm:text-2xl md:text-5xl lg:text-6xl font-bold text-white uppercase leading-tight max-w-3xl mb-4 md:mb-8 whitespace-pre-line">
-                {title}
-              </SplitTextReveal>
+              <SplitTextReveal
+                as="h1"
+                className="text-xl sm:text-2xl md:text-5xl lg:text-6xl font-bold text-white uppercase leading-tight max-w-3xl mb-4 md:mb-8"
+                dangerouslySetInnerHTML={{ __html: title.replace(/\n/g, '<br />') }}
+              />
             )}
 
             {showReadMore && (
-              <AnimatedButton
+              <Link
                 href={link}
-                className="px-6 py-2 rounded-full text-sm md:text-base"
-                variant="dark"
+                className="inline-flex items-center gap-2 text-sm md:text-base text-white hover:opacity-80 transition-opacity"
               >
                 {readMoreText}
                 <span className="inline-flex items-center gap-0.5">
@@ -59,7 +64,7 @@ export default function BlogHeroSection({ title, topic, imageUrl, link, lang, sh
                   <span className="w-1 h-1 rounded-full bg-current" />
                   <span className="w-1 h-1 rounded-full bg-current" />
                 </span>
-              </AnimatedButton>
+              </Link>
             )}
           </div>
         </div>

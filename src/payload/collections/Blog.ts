@@ -33,13 +33,13 @@ export const Blog: CollectionConfig = {
   fields: [
     {
       name: 'title_en',
-      type: 'text',
+      type: 'textarea',
       required: true,
       label: 'Title (English)',
     },
     {
       name: 'title_ar',
-      type: 'text',
+      type: 'textarea',
       required: true,
       label: 'Title (Arabic)',
     },
@@ -52,36 +52,6 @@ export const Blog: CollectionConfig = {
       admin: {
         description: 'URL-friendly identifier (e.g., "my-blog-post")',
       },
-    },
-    {
-      name: 'excerpt_en',
-      type: 'textarea',
-      required: true,
-      label: 'Excerpt (English)',
-      admin: {
-        description: 'Short summary for blog listing pages (150-200 characters)',
-      },
-    },
-    {
-      name: 'excerpt_ar',
-      type: 'textarea',
-      required: true,
-      label: 'Excerpt (Arabic)',
-      admin: {
-        description: 'Short summary for blog listing pages (150-200 characters)',
-      },
-    },
-    {
-      name: 'content_en',
-      type: 'richText',
-      required: true,
-      label: 'Content (English)',
-    },
-    {
-      name: 'content_ar',
-      type: 'richText',
-      required: true,
-      label: 'Content (Arabic)',
     },
     {
       name: 'featured_image',
@@ -120,22 +90,6 @@ export const Blog: CollectionConfig = {
           value: 'company-news',
         },
       ],
-    },
-    {
-      name: 'tags_en',
-      type: 'text',
-      label: 'Tags (English)',
-      admin: {
-        description: 'Comma-separated tags (e.g., "video, editing, production")',
-      },
-    },
-    {
-      name: 'tags_ar',
-      type: 'text',
-      label: 'Tags (Arabic)',
-      admin: {
-        description: 'Comma-separated tags in Arabic',
-      },
     },
     {
       name: 'author',

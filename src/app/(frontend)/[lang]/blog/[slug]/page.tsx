@@ -29,15 +29,18 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
   }
 
   const title = getBilingualField<string>(post, 'title', lang as Language)
-  const excerpt = getBilingualField<string>(post, 'excerpt', lang as Language)
 
   const metaTitle = post.seo?.meta_title_en || post.seo?.meta_title_ar
     ? getBilingualField<string>(post.seo, 'meta_title', lang as Language)
     : title
 
+  // Use article_detail description as meta description fallback
+  const detail = (post as any).article_detail || {}
+  const articleDesc = lang === 'ar' ? (detail.description_ar || '') : (detail.description_en || '')
+
   const metaDescription = post.seo?.meta_description_en || post.seo?.meta_description_ar
     ? getBilingualField<string>(post.seo, 'meta_description', lang as Language)
-    : excerpt
+    : articleDesc
 
   const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'https://dnamedia.com'
   const currentUrl = `${baseUrl}/${lang}/blog/${slug}`
@@ -86,8 +89,6 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   if (!post) {
     notFound()
   }
-
-  const content = getBilingualField<any>(post, 'content', lang as Language)
 
   // Fetch 2 related blog posts
   const relatedPosts = await getRelatedBlogPosts(slug, post.category, 2)

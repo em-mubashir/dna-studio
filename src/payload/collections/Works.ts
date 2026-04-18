@@ -68,8 +68,8 @@ export const Works: CollectionConfig = {
       label: 'Videos',
       admin: { description: 'Videos shown in the horizontal carousel on the detail page' },
       fields: [
-        { name: 'url', type: 'text', required: true, label: 'Video URL' },
-        { name: 'thumbnail', type: 'text', label: 'Thumbnail URL' },
+        { name: 'url', type: 'text', required: true, label: 'Video URL', admin: { description: 'Vimeo URL (e.g. https://vimeo.com/123456789) or direct video file URL (.mp4)' } },
+        { name: 'thumbnail', type: 'text', label: 'Thumbnail URL', admin: { description: 'Optional — only used for direct video files, not Vimeo' } },
         { name: 'title', type: 'text', label: 'Video Title' },
       ],
     },

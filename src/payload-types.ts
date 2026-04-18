@@ -635,7 +635,13 @@ export interface Work {
    */
   videos?:
     | {
+        /**
+         * Vimeo URL (e.g. https://vimeo.com/123456789) or direct video file URL (.mp4)
+         */
         url: string;
+        /**
+         * Optional — only used for direct video files, not Vimeo
+         */
         thumbnail?: string | null;
         title?: string | null;
         id?: string | null;

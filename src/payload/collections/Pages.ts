@@ -349,13 +349,13 @@ export const Pages: CollectionConfig = {
       fields: [
         {
           name: 'heading_en',
-          type: 'text',
+          type: 'textarea',
           label: 'Heading (English)',
           defaultValue: 'AT DNA, WE EMBODY THE ESSENCE OF THE ART GENE',
         },
         {
           name: 'heading_ar',
-          type: 'text',
+          type: 'textarea',
           label: 'Heading (Arabic)',
           defaultValue: 'في DNA، نجسّد جوهر الفن الإبداعي',
         },

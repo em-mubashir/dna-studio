@@ -1,6 +1,7 @@
 import { type Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { type Language, getBilingualField } from '@/src/lib/utils/language'
+import { getImageUrl } from '@/src/lib/utils/image'
 import { getPageBySlug } from '@/src/lib/payload'
 import HeroSection from '@/src/components/sections/HeroSection'
 import TaglineSection from '@/src/components/sections/TaglineSection'
@@ -44,22 +45,24 @@ export async function generateMetadata({ params }: HomePageProps): Promise<Metad
       siteName: 'DNA Studio',
       locale: lang === 'en' ? 'en_US' : 'ar_SA',
       type: 'website',
-      images: ogImage && typeof ogImage === 'object' && 'url' in ogImage 
-        ? [{ 
-            url: ogImage.url as string,
+      images: (() => {
+        const url = getImageUrl(ogImage)
+        return url ? [{ 
+            url,
             width: 1200,
             height: 630,
             alt: metaTitle || getBilingualField<string>(page, 'title', lang as Language),
-          }] 
-        : [],
+          }] : []
+      })(),
     },
     twitter: {
       card: 'summary_large_image',
       title: metaTitle || getBilingualField<string>(page, 'title', lang as Language),
       description: metaDescription || '',
-      images: ogImage && typeof ogImage === 'object' && 'url' in ogImage 
-        ? [ogImage.url as string] 
-        : [],
+      images: (() => {
+        const url = getImageUrl(ogImage)
+        return url ? [url] : []
+      })(),
     },
     robots: {
       index: !page.seo?.noindex,

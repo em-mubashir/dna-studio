@@ -2,6 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { type Language, getBilingualField } from '@/src/lib/utils/language'
 import { formatDate } from '@/src/lib/utils/date'
+import { getImageUrl } from '@/src/lib/utils/image'
 
 interface BlogCardProps {
   post: any
@@ -10,7 +11,6 @@ interface BlogCardProps {
 
 export default function BlogCard({ post, lang }: BlogCardProps) {
   const title = getBilingualField<string>(post, 'title', lang)
-  const excerpt = getBilingualField<string>(post, 'excerpt', lang)
   const featuredImage = post.featured_image
 
   // Get category label
@@ -30,17 +30,22 @@ export default function BlogCard({ post, lang }: BlogCardProps) {
       className="group block bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300"
     >
       {/* Featured Image */}
-      {featuredImage && typeof featuredImage === 'object' && 'url' in featuredImage && (
-        <div className="relative aspect-video overflow-hidden rounded-t-xl">
-          <Image
-            src={featuredImage.url as string}
-            alt={featuredImage.alt as string || title}
-            fill
-            className="object-cover group-hover:scale-105 transition-transform duration-300"
-            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          />
-        </div>
-      )}
+      {(() => {
+        const imageUrl = getImageUrl(featuredImage)
+        const imageAlt = featuredImage && typeof featuredImage === 'object' && 'alt' in featuredImage
+          ? (featuredImage.alt as string) : title
+        return imageUrl ? (
+          <div className="relative aspect-video overflow-hidden rounded-t-xl">
+            <Image
+              src={imageUrl}
+              alt={imageAlt || title}
+              fill
+              className="object-cover group-hover:scale-105 transition-transform duration-300"
+              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            />
+          </div>
+        ) : null
+      })()}
 
       {/* Content */}
       <div className="p-5">
@@ -57,9 +62,6 @@ export default function BlogCard({ post, lang }: BlogCardProps) {
         <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-primary-600 transition-colors line-clamp-2">
           {title}
         </h3>
-
-        {/* Excerpt */}
-        <p className="text-gray-600 line-clamp-3">{excerpt}</p>
 
         {/* Read More */}
         <div className="mt-4 text-primary-600 font-medium group-hover:text-primary-700 transition-colors">

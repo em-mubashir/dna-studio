@@ -7,6 +7,7 @@ import { usePathname } from 'next/navigation';
 import { gsap } from 'gsap';
 import { SplitText } from 'gsap/SplitText';
 import type { Language } from '@/src/lib/utils/language';
+import { getImageUrl } from '@/src/lib/utils/image';
 
 interface MenuItem {
   label_en: string;
@@ -27,7 +28,7 @@ interface HeaderProps {
 /**
  * Header component - Figma Design Implementation
  * 
- * Desktop: 1920px × 120px
+ * Desktop: 1920px × 90px
  * Mobile: 393px × 72px
  * Background: #000000
  * Border-bottom: 1px solid rgba(255, 255, 255, 0.5)
@@ -91,15 +92,13 @@ export default function Header({ lang, menuItems = [], logo, logoAlt }: HeaderPr
   const sortedMenuItems = [...menuItems].sort((a, b) => a.order - b.order);
 
   // Get logo URL from CMS or use default
-  const logoUrl = logo && typeof logo === 'object' && 'url' in logo
-    ? logo.url
-    : '/dna-logo-white.svg';
+  const logoUrl = getImageUrl(logo) || '/dna-logo-white.svg';
 
   const logoAltText = logoAlt || 'DNA Studio';
 
   return (
     <>
-      <header className="fixed top-0 left-0 w-full h-[72px] md:h-[120px] bg-black border-b border-white/50 z-50">
+      <header className="fixed top-0 left-0 w-full h-[72px] md:h-[90px] bg-black border-b border-white/50 z-50">
         <div className="h-full flex items-center justify-between px-4 md:px-12">
           {/* Logo */}
           <Link href={`/${lang}`} className="relative w-[84.35px] h-5 md:w-[97px] md:h-[23px]">
@@ -107,6 +106,7 @@ export default function Header({ lang, menuItems = [], logo, logoAlt }: HeaderPr
               src={logoUrl}
               alt={logoAltText}
               fill
+              sizes="97px"
               className="object-contain"
               priority
             />
@@ -158,7 +158,7 @@ export default function Header({ lang, menuItems = [], logo, logoAlt }: HeaderPr
       {/* Menu Overlay */}
       {menuOpen && (
         <div 
-          className="fixed inset-0 top-[72px] md:top-[120px] bg-black/95 z-40"
+          className="fixed inset-0 top-[72px] md:top-[90px] bg-black/95 z-40"
           onClick={() => setMenuOpen(false)}
         >
           <nav className="px-4 md:px-12 py-4 md:py-4 flex flex-col items-center gap-0">
@@ -203,7 +203,7 @@ function MenuItem({ href, label, description }: { href: string; label: string; d
       }}
     >
       <span 
-        className="uppercase text-white group-hover:text-white/80 transition-colors"
+        className="uppercase text-white/40 group-hover:text-white transition-colors duration-300"
         style={{ 
           fontFamily: 'Degular, sans-serif',
           fontWeight: 700,
@@ -216,7 +216,7 @@ function MenuItem({ href, label, description }: { href: string; label: string; d
         {label}
       </span>
       <span 
-        className="text-white/50 group-hover:text-white transition-colors"
+        className="text-white/30 group-hover:text-white transition-colors duration-300"
         style={{ fontFamily: 'IBM Plex Sans, sans-serif', fontSize: '24px' }}
       >
         {description}

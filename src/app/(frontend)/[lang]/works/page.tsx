@@ -34,7 +34,7 @@ export default async function WorkPage({ params }: WorkPageProps) {
     <main className="bg-black min-h-screen">
       {/* Heading */}
       <section className="pb-12 px-4 text-center" style={{ paddingTop: '180px' }}>
-        <h1 className="text-white text-3xl sm:text-4xl md:text-5xl font-bold uppercase leading-tight max-w-4xl mx-auto">
+        <h1 className="text-white text-3xl sm:text-4xl md:text-5xl font-bold uppercase leading-tight max-w-4xl mx-auto whitespace-pre-line">
           {heading}
         </h1>
       </section>

@@ -3,6 +3,8 @@
 import { useEffect, useRef } from 'react'
 import Image from 'next/image'
 import { type Language } from '@/src/lib/utils/language'
+import { getImageUrl } from '@/src/lib/utils/image'
+import SplitTextReveal from '@/src/components/animations/SplitTextReveal'
 
 interface HeroSectionProps {
   heading: string
@@ -18,7 +20,7 @@ interface HeroSectionProps {
  * Hero Section - Figma Design Implementation
  * 
  * Total viewport height: 1080px (including header)
- * Header height: 120px (desktop), 72px (mobile)
+ * Header height: 90px (desktop), 72px (mobile)
  * Hero section height: 1080px - header height
  * Text Layout: 788px × 80px at position (48px, 920px from top of viewport)
  * Typography: Degular Bold 80px, line-height 100%, uppercase
@@ -40,16 +42,14 @@ export default function HeroSection({
   }, [])
 
   // Get background image URL
-  const bgImageUrl = backgroundImage && typeof backgroundImage === 'object' && 'url' in backgroundImage
-    ? backgroundImage.url
-    : null
+  const bgImageUrl = getImageUrl(backgroundImage)
 
   const pad = innerPadding ?? 0
 
   return (
     <section
       ref={sectionRef}
-      className={`relative w-full overflow-hidden bg-black mt-[72px] md:mt-[120px] h-[calc(100svh-72px)] md:h-[calc(1080px-120px)] ${className || ''}`}
+      className={`relative w-full overflow-hidden bg-black mt-[72px] md:mt-[90px] h-[calc(100svh-72px)] md:h-[calc(1080px-90px)] ${className || ''}`}
       aria-label={lang === 'en' ? 'Hero section' : 'قسم البطل'}
     >
       {/* Inner container — when innerPadding is set, everything lives inside this box */}
@@ -60,10 +60,13 @@ export default function HeroSection({
         {/* Background Image */}
         {bgImageUrl && (
           <div className="absolute inset-0 z-0">
-            <img
+            <Image
               src={bgImageUrl}
               alt=""
-              className="w-full h-full object-cover"
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover"
             />
           </div>
         )}
@@ -91,7 +94,8 @@ export default function HeroSection({
           className={`absolute z-20 text-white uppercase ${textCenter ? 'top-1/2 left-4 right-4 md:left-12 md:right-12 -translate-y-1/2 text-center' : 'bottom-6 left-4 right-4 md:bottom-12 md:left-12 md:right-12'}`}
           style={{ maxWidth: '1824px', whiteSpace: 'pre-line' }}
         >
-          <h1 
+          <SplitTextReveal 
+            as="h1"
             className="text-[32px] sm:text-[48px] md:text-[64px] lg:text-[80px] uppercase m-0"
             style={{
               fontFamily: 'Degular, sans-serif',
@@ -101,7 +105,7 @@ export default function HeroSection({
             }}
           >
             {heading}
-          </h1>
+          </SplitTextReveal>
         </div>
       </div>
     </section>

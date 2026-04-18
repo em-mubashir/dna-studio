@@ -1,8 +1,7 @@
 import { type Metadata } from 'next'
 import { type Language } from '@/src/lib/utils/language'
 import { getPageBySlug } from '@/src/lib/payload'
-import ContactForm from '@/src/components/contact/ContactForm'
-import Link from 'next/link'
+import ContactPageContent from '@/src/components/contact/ContactPageContent'
 import { notFound } from 'next/navigation'
 
 export const dynamic = 'force-dynamic'
@@ -55,7 +54,7 @@ export default async function ContactPage({ params }: ContactPageProps) {
   const socialLinks: any[] = cs.socialLinks || []
   const bottomHeading = isArabic ? (cs.bottom_heading_ar || '') : (cs.bottom_heading_en || '')
 
-  // Form labels
+  // Work form labels
   const formProps = {
     nameLabel: isArabic ? cs.form_name_label_ar : cs.form_name_label_en,
     namePlaceholder: isArabic ? cs.form_name_placeholder_ar : cs.form_name_placeholder_en,
@@ -67,6 +66,22 @@ export default async function ContactPage({ params }: ContactPageProps) {
     messagePlaceholder: isArabic ? cs.form_message_placeholder_ar : cs.form_message_placeholder_en,
     submitText: isArabic ? cs.form_submit_ar : cs.form_submit_en,
     submittingText: isArabic ? cs.form_submitting_ar : cs.form_submitting_en,
+  }
+
+  // Collaborate form labels (fields stored flat in contactSection via collapsible)
+  const collaborateFormProps = {
+    nameLabel: isArabic ? cs.collab_name_label_ar : cs.collab_name_label_en,
+    namePlaceholder: isArabic ? cs.collab_name_placeholder_ar : cs.collab_name_placeholder_en,
+    professionLabel: isArabic ? cs.collab_profession_label_ar : cs.collab_profession_label_en,
+    professionPlaceholder: isArabic ? cs.collab_profession_placeholder_ar : cs.collab_profession_placeholder_en,
+    emailLabel: isArabic ? cs.collab_email_label_ar : cs.collab_email_label_en,
+    emailPlaceholder: isArabic ? cs.collab_email_placeholder_ar : cs.collab_email_placeholder_en,
+    portfolioLabel: isArabic ? cs.collab_portfolio_label_ar : cs.collab_portfolio_label_en,
+    portfolioPlaceholder: isArabic ? cs.collab_portfolio_placeholder_ar : cs.collab_portfolio_placeholder_en,
+    coverLetterLabel: isArabic ? cs.collab_cover_letter_label_ar : cs.collab_cover_letter_label_en,
+    coverLetterPlaceholder: isArabic ? cs.collab_cover_letter_placeholder_ar : cs.collab_cover_letter_placeholder_en,
+    submitText: isArabic ? cs.collab_submit_ar : cs.collab_submit_en,
+    submittingText: isArabic ? cs.collab_submitting_ar : cs.collab_submitting_en,
   }
 
   // Split bottom heading into 2 lines (after ~10 chars)
@@ -84,136 +99,21 @@ export default async function ContactPage({ params }: ContactPageProps) {
   }
 
   return (
-    <main className="bg-black min-h-screen pt-[72px] md:pt-[120px]">
-      {/* Tabs Section */}
-      <div className="w-full flex items-center">
-        <Link
-          href={`/${lang}/contact`}
-          className="flex-1 h-[80px] md:h-[112px] flex items-center justify-center font-bold text-[20px] sm:text-[28px] md:text-[32px] uppercase text-white transition-colors"
-          style={{ fontFamily: 'Degular, sans-serif', lineHeight: '1.0' }}
-        >
-          {tab1}
-        </Link>
-        <div className="w-px h-[60px] md:h-[112px] bg-white/50" />
-        <Link
-          href={`/${lang}/contact`}
-          className="flex-1 h-[80px] md:h-[112px] flex items-center justify-center font-bold text-[20px] sm:text-[28px] md:text-[32px] uppercase text-white/50 hover:text-white transition-colors"
-          style={{ fontFamily: 'Degular, sans-serif', lineHeight: '1.0' }}
-        >
-          {tab2}
-        </Link>
-      </div>
-
-      {/* Main Content Section with background image */}
-      <div
-        className="relative w-full"
-        style={{
-          backgroundImage: bgImageUrl ? `url(${bgImageUrl})` : 'none',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          minHeight: 'calc(100vh - 120px - 112px)',
-        }}
-      >
-        <div className="absolute inset-0 bg-black/50" />
-
-        <div className="relative z-10 w-full max-w-[1824px] mx-auto px-4 md:px-12 py-10">
-          {/* Desktop layout */}
-          <div className="hidden lg:flex flex-row justify-between">
-            <div className="flex flex-col justify-between min-h-[600px]">
-              <div className="flex flex-col max-w-[400px]" style={{ gap: '80px' }}>
-                {/* OFFICE */}
-                <div className="flex flex-row gap-4">
-                  <div className="w-px bg-white/50" style={{ marginTop: '-16px', marginBottom: '-16px', alignSelf: 'stretch' }} />
-                  <div className="flex flex-col gap-2">
-                    <h3 className="font-bold text-[20px] uppercase text-white" style={{ fontFamily: 'Degular, sans-serif', lineHeight: '1.0' }}>
-                      {officeHeading}
-                    </h3>
-                    <div className="text-[14px] text-white/80 leading-[1.5]" style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}>
-                      <p style={{ whiteSpace: 'pre-line' }}>{officeAddress}</p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* MAIL US */}
-                <div className="flex flex-row gap-4">
-                  <div className="w-px bg-white/50" style={{ marginTop: '-16px', marginBottom: '-16px', alignSelf: 'stretch' }} />
-                  <div className="flex flex-col gap-2">
-                    <h3 className="font-bold text-[20px] uppercase text-white" style={{ fontFamily: 'Degular, sans-serif', lineHeight: '1.0' }}>
-                      {mailHeading}
-                    </h3>
-                    <div className="text-[14px] text-white/80 leading-[1.5]" style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}>
-                      {emails.map((item: any, i: number) => (
-                        <p key={i}><a href={`mailto:${item.email}`} className="hover:text-white transition-colors">{item.email}</a></p>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                {/* FOLLOW US */}
-                <div className="flex flex-row gap-4">
-                  <div className="w-px bg-white/50" style={{ marginTop: '-16px', marginBottom: '-16px', alignSelf: 'stretch' }} />
-                  <div className="flex flex-col gap-2">
-                    <h3 className="font-bold text-[20px] uppercase text-white" style={{ fontFamily: 'Degular, sans-serif', lineHeight: '1.0' }}>
-                      {followHeading}
-                    </h3>
-                    <div className="text-[14px] text-white/80 leading-[1.5]" style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}>
-                      {socialLinks.map((item: any, i: number) => (
-                        <p key={i}><a href={item.url} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">{item.platform}</a></p>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* BOTTOM HEADING */}
-              <h2 className="font-bold text-[48px] md:text-[80px] uppercase text-white leading-[1.0]" style={{ fontFamily: 'Degular, sans-serif' }}>
-                {line1}{line2 && <><br />{line2}</>}
-              </h2>
-            </div>
-
-            {/* Form modal */}
-            <div className="w-full max-w-[671px] flex-shrink-0">
-              <ContactForm lang={lang as Language} {...formProps} />
-            </div>
-          </div>
-
-          {/* Mobile layout */}
-          <div className="lg:hidden flex flex-col gap-8 py-6">
-            <div className="flex flex-col" style={{ gap: '40px' }}>
-              <div className="flex flex-row gap-4">
-                <div className="w-px bg-white/50" style={{ marginTop: '-16px', marginBottom: '-16px', alignSelf: 'stretch' }} />
-                <div className="flex flex-col gap-2">
-                  <h3 className="font-bold text-[20px] uppercase text-white" style={{ fontFamily: 'Degular, sans-serif', lineHeight: '1.0' }}>{officeHeading}</h3>
-                  <div className="text-[14px] text-white/80 leading-[1.5]" style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}><p style={{ whiteSpace: 'pre-line' }}>{officeAddress}</p></div>
-                </div>
-              </div>
-              <div className="flex flex-row gap-4">
-                <div className="w-px bg-white/50" style={{ marginTop: '-16px', marginBottom: '-16px', alignSelf: 'stretch' }} />
-                <div className="flex flex-col gap-2">
-                  <h3 className="font-bold text-[20px] uppercase text-white" style={{ fontFamily: 'Degular, sans-serif', lineHeight: '1.0' }}>{mailHeading}</h3>
-                  <div className="text-[14px] text-white/80 leading-[1.5]" style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}>
-                    {emails.map((item: any, i: number) => (<p key={i}><a href={`mailto:${item.email}`} className="hover:text-white transition-colors">{item.email}</a></p>))}
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-row gap-4">
-                <div className="w-px bg-white/50" style={{ marginTop: '-16px', marginBottom: '-16px', alignSelf: 'stretch' }} />
-                <div className="flex flex-col gap-2">
-                  <h3 className="font-bold text-[20px] uppercase text-white" style={{ fontFamily: 'Degular, sans-serif', lineHeight: '1.0' }}>{followHeading}</h3>
-                  <div className="text-[14px] text-white/80 leading-[1.5]" style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}>
-                    {socialLinks.map((item: any, i: number) => (<p key={i}><a href={item.url} target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">{item.platform}</a></p>))}
-                  </div>
-                </div>
-              </div>
-            </div>
-            <h2 className="font-bold text-[32px] sm:text-[48px] uppercase text-white leading-[1.0]" style={{ fontFamily: 'Degular, sans-serif' }}>
-              {line1}{line2 && <><br />{line2}</>}
-            </h2>
-            <ContactForm lang={lang as Language} {...formProps} />
-          </div>
-        </div>
-      </div>
-    </main>
+    <ContactPageContent
+      lang={lang as Language}
+      tab1={tab1}
+      tab2={tab2}
+      bgImageUrl={bgImageUrl}
+      officeHeading={officeHeading}
+      officeAddress={officeAddress}
+      mailHeading={mailHeading}
+      emails={emails}
+      followHeading={followHeading}
+      socialLinks={socialLinks}
+      line1={line1}
+      line2={line2}
+      formProps={formProps}
+      collaborateFormProps={collaborateFormProps}
+    />
   )
 }

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import AnimatedButton from '@/src/components/ui/AnimatedButton'
 
 interface ServiceOption {
   label_en: string
@@ -88,7 +89,7 @@ export default function ContactForm({
               value={formData.name}
               onChange={e => setFormData(prev => ({ ...prev, name: e.target.value }))}
               required
-              className="w-full h-[48px] bg-black border border-white/30 rounded-lg px-4 text-white text-[14px] placeholder:text-white/40 focus:border-white focus:outline-none transition-colors"
+              className="w-full h-[48px] bg-[#1a1a1a] border border-white/30 rounded-none px-4 text-white text-[14px] placeholder:text-white/40 focus:border-white focus:outline-none transition-colors"
               style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}
             />
           </div>
@@ -107,7 +108,7 @@ export default function ContactForm({
               value={formData.email}
               onChange={e => setFormData(prev => ({ ...prev, email: e.target.value }))}
               required
-              className="w-full h-[48px] bg-black border border-white/30 rounded-lg px-4 text-white text-[14px] placeholder:text-white/40 focus:border-white focus:outline-none transition-colors"
+              className="w-full h-[48px] bg-[#1a1a1a] border border-white/30 rounded-none px-4 text-white text-[14px] placeholder:text-white/40 focus:border-white focus:outline-none transition-colors"
               style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}
             />
           </div>
@@ -183,23 +184,24 @@ export default function ContactForm({
               placeholder={messagePlaceholder || ''}
               value={formData.message}
               onChange={e => setFormData(prev => ({ ...prev, message: e.target.value }))}
-              className="w-full bg-black border border-white/30 rounded-lg p-4 text-white text-[14px] placeholder:text-white/40 focus:border-white focus:outline-none transition-colors resize-none flex-1"
+              className="w-full bg-[#1a1a1a] border border-white/30 rounded-none p-4 text-white text-[14px] placeholder:text-white/40 focus:border-white focus:outline-none transition-colors resize-none flex-1"
               style={{ fontFamily: 'IBM Plex Sans, sans-serif', minHeight: '140px' }}
             />
           </div>
         </div>
 
         {/* SUBMIT */}
-        <button
+        <AnimatedButton
           type="submit"
           disabled={isSubmitting}
-          className="w-full h-[52px] bg-white text-black font-bold text-[18px] uppercase rounded-lg hover:bg-white/90 transition-colors disabled:opacity-50 mt-4"
+          className="w-full h-[52px] font-bold text-[18px] uppercase rounded-none mt-4"
           style={{ fontFamily: 'Degular, sans-serif' }}
+          variant="dark"
         >
           {isSubmitting
             ? (submittingText || '')
             : (submitText || '')}
-        </button>
+        </AnimatedButton>
       </form>
     </div>
   )

@@ -1,7 +1,10 @@
 'use client'
 
-import Link from 'next/link';
+import Image from 'next/image';
 import type { Language } from '@/src/lib/utils/language';
+import { getImageUrl } from '@/src/lib/utils/image';
+import SplitTextReveal from '@/src/components/animations/SplitTextReveal';
+import AnimatedButton from '@/src/components/ui/AnimatedButton';
 
 interface CTASectionProps {
   lang: Language;
@@ -29,13 +32,8 @@ export default function CTASection({
     return null;
   }
 
-  const bgImageUrl = backgroundImage && typeof backgroundImage === 'object' && 'url' in backgroundImage
-    ? backgroundImage.url
-    : null;
-
-  const circleImageUrl = circleImage && typeof circleImage === 'object' && 'url' in circleImage
-    ? circleImage.url
-    : null;
+  const bgImageUrl = getImageUrl(backgroundImage);
+  const circleImageUrl = getImageUrl(circleImage);
 
   const ctaLink = buttonLink || '/contact';
 
@@ -44,10 +42,13 @@ export default function CTASection({
       {/* Background Image */}
       {bgImageUrl && (
         <div className="absolute inset-0">
-          <img
+          <Image
             src={bgImageUrl}
             alt=""
-            className="w-full h-full object-cover"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
           />
           <div className="absolute inset-0 bg-black/50" />
         </div>
@@ -57,7 +58,8 @@ export default function CTASection({
       <div className="relative z-10 h-full flex items-end justify-start px-4 md:px-12 pb-10 md:pb-20">
         <div className="flex items-center gap-4 sm:gap-6 md:gap-12">
           {/* Headline */}
-          <h2 
+          <SplitTextReveal 
+            as="h2"
             className="text-[24px] sm:text-[32px] md:text-[56px] lg:text-[80px] uppercase text-white max-w-[280px] sm:max-w-[400px] md:max-w-[581px]"
             style={{ 
               fontFamily: 'Degular, sans-serif',
@@ -66,13 +68,14 @@ export default function CTASection({
             }}
           >
             {heading}
-          </h2>
+          </SplitTextReveal>
 
           {/* CTA Button */}
-          <Link
+          <AnimatedButton
             href={`/${lang}${ctaLink}`}
-            className="w-[48px] h-[48px] md:w-[72px] md:h-[72px] bg-white rounded-[8px] md:rounded-[11.816px] flex items-center justify-center hover:scale-110 transition-transform duration-300 flex-shrink-0"
-            aria-label={isArabic ? 'اتصل بنا' : 'Contact us'}
+            className="w-[48px] h-[48px] md:w-[72px] md:h-[72px] rounded-[8px] md:rounded-[11.816px] flex-shrink-0"
+            ariaLabel={isArabic ? 'اتصل بنا' : 'Contact us'}
+            variant="dark"
           >
             <svg 
               width="32" 
@@ -83,22 +86,24 @@ export default function CTASection({
             >
               <path 
                 d="M5 12H19M19 12L12 5M19 12L12 19" 
-                stroke="#000000" 
+                stroke="currentColor" 
                 strokeWidth="2" 
                 strokeLinecap="round" 
                 strokeLinejoin="round"
               />
             </svg>
-          </Link>
+          </AnimatedButton>
         </div>
 
         {/* Circular Masked Image */}
         {circleImageUrl && (
           <div className="absolute bottom-10 md:bottom-40 left-1/2 -translate-x-1/2 w-[150px] h-[150px] sm:w-[200px] sm:h-[200px] md:w-[350px] md:h-[350px] lg:w-[500px] lg:h-[500px] rounded-full overflow-hidden opacity-80">
-            <img
+            <Image
               src={circleImageUrl}
               alt=""
-              className="w-full h-full object-cover"
+              fill
+              sizes="(max-width: 640px) 150px, (max-width: 768px) 200px, (max-width: 1024px) 350px, 500px"
+              className="object-cover"
             />
           </div>
         )}

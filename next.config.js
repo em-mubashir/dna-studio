@@ -14,6 +14,15 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
+        // Payload CMS media API — images are proxied through Payload which
+        // authenticates with S3 (bucket is private). In dev this is localhost,
+        // in production it will be the deployed domain.
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '3000',
+        pathname: '/api/media/**',
+      },
+      {
         protocol: 'https',
         hostname: '*.digitaloceanspaces.com',
         pathname: '/**',

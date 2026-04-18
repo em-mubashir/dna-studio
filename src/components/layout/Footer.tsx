@@ -1,5 +1,7 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import type { Language } from '@/src/lib/utils/language';
+import { getImageUrl } from '@/src/lib/utils/image';
 
 interface FooterProps {
   lang: Language;
@@ -43,15 +45,7 @@ export default function Footer({ lang, footerData }: FooterProps) {
   const backgroundImage = footerData?.background_image;
   const termsLink = footerData?.terms_link;
 
-  // Get background image URL - handle both populated object and string
-  let bgImageUrl: string | null = null;
-  if (backgroundImage) {
-    if (typeof backgroundImage === 'object' && backgroundImage !== null) {
-      bgImageUrl = backgroundImage.url || null;
-    } else if (typeof backgroundImage === 'string') {
-      bgImageUrl = backgroundImage;
-    }
-  }
+  const bgImageUrl = getImageUrl(backgroundImage);
 
   return (
     <>
@@ -141,8 +135,8 @@ export default function Footer({ lang, footerData }: FooterProps) {
 
         {/* Background Image */}
         {bgImageUrl && (
-          <div className="mt-6 w-full h-[120px] overflow-hidden">
-            <img src={bgImageUrl} alt="" className="w-full h-full object-cover" />
+          <div className="relative mt-6 w-full h-[120px] overflow-hidden">
+            <Image src={bgImageUrl} alt="" fill sizes="100vw" className="object-cover" />
           </div>
         )}
       </footer>
@@ -242,7 +236,7 @@ export default function Footer({ lang, footerData }: FooterProps) {
           {bgImageUrl && (
           <div className="absolute top-[313px] left-[-194px] right-12 h-[213px] w-[1908px] mx-auto">
             <div className="relative w-full h-full">
-              <img src={bgImageUrl} alt="" className="w-full h-full object-cover" />
+              <Image src={bgImageUrl} alt="" fill sizes="1908px" className="object-cover" />
             </div>
           </div>
           )}

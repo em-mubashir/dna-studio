@@ -37,7 +37,21 @@ export async function generateMetadata({ params }: BlogPageProps): Promise<Metad
 function getImageUrl(image: string | Media | undefined | null): string | null {
   if (!image) return null
   if (typeof image === 'string') return image
-  return image.url || null
+  const raw = image.url || null
+  if (!raw) return null
+  // Convert absolute localhost URLs to relative paths so Next.js Image
+  // doesn't try to fetch from a "remote" private IP
+  try {
+    const u = new URL(raw)
+    const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'
+    const server = new URL(serverUrl)
+    if (u.hostname === server.hostname) {
+      return u.pathname
+    }
+    return u.origin + u.pathname
+  } catch {
+    return raw
+  }
 }
 
 export default async function BlogPage({ params, searchParams }: BlogPageProps) {

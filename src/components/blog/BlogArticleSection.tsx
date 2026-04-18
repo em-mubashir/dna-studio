@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
+import SplitTextReveal from '@/src/components/animations/SplitTextReveal'
 
 interface ContentBlock {
   heading: string
@@ -114,12 +115,13 @@ export default function BlogArticleSection({
 
           {/* 2. Main Heading */}
           {mainHeading && (
-            <h2
+            <SplitTextReveal
+              as="h2"
               className="text-white text-xl md:text-3xl font-bold uppercase mb-6"
               style={{ fontFamily: 'Degular, sans-serif' }}
             >
               {mainHeading}
-            </h2>
+            </SplitTextReveal>
           )}
 
           {/* 3. Main Image */}
@@ -129,7 +131,6 @@ export default function BlogArticleSection({
                 src={mainImageUrl}
                 alt={mainImageAlt || mainHeading || ''}
                 fill
-                unoptimized
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, 60vw"
               />
@@ -143,12 +144,13 @@ export default function BlogArticleSection({
               ref={(el) => { blockRefs.current[i] = el }}
               className="mb-14"
             >
-              <h2
+              <SplitTextReveal
+                as="h2"
                 className="text-white text-lg md:text-xl font-bold uppercase mb-4"
                 style={{ fontFamily: 'Degular, sans-serif' }}
               >
                 {block.heading}
-              </h2>
+              </SplitTextReveal>
 
               <p className="text-white/70 text-sm md:text-base leading-relaxed">
                 {block.paragraph}

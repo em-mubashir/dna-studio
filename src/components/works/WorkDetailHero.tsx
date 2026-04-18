@@ -2,6 +2,33 @@
 
 import { useRef, useEffect, useState } from 'react'
 import { type Language } from '@/src/lib/utils/language'
+import SplitTextReveal from '@/src/components/animations/SplitTextReveal'
+
+/**
+ * Extract Vimeo video ID from various URL formats:
+ * - https://vimeo.com/123456789
+ * - https://vimeo.com/123456789/abcdef (private hash)
+ * - https://player.vimeo.com/video/123456789
+ * - https://vimeo.com/channels/xxx/123456789
+ * - https://vimeo.com/groups/xxx/videos/123456789
+ */
+function getVimeoId(url: string): string | null {
+  const patterns = [
+    /vimeo\.com\/(\d+)/,
+    /player\.vimeo\.com\/video\/(\d+)/,
+  ]
+  for (const pattern of patterns) {
+    const match = url.match(pattern)
+    if (match?.[1]) return match[1]
+  }
+  return null
+}
+
+/** Extract private hash from URLs like vimeo.com/123456789/abcdef1234 */
+function getVimeoHash(url: string): string | null {
+  const match = url.match(/vimeo\.com\/\d+\/([a-f0-9]+)/)
+  return match?.[1] || null
+}
 
 interface VideoItem {
   url: string
@@ -90,7 +117,7 @@ export default function WorkDetailHero({
   return (
     <section className="relative bg-black text-white min-h-screen">
       {/* Main content area */}
-      <div className="flex flex-col lg:flex-row min-h-[calc(100vh-80px)] pt-24 lg:pt-[200px]">
+      <div className="flex flex-col lg:flex-row min-h-[calc(100vh-80px)] pt-24 lg:pt-[140px]">
         {/* Left column: description + title */}
         <div
           className="flex flex-col justify-between pl-6 lg:pl-12 pr-0 pb-8 lg:pb-12 shrink-0 w-full lg:w-[455px]"
@@ -99,16 +126,16 @@ export default function WorkDetailHero({
           <p className="text-sm leading-relaxed text-white/80 max-w-[400px]">
             {description}
           </p>
-          <h1 className="text-5xl lg:text-7xl font-bold uppercase mt-8 lg:mt-0">
+          <SplitTextReveal as="h1" className="text-5xl lg:text-7xl font-bold uppercase mt-8 lg:mt-0">
             {title}
-          </h1>
+          </SplitTextReveal>
         </div>
 
         {/* Right: Horizontal scrolling video carousel */}
-        <div className="flex-1 overflow-hidden relative" style={{ marginLeft: 'calc(552px - 455px)' }}>
+        <div className="flex-1 overflow-hidden relative" style={{ marginLeft: 'calc(470px - 455px)' }}>
           <div
             ref={carouselRef}
-            className="flex items-center gap-4 overflow-x-auto h-full pl-0 pr-4 lg:pr-8 scrollbar-hide"
+            className="flex items-center gap-0 overflow-x-auto h-full pl-0 pr-4 lg:pr-8 scrollbar-hide"
             style={{
               scrollSnapType: 'x mandatory',
               WebkitOverflowScrolling: 'touch',
@@ -117,57 +144,73 @@ export default function WorkDetailHero({
             }}
             dir={isRtl ? 'rtl' : 'ltr'}
           >
-            {videos.map((video, i) => (
-              <div
-                key={i}
-                data-video-item
-                className="relative shrink-0 rounded-sm overflow-hidden transition-transform duration-300 ease-out"
-                style={{
-                  width: '800px',
-                  height: '450px',
-                  transform: `scale(${scales[i] ?? 1})`,
-                  scrollSnapAlign: 'center',
-                }}
-              >
-                <video
-                  src={video.url}
-                  poster={video.thumbnail}
-                  className="w-full h-full object-cover"
-                  muted
-                  loop
-                  playsInline
-                  preload="metadata"
-                  onMouseEnter={(e) => e.currentTarget.play()}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.pause()
-                    e.currentTarget.currentTime = 0
+            {videos.map((video, i) => {
+              const vimeoId = getVimeoId(video.url)
+              const vimeoHash = getVimeoHash(video.url)
+
+              return (
+                <div
+                  key={i}
+                  data-video-item
+                  className="relative shrink-0 rounded-sm overflow-hidden transition-transform duration-300 ease-out"
+                  style={{
+                    width: '800px',
+                    height: '450px',
+                    transform: `scale(${scales[i] ?? 1})`,
+                    scrollSnapAlign: 'center',
                   }}
-                  aria-label={video.title || `Video ${i + 1}`}
-                />
-                {/* Play button overlay */}
-                {i === activeIndex && (
-                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                    <div className="w-24 h-24 rounded-full border-2 border-white/50 flex items-center justify-center">
-                      <svg
-                        className="w-8 h-8 text-white ml-1"
-                        fill="currentColor"
-                        viewBox="0 0 24 24"
-                        aria-hidden="true"
-                      >
-                        <path d="M8 5v14l11-7z" />
-                      </svg>
+                >
+                  {vimeoId ? (
+                    <iframe
+                      src={`https://player.vimeo.com/video/${vimeoId}${vimeoHash ? `?h=${vimeoHash}` : ''}${vimeoHash ? '&' : '?'}badge=0&autopause=0&player_id=0&app_id=58479&title=0&byline=0&portrait=0`}
+                      className="absolute inset-0 w-full h-full"
+                      frameBorder="0"
+                      allow="autoplay; fullscreen; picture-in-picture"
+                      allowFullScreen
+                      title={video.title || `Video ${i + 1}`}
+                    />
+                  ) : (
+                    <video
+                      src={video.url}
+                      poster={video.thumbnail}
+                      className="w-full h-full object-cover"
+                      muted
+                      loop
+                      playsInline
+                      preload="metadata"
+                      onMouseEnter={(e) => e.currentTarget.play()}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.pause()
+                        e.currentTarget.currentTime = 0
+                      }}
+                      aria-label={video.title || `Video ${i + 1}`}
+                    />
+                  )}
+                  {/* Play button overlay - only for non-vimeo videos */}
+                  {!vimeoId && i === activeIndex && (
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                      <div className="w-24 h-24 rounded-full border-2 border-white/50 flex items-center justify-center">
+                        <svg
+                          className="w-8 h-8 text-white ml-1"
+                          fill="currentColor"
+                          viewBox="0 0 24 24"
+                          aria-hidden="true"
+                        >
+                          <path d="M8 5v14l11-7z" />
+                        </svg>
+                      </div>
                     </div>
-                  </div>
-                )}
-              </div>
-            ))}
+                  )}
+                </div>
+              )
+            })}
           </div>
         </div>
       </div>
 
       {/* Credits bar */}
       {creditItems.length > 0 && (
-        <div className="border-t border-white/20 px-6 lg:px-12 py-6">
+        <div className="border-white/20 px-6 lg:px-12 py-6">
           <div className="grid grid-cols-3" style={{ rowGap: '24px', columnGap: '13.5rem' }}>
             {creditItems.map((credit, i) => (
               <div key={i} className="flex items-center gap-3" style={{ width: '320px', height: '20px' }}>

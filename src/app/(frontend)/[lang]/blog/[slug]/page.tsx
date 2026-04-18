@@ -2,6 +2,7 @@ import { type Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { type Language, getBilingualField } from '@/src/lib/utils/language'
+import { getImageUrl } from '@/src/lib/utils/image'
 import { getBlogPostBySlug, getRelatedBlogPosts, getPageBySlug } from '@/src/lib/payload'
 import BlogContent from '@/src/components/blog/BlogContent'
 import ProjectCard from '@/src/components/ui/ProjectCard'
@@ -18,13 +19,6 @@ export async function generateStaticParams() {
   return []
 }
 
-function getImageUrl(image: any): string | null {
-  if (!image) return null
-  if (typeof image === 'string') return image
-  if (typeof image === 'object' && 'url' in image) return image.url || null
-  return null
-}
-
 export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
   const { lang, slug: rawSlug } = await params
   const slug = decodeURIComponent(rawSlug)
@@ -35,23 +29,24 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
   }
 
   const title = getBilingualField<string>(post, 'title', lang as Language)
-  const excerpt = getBilingualField<string>(post, 'excerpt', lang as Language)
 
   const metaTitle = post.seo?.meta_title_en || post.seo?.meta_title_ar
     ? getBilingualField<string>(post.seo, 'meta_title', lang as Language)
     : title
 
+  // Use article_detail description as meta description fallback
+  const detail = (post as any).article_detail || {}
+  const articleDesc = lang === 'ar' ? (detail.description_ar || '') : (detail.description_en || '')
+
   const metaDescription = post.seo?.meta_description_en || post.seo?.meta_description_ar
     ? getBilingualField<string>(post.seo, 'meta_description', lang as Language)
-    : excerpt
+    : articleDesc
 
   const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'https://dnamedia.com'
   const currentUrl = `${baseUrl}/${lang}/blog/${slug}`
 
   const ogImage = post.seo?.og_image || post.featured_image
-  const ogImageUrl = ogImage && typeof ogImage === 'object' && 'url' in ogImage
-    ? ogImage.url
-    : null
+  const ogImageUrl = getImageUrl(ogImage)
 
   return {
     title: metaTitle,
@@ -95,8 +90,6 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     notFound()
   }
 
-  const content = getBilingualField<any>(post, 'content', lang as Language)
-
   // Fetch 2 related blog posts
   const relatedPosts = await getRelatedBlogPosts(slug, post.category, 2)
 
@@ -127,12 +120,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   let mainImageUrl: string | null = null
   let mainImageAlt = ''
   if (detail.main_image) {
-    if (typeof detail.main_image === 'object' && 'url' in detail.main_image) {
-      mainImageUrl = detail.main_image.url as string
+    mainImageUrl = getImageUrl(detail.main_image)
+    if (typeof detail.main_image === 'object' && 'alt' in detail.main_image) {
       mainImageAlt = (detail.main_image.alt as string) || ''
-    } else if (typeof detail.main_image === 'string') {
-      // String means unpopulated ID — image not available, skip
-      mainImageUrl = null
     }
   }
 

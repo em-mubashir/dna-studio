@@ -17,7 +17,7 @@ export default function CTABanner({ heading, buttonLink = '/contact', lang }: CT
       <div className="flex flex-col sm:flex-row items-start sm:items-end gap-6 md:gap-10 py-12 px-5 sm:py-16 sm:px-8 md:py-[80px] md:pl-[48px]">
         <SplitTextReveal
           as="h2"
-          className="text-[28px] sm:text-[40px] md:text-[60px] lg:text-[80px] font-bold text-white uppercase leading-[0.95] max-w-full sm:max-w-[581px]"
+          className="text-[28px] sm:text-[40px] md:text-[52px] lg:text-[60px] font-bold text-white uppercase leading-[0.95] max-w-full sm:max-w-[581px]"
           style={{ fontFamily: 'Degular, sans-serif' }}
         >
           {heading}

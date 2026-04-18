@@ -49,13 +49,13 @@ export default function HeroSection({
   return (
     <section
       ref={sectionRef}
-      className={`relative w-full overflow-hidden bg-black mt-[72px] md:mt-[90px] h-[calc(100svh-72px)] md:h-[calc(1080px-90px)] ${className || ''}`}
+      className={`relative w-full overflow-hidden bg-black mt-[72px] md:mt-[90px] h-[calc(100svh-72px)] md:h-[864px] ${className || ''}`}
       aria-label={lang === 'en' ? 'Hero section' : 'قسم البطل'}
     >
       {/* Inner container — when innerPadding is set, everything lives inside this box */}
       <div
-        className={pad ? 'absolute overflow-hidden' : 'absolute inset-0'}
-        style={pad ? { top: pad, right: pad, bottom: pad, left: pad, borderRadius: '16px' } : undefined}
+        className="absolute overflow-hidden"
+        style={pad ? { top: pad, right: pad, bottom: pad, left: pad } : { top: 0, right: 0, bottom: 0, left: 0 }}
       >
         {/* Background Image */}
         {bgImageUrl && (
@@ -89,23 +89,21 @@ export default function HeroSection({
         {/* Overlay */}
         <div className="absolute inset-0 z-10 bg-black/20" aria-hidden="true" />
 
-        {/* Text Content — always inside the image bounds */}
+        {/* Text Content */}
         <div 
-          className={`absolute z-20 text-white uppercase ${textCenter ? 'top-1/2 left-4 right-4 md:left-12 md:right-12 -translate-y-1/2 text-center' : 'bottom-6 left-4 right-4 md:bottom-12 md:left-12 md:right-12'}`}
-          style={{ maxWidth: '1824px', whiteSpace: 'pre-line' }}
+          className={`absolute z-20 text-white uppercase ${textCenter ? 'inset-0 flex items-center justify-center px-4 md:px-12' : 'bottom-6 left-4 right-4 md:bottom-12 md:left-12 md:right-12'}`}
         >
           <SplitTextReveal 
             as="h1"
-            className="text-[32px] sm:text-[48px] md:text-[64px] lg:text-[80px] uppercase m-0"
+            className="text-[32px] sm:text-[48px] md:text-[56px] lg:text-[60px] uppercase m-0"
             style={{
               fontFamily: 'Degular, sans-serif',
               fontWeight: 700,
-              lineHeight: '100%',
+              lineHeight: '80px',
               textAlign: textCenter ? 'center' : 'left',
             }}
-          >
-            {heading}
-          </SplitTextReveal>
+            dangerouslySetInnerHTML={{ __html: (heading || '').replace(/\n/g, '<br>') }}
+          />
         </div>
       </div>
     </section>

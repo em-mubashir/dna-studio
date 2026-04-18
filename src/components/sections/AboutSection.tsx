@@ -33,8 +33,8 @@ export default function AboutSection({
 
   const imageUrl = getImageUrl(image);
 
-  const headingSize = reverseSizes ? 'text-[18px] sm:text-[24px] md:text-[40px]' : 'text-[24px] sm:text-[32px] md:text-[56px] lg:text-[80px]';
-  const descSize = reverseSizes ? 'text-[24px] sm:text-[32px] md:text-[56px] lg:text-[80px]' : 'text-[18px] sm:text-[24px] md:text-[32px] lg:text-[40px]';
+  const headingSize = reverseSizes ? 'text-[18px] sm:text-[24px] md:text-[40px]' : 'text-[24px] sm:text-[32px] md:text-[48px] lg:text-[60px]';
+  const descSize = reverseSizes ? 'text-[24px] sm:text-[32px] md:text-[48px] lg:text-[60px]' : 'text-[18px] sm:text-[24px] md:text-[32px] lg:text-[40px]';
 
   return (
     <section className="w-full bg-black py-12 md:py-20 lg:py-32">

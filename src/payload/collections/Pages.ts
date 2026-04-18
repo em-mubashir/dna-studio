@@ -66,8 +66,14 @@ export const Pages: CollectionConfig = {
       fields: [
         { name: 'heading_en', type: 'textarea', label: 'Heading (English)' },
         { name: 'heading_ar', type: 'textarea', label: 'Heading (Arabic)' },
-        { name: 'subheading_en', type: 'textarea', label: 'Subheading (English)' },
-        { name: 'subheading_ar', type: 'textarea', label: 'Subheading (Arabic)' },
+        {
+          name: 'subheading_en', type: 'textarea', label: 'Subheading (English)',
+          admin: { condition: (data) => data?.slug !== 'team' },
+        },
+        {
+          name: 'subheading_ar', type: 'textarea', label: 'Subheading (Arabic)',
+          admin: { condition: (data) => data?.slug !== 'team' },
+        },
         {
           name: 'background_video',
           type: 'text',
@@ -81,13 +87,22 @@ export const Pages: CollectionConfig = {
           label: 'Background Image',
           admin: { description: 'Fallback image if video is not available' },
         },
-        { name: 'cta_text_en', type: 'text', label: 'CTA Button Text (English)' },
-        { name: 'cta_text_ar', type: 'text', label: 'CTA Button Text (Arabic)' },
+        {
+          name: 'cta_text_en', type: 'text', label: 'CTA Button Text (English)',
+          admin: { condition: (data) => data?.slug !== 'team' },
+        },
+        {
+          name: 'cta_text_ar', type: 'text', label: 'CTA Button Text (Arabic)',
+          admin: { condition: (data) => data?.slug !== 'team' },
+        },
         {
           name: 'cta_link',
           type: 'text',
           label: 'CTA Button Link',
-          admin: { description: 'URL or path (e.g., "/contact")' },
+          admin: {
+            description: 'URL or path (e.g., "/contact")',
+            condition: (data) => data?.slug !== 'team',
+          },
         },
       ],
     },

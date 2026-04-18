@@ -60,7 +60,7 @@ export default function CTASection({
           {/* Headline */}
           <SplitTextReveal 
             as="h2"
-            className="text-[24px] sm:text-[32px] md:text-[56px] lg:text-[80px] uppercase text-white max-w-[280px] sm:max-w-[400px] md:max-w-[581px]"
+            className="text-[24px] sm:text-[32px] md:text-[48px] lg:text-[60px] uppercase text-white max-w-[280px] sm:max-w-[400px] md:max-w-[581px]"
             style={{ 
               fontFamily: 'Degular, sans-serif',
               fontWeight: 700,

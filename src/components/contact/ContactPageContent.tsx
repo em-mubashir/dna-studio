@@ -152,7 +152,7 @@ export default function ContactPageContent({
               </div>
 
               {/* BOTTOM HEADING */}
-              <h2 className="font-bold text-[48px] md:text-[80px] uppercase text-white leading-[1.0]" style={{ fontFamily: 'Degular, sans-serif' }}>
+              <h2 className="font-bold text-[48px] md:text-[60px] uppercase text-white leading-[1.0]" style={{ fontFamily: 'Degular, sans-serif' }}>
                 {line1}{line2 && <><br />{line2}</>}
               </h2>
             </div>

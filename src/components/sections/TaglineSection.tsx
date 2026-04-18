@@ -40,7 +40,7 @@ export default function TaglineSection({
         <div className="max-w-full md:max-w-[902px]">
           <SplitTextReveal 
             as="h2"
-            className="text-[28px] sm:text-[40px] md:text-[60px] lg:text-[80px] uppercase text-white"
+            className="text-[28px] sm:text-[40px] md:text-[52px] lg:text-[60px] uppercase text-white"
             style={{ 
               fontFamily: 'Degular, sans-serif',
               fontWeight: 700,

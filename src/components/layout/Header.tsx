@@ -115,10 +115,10 @@ export default function Header({ lang, menuItems = [], logo, logoAlt }: HeaderPr
           {/* Navigation - Right Side */}
           <div className="flex items-center gap-8">
             {/* Language Switcher */}
-            <div className="flex items-center gap-[11px]">
+            <div className="flex items-center gap-2 md:gap-[11px]">
               <Link
                 href={pathname.replace(`/${lang}`, '/en')}
-                className={`font-bold text-[24px] uppercase transition-colors ${
+                className={`font-bold text-[14px] md:text-[24px] uppercase transition-colors ${
                   lang === 'en' ? 'text-white' : 'text-white/50'
                 }`}
                 style={{ fontFamily: 'Degular, sans-serif' }}
@@ -127,10 +127,10 @@ export default function Header({ lang, menuItems = [], logo, logoAlt }: HeaderPr
               >
                 <span ref={english.textRef}>ENGLISH</span>
               </Link>
-              <div className="w-px h-[23px] bg-white/50" />
+              <div className="w-px h-4 md:h-[23px] bg-white/50" />
               <Link
                 href={pathname.replace(`/${lang}`, '/ar')}
-                className={`font-bold text-[24px] uppercase transition-colors ${
+                className={`font-bold text-[14px] md:text-[24px] uppercase transition-colors ${
                   lang === 'ar' ? 'text-white' : 'text-white/50'
                 }`}
                 style={{ fontFamily: 'Degular, sans-serif' }}
@@ -158,7 +158,7 @@ export default function Header({ lang, menuItems = [], logo, logoAlt }: HeaderPr
       {/* Menu Overlay */}
       {menuOpen && (
         <div 
-          className="fixed inset-0 top-[72px] md:top-[90px] bg-black/95 z-40"
+          className="fixed inset-0 top-[72px] md:top-[90px] bg-black/95 z-40 overflow-y-auto"
           onClick={() => setMenuOpen(false)}
         >
           <nav className="px-4 md:px-12 py-4 md:py-4 flex flex-col items-center gap-0">
@@ -194,33 +194,25 @@ function MenuItem({ href, label, description }: { href: string; label: string; d
   return (
     <Link
       href={href}
-      className="flex justify-between items-center border-b border-white/50 group"
-      style={{
-        width: '100%',
-        maxWidth: '1824px',
-        height: '120px',
-        opacity: 1,
-      }}
+      className="flex justify-between items-center border-b border-white/50 group w-full max-w-[1824px] h-[60px] sm:h-[80px] md:h-[120px] px-2 md:px-0"
     >
       <span 
-        className="uppercase text-white/40 group-hover:text-white transition-colors duration-300"
+        className="uppercase text-white/40 group-hover:text-white transition-colors duration-300 text-[28px] sm:text-[48px] md:text-[80px] font-bold leading-none"
         style={{ 
           fontFamily: 'Degular, sans-serif',
-          fontWeight: 700,
-          fontSize: '80px',
-          lineHeight: '100%',
           letterSpacing: '0%',
-          textAlign: 'center',
         }}
       >
         {label}
       </span>
-      <span 
-        className="text-white/30 group-hover:text-white transition-colors duration-300"
-        style={{ fontFamily: 'IBM Plex Sans, sans-serif', fontSize: '24px' }}
-      >
-        {description}
-      </span>
+      {description && (
+        <span 
+          className="text-white/30 group-hover:text-white transition-colors duration-300 text-[10px] sm:text-[16px] md:text-[24px] text-right max-w-[40%]"
+          style={{ fontFamily: 'IBM Plex Sans, sans-serif' }}
+        >
+          {description}
+        </span>
+      )}
     </Link>
   );
 }

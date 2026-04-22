@@ -37,9 +37,9 @@ export default function AboutSection({
   const descSize = reverseSizes ? 'text-[24px] sm:text-[32px] md:text-[48px] lg:text-[60px]' : 'text-[18px] sm:text-[24px] md:text-[32px] lg:text-[40px]';
 
   return (
-    <section className="w-full bg-black py-12 md:py-20 lg:py-32">
+    <section className="w-full bg-black py-12 md:py-16 lg:py-20">
       <div className="px-4 md:px-12 max-w-[1920px] mx-auto">
-        <div className="flex flex-col md:flex-row gap-6 md:gap-12">
+        <div className="flex flex-col md:flex-row gap-6 md:gap-48">
           {/* Label - Left Side */}
           {label && (
             <div className="md:w-[200px] md:flex-shrink-0">
@@ -69,7 +69,7 @@ export default function AboutSection({
 
             {/* Image */}
             {imageUrl && (
-              <div className="relative w-full h-[200px] sm:h-[300px] md:h-[450px] lg:h-[618px]">
+              <div className="relative w-full h-[200px] sm:h-[300px] md:h-[350px] lg:h-[420px]">
                 <Image
                   src={imageUrl}
                   alt={label || 'About'}

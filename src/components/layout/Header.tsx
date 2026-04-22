@@ -28,8 +28,8 @@ interface HeaderProps {
 /**
  * Header component - Figma Design Implementation
  * 
- * Desktop: 1920px × 90px
- * Mobile: 393px × 72px
+ * Desktop: 1920px × 80px
+ * Mobile: 393px × 64px
  * Background: #000000
  * Border-bottom: 1px solid rgba(255, 255, 255, 0.5)
  * Padding: 0 48px (desktop), 0 16px (mobile)
@@ -98,7 +98,7 @@ export default function Header({ lang, menuItems = [], logo, logoAlt }: HeaderPr
 
   return (
     <>
-      <header className="fixed top-0 left-0 w-full h-[72px] md:h-[90px] bg-black border-b border-white/50 z-50">
+      <header className="fixed top-0 left-0 w-full h-[64px] md:h-[80px] bg-black border-b border-white/50 z-50">
         <div className="h-full flex items-center justify-between px-4 md:px-12">
           {/* Logo */}
           <Link href={`/${lang}`} className="relative w-[84.35px] h-5 md:w-[97px] md:h-[23px]">
@@ -158,7 +158,7 @@ export default function Header({ lang, menuItems = [], logo, logoAlt }: HeaderPr
       {/* Menu Overlay */}
       {menuOpen && (
         <div 
-          className="fixed inset-0 top-[72px] md:top-[90px] bg-black/95 z-40 overflow-y-auto"
+          className="fixed inset-0 top-[64px] md:top-[80px] bg-black/95 z-40 overflow-y-auto"
           onClick={() => setMenuOpen(false)}
         >
           <nav className="px-4 md:px-12 py-4 md:py-4 flex flex-col items-center gap-0">

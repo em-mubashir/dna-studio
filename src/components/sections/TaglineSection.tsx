@@ -35,7 +35,7 @@ export default function TaglineSection({
   const btnLink = buttonLink || '/works';
 
   return (
-    <section className="w-full bg-black py-12 md:py-20 lg:py-32">
+    <section className="w-full bg-black py-12 md:py-20 lg:py-20">
       <div className="px-4 md:px-12 max-w-[1920px] mx-auto">
         <div className="max-w-full md:max-w-[902px]">
           <SplitTextReveal 

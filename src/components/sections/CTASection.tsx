@@ -38,7 +38,7 @@ export default function CTASection({
   const ctaLink = buttonLink || '/contact';
 
   return (
-    <section className="relative w-full h-[400px] sm:h-[500px] md:h-[700px] lg:h-[1080px] bg-black overflow-hidden">
+    <section className="relative w-full h-[400px] sm:h-[500px] md:h-[600px] lg:h-[700px] bg-black overflow-hidden">
       {/* Background Image */}
       {bgImageUrl && (
         <div className="absolute inset-0">
@@ -97,7 +97,7 @@ export default function CTASection({
 
         {/* Circular Masked Image */}
         {circleImageUrl && (
-          <div className="absolute bottom-10 md:bottom-40 left-1/2 -translate-x-1/2 w-[150px] h-[150px] sm:w-[200px] sm:h-[200px] md:w-[350px] md:h-[350px] lg:w-[500px] lg:h-[500px] rounded-full overflow-hidden opacity-80">
+          <div className="absolute bottom-10 md:bottom-20 left-1/2 -translate-x-1/2 w-[150px] h-[150px] sm:w-[200px] sm:h-[200px] md:w-[280px] md:h-[280px] lg:w-[380px] lg:h-[380px] rounded-full overflow-hidden opacity-80">
             <Image
               src={circleImageUrl}
               alt=""

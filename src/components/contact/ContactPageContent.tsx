@@ -65,7 +65,7 @@ export default function ContactPageContent({
   const [activeTab, setActiveTab] = useState<'work' | 'collaborate'>('work')
 
   return (
-    <main className="bg-black min-h-screen pt-[72px] md:pt-[90px]">
+    <main className="bg-black min-h-screen pt-[64px] md:pt-[80px]">
       {/* Tabs Section */}
       <div className="w-full flex items-center">
         <button
@@ -97,7 +97,7 @@ export default function ContactPageContent({
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
-          minHeight: 'calc(100vh - 90px - 76px)',
+          minHeight: 'calc(100vh - 80px - 76px)',
         }}
       >
         <div className="absolute inset-0 bg-black/50" />

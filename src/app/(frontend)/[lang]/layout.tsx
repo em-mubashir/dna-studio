@@ -73,7 +73,9 @@ export default async function LanguageLayout({
     <div lang={lang} dir={direction} className={fontClass}>
       <GSAPProvider>
         <Header lang={lang as Language} menuItems={menuItems} logo={logo} logoAlt={logoAlt ?? undefined} />
-        {children}
+        <main className="relative z-[2] bg-white">
+          {children}
+        </main>
         <ConditionalFooter lang={lang as Language} footerData={footerData} />
       </GSAPProvider>
     </div>

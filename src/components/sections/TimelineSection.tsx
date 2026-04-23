@@ -84,15 +84,15 @@ export default function TimelineSection({ lang, items }: TimelineSectionProps) {
             const iconUrl = getImageUrl(item.icon)
 
             return (
-              <div key={item.id} className="flex-shrink-0 w-[320px] md:w-[560px]">
+              <div key={item.id} className="flex-shrink-0 w-[320px] md:w-[450px]">
                 {/* Image */}
                 {iconUrl && (
-                  <div className="relative w-full aspect-[4/3] mb-6 overflow-hidden">
+                  <div className="relative w-[450px] h-[550px] mb-6 overflow-hidden">
                     <Image
                       src={iconUrl}
                       alt={isArabic ? item.title_ar : item.title_en}
                       fill
-                      sizes="(max-width: 768px) 320px, 560px"
+                      sizes="450px"
                       className="object-cover"
                     />
                   </div>
@@ -100,12 +100,13 @@ export default function TimelineSection({ lang, items }: TimelineSectionProps) {
 
                 {/* Year */}
                 <p
-                  className="text-white mb-3"
+                  className="text-white mb-3 uppercase"
                   style={{
                     fontFamily: 'Degular, sans-serif',
                     fontWeight: 700,
-                    fontSize: 'clamp(36px, 4vw, 53px)',
-                    lineHeight: '1.0',
+                    fontSize: '48px',
+                    lineHeight: '110%',
+                    letterSpacing: '0%',
                   }}
                 >
                   {item.year}
@@ -115,10 +116,11 @@ export default function TimelineSection({ lang, items }: TimelineSectionProps) {
                 <h3
                   className="text-white mb-2"
                   style={{
-                    fontFamily: 'Degular, sans-serif',
-                    fontWeight: 700,
-                    fontSize: 'clamp(20px, 2vw, 28px)',
-                    lineHeight: '1.2',
+                    fontFamily: 'IBM Plex Sans, sans-serif',
+                    fontWeight: 400,
+                    fontSize: '20px',
+                    lineHeight: '140%',
+                    letterSpacing: '0px',
                   }}
                 >
                   {isArabic ? item.title_ar : item.title_en}

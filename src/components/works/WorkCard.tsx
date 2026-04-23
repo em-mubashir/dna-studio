@@ -1,9 +1,9 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
 import { type Language } from '@/src/lib/utils/language'
 import { getImageUrl } from '@/src/lib/utils/image'
+import GrayscaleReveal from '@/src/components/ui/GrayscaleReveal'
 
 interface WorkCardProps {
   title: string
@@ -28,12 +28,11 @@ export default function WorkCard({ title, industry, slug, thumbnail, lang }: Wor
       aria-label={`${title} - ${industry}`}
     >
       {thumbnailUrl ? (
-        <Image
+        <GrayscaleReveal
           src={thumbnailUrl}
           alt={title || ''}
-          fill
           sizes="(max-width: 768px) 100vw, 896px"
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          imageClassName="transition-transform duration-500 group-hover:scale-105"
         />
       ) : (
         <div className="absolute inset-0 bg-neutral-800" />

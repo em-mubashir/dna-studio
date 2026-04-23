@@ -46,7 +46,7 @@ export default function FeaturedWorkSection({
     <div className="w-full border border-white/10 overflow-hidden">
       {/* Outer wrapper sets the aspect ratio via padding-bottom so the
           container always has a real height for the absolute children. */}
-      <div className="relative w-full" style={{ paddingBottom: '50.44%' /* 920 / 1824 * 100 */ }}>
+      <div className="relative w-full" style={{ paddingBottom: '42%' /* reduced from 50.44% */ }}>
         {/* Image layer */}
         <div className="absolute inset-0">
           <Image

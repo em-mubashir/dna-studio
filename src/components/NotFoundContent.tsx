@@ -18,7 +18,7 @@ export default function NotFoundContent({ lang }: { lang: Language }) {
 
   return (
     <main
-      className="flex flex-col items-center justify-center min-h-screen bg-black text-white px-4 pt-[90px]"
+      className="flex flex-col items-center justify-center min-h-screen bg-black text-white px-4 pt-[80px]"
       dir={lang === 'ar' ? 'rtl' : 'ltr'}
     >
       <div className="mb-8">
